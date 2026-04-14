@@ -1,0 +1,555 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simulación: Esfera de Bloch (Modo Claro & Interactivo)</title>
+    
+    <!-- Tailwind CSS para el diseño de la interfaz -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- KaTeX para renderizar matemáticas estilo LaTeX -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.js"></script>
+
+    <style>
+        body { margin: 0; overflow: hidden; background-color: #f8fafc; color: #0f172a; touch-action: none; }
+        #canvas-container { position: relative; width: 100%; height: 100%; cursor: grab; }
+        #canvas-container:active { cursor: grabbing; }
+        
+        /* Estilos para las etiquetas 3D sobre el canvas (Modo Claro) */
+        .label3d {
+            position: absolute;
+            color: #1e293b;
+            font-family: 'Times New Roman', serif;
+            font-size: 1.1rem;
+            pointer-events: none;
+            transform: translate(-50%, -50%);
+            text-shadow: 0px 0px 4px rgba(255, 255, 255, 0.9), 0px 0px 8px rgba(255, 255, 255, 0.9);
+            z-index: 10;
+            transition: font-size 0.1s ease-in-out;
+        }
+
+        .label-angle {
+            font-size: 1.3rem;
+            font-weight: bold;
+        }
+        
+        /* Personalización de los sliders */
+        input[type=range] {
+            -webkit-appearance: none;
+            width: 100%;
+            background: transparent;
+        }
+        input[type=range]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            height: 16px;
+            width: 16px;
+            border-radius: 50%;
+            background: #e11d48;
+            cursor: pointer;
+            margin-top: -6px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.3);
+        }
+        .slider-visual::-webkit-slider-thumb {
+            background: #4f46e5; /* Índigo para controles visuales */
+        }
+        input[type=range]::-webkit-slider-runnable-track {
+            width: 100%;
+            height: 4px;
+            cursor: pointer;
+            background: #cbd5e1;
+            border-radius: 2px;
+        }
+        input[type=range]:focus {
+            outline: none;
+        }
+    </style>
+</head>
+<body class="flex flex-col md:flex-row h-screen font-sans bg-slate-50">
+
+    <!-- Contenedor 3D -->
+    <div id="canvas-container" class="flex-grow">
+        <!-- Etiquetas que seguirán a los ejes 3D -->
+        <div id="label-z" class="label3d"></div>
+        <div id="label-minus-z" class="label3d"></div>
+        <div id="label-x" class="label3d"></div>
+        <div id="label-y" class="label3d"></div>
+        <div id="label-psi" class="label3d text-rose-600 font-bold"></div>
+        
+        <!-- Etiquetas para los ángulos proyectados -->
+        <div id="label-theta-3d" class="label3d label-angle text-slate-700"></div>
+        <div id="label-phi-3d" class="label3d label-angle text-blue-600"></div>
+    </div>
+
+    <!-- Panel de Control y Matemáticas (Modo Claro) -->
+    <div class="w-full md:w-1/3 bg-white border-l border-slate-200 p-6 flex flex-col shadow-2xl z-20 overflow-y-auto">
+        
+        <h1 class="text-2xl font-bold mb-1 text-slate-800">Esfera de Bloch</h1>
+        <p class="text-slate-500 text-sm mb-6">Representación de un qubit de polarización con componentes espaciales ortogonales X, Y, Z.</p>
+
+        <!-- Ecuaciones Matemáticas Renderizadas -->
+        <div class="bg-slate-50 rounded-lg p-4 mb-4 border border-slate-200 shadow-sm">
+            <h2 class="text-xs text-slate-400 mb-2 uppercase tracking-wider font-semibold">Estado Cuántico</h2>
+            <div id="math-equation" class="text-lg text-center overflow-x-auto py-2 text-slate-800"></div>
+            <div id="math-amplitudes" class="text-sm text-center text-slate-600 mt-3 font-medium"></div>
+        </div>
+
+        <!-- Controles Físicos -->
+        <div class="space-y-4">
+            <div>
+                <div class="flex justify-between mb-1">
+                    <span id="label-theta-math" class="text-slate-700"></span>
+                    <span id="val-theta" class="text-rose-600 font-mono font-bold">60°</span>
+                </div>
+                <input type="range" id="slider-theta" min="0" max="180" value="60">
+            </div>
+
+            <div>
+                <div class="flex justify-between mb-1">
+                    <span id="label-phi-math" class="text-slate-700"></span>
+                    <span id="val-phi" class="text-blue-600 font-mono font-bold">45°</span>
+                </div>
+                <input type="range" id="slider-phi" min="0" max="360" value="45">
+            </div>
+        </div>
+
+        <!-- Ajustes Visuales y Exportación -->
+        <div class="bg-slate-50 rounded-lg p-4 border border-slate-200 shadow-sm mt-6">
+            <h2 class="text-xs text-slate-400 mb-3 uppercase tracking-wider font-semibold">Ajustes de Exportación</h2>
+            
+            <div class="space-y-4">
+                <div>
+                    <div class="flex justify-between mb-1">
+                        <span class="text-xs text-slate-600 font-medium">Tamaño del Vector y Punto</span>
+                    </div>
+                    <input type="range" id="slider-point-size" class="slider-visual" min="0.5" max="2.5" step="0.1" value="1">
+                </div>
+                
+                <div>
+                    <div class="flex justify-between mb-1">
+                        <span class="text-xs text-slate-600 font-medium">Tamaño de Etiquetas de Ejes</span>
+                    </div>
+                    <input type="range" id="slider-label-size" class="slider-visual" min="0.8" max="2.5" step="0.1" value="1.1">
+                </div>
+            </div>
+
+            <button id="btn-export" class="mt-5 w-full bg-indigo-600 hover:bg-indigo-700 text-white font-semibold py-2 px-4 rounded shadow transition-colors duration-200 flex justify-center items-center gap-2">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12"></path></svg>
+                Exportar PNG Transparente
+            </button>
+        </div>
+        
+        <div class="mt-auto pt-6">
+            <div class="bg-rose-50 border border-rose-100 rounded p-3 text-xs text-slate-700 leading-relaxed shadow-sm">
+                <strong class="text-rose-700">Modo Interactivo:</strong> Arrastra el <strong>punto rojo</strong> para cambiar dinámicamente el estado. Las proyecciones punteadas apuntan a los ejes geométricos $x$ y $y$.
+            </div>
+        </div>
+    </div>
+
+    <!-- Carga de Three.js y OrbitControls -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
+
+    <script>
+        // Variables globales
+        let scene, camera, renderer, controls;
+        let vectorLine, vectorPoint, hitMesh;
+        let equatorRing, projectionLines;
+        let thetaArc, phiArc; 
+        let theta = Math.PI / 3; // 60 grados (inicial)
+        let phi = Math.PI / 4;   // 45 grados (inicial)
+        const sphereRadius = 3;
+        const origin = new THREE.Vector3(0, 0, 0);
+        
+        // Raycasting para la interacción del mouse
+        const raycaster = new THREE.Raycaster();
+        const mouse = new THREE.Vector2();
+        let isDraggingPoint = false;
+        const mathSphere = new THREE.Sphere(origin, sphereRadius);
+        
+        let currentDirection = new THREE.Vector3(0, 1, 0);
+
+        // Elementos del DOM
+        const container = document.getElementById('canvas-container');
+        const sliderTheta = document.getElementById('slider-theta');
+        const sliderPhi = document.getElementById('slider-phi');
+        const valTheta = document.getElementById('val-theta');
+        const valPhi = document.getElementById('val-phi');
+        const mathEquation = document.getElementById('math-equation');
+        const mathAmplitudes = document.getElementById('math-amplitudes');
+
+        // Controles Visuales y Exportación
+        const sliderPointSize = document.getElementById('slider-point-size');
+        const sliderLabelSize = document.getElementById('slider-label-size');
+        const btnExport = document.getElementById('btn-export');
+
+        // Elementos para las etiquetas 3D -> 2D
+        const labelZ = document.getElementById('label-z');
+        const labelMinusZ = document.getElementById('label-minus-z');
+        const labelX = document.getElementById('label-x');
+        const labelY = document.getElementById('label-y');
+        const labelPsi = document.getElementById('label-psi');
+        const labelTheta3D = document.getElementById('label-theta-3d');
+        const labelPhi3D = document.getElementById('label-phi-3d');
+
+        // Inicializar KaTeX
+        katex.render("\\theta", document.getElementById('label-theta-math'), { throwOnError: false });
+        katex.render("\\phi", document.getElementById('label-phi-math'), { throwOnError: false });
+        katex.render("z \\equiv |0\\rangle", labelZ, { throwOnError: false });
+        katex.render("-z \\equiv |1\\rangle", labelMinusZ, { throwOnError: false });
+        katex.render("x", labelX, { throwOnError: false });
+        katex.render("y", labelY, { throwOnError: false });
+        katex.render("|\\psi\\rangle", labelPsi, { throwOnError: false });
+        katex.render("\\theta", labelTheta3D, { throwOnError: false });
+        katex.render("\\phi", labelPhi3D, { throwOnError: false });
+
+        init();
+        animate();
+
+        function init() {
+            // 1. Escena y Renderizador
+            scene = new THREE.Scene();
+            scene.background = new THREE.Color(0xf8fafc); 
+            
+            camera = new THREE.PerspectiveCamera(45, container.clientWidth / container.clientHeight, 0.1, 100);
+            camera.position.set(6, 4, 7);
+
+            // Para exportar transparentemente, activamos preserveDrawingBuffer y alpha
+            renderer = new THREE.WebGLRenderer({ antialias: true, preserveDrawingBuffer: true, alpha: true });
+            renderer.setSize(container.clientWidth, container.clientHeight);
+            renderer.setPixelRatio(window.devicePixelRatio);
+            container.appendChild(renderer.domElement);
+
+            // 2. Controles de Órbita
+            controls = new THREE.OrbitControls(camera, renderer.domElement);
+            controls.enableDamping = true;
+            controls.dampingFactor = 0.05;
+            controls.enablePan = false;
+            controls.minDistance = 4;
+            controls.maxDistance = 15;
+
+            // 3. Crear la Esfera de Bloch
+            const geometry = new THREE.SphereGeometry(sphereRadius, 32, 32);
+            const material = new THREE.MeshBasicMaterial({
+                color: 0x94a3b8, 
+                wireframe: true,
+                transparent: true,
+                opacity: 0.15
+            });
+            const sphere = new THREE.Mesh(geometry, material);
+            scene.add(sphere);
+
+            // Crear el plano ecuatorial
+            const ringGeo = new THREE.RingGeometry(sphereRadius - 0.05, sphereRadius, 64);
+            const ringMat = new THREE.MeshBasicMaterial({ color: 0x64748b, side: THREE.DoubleSide, transparent: true, opacity: 0.3 });
+            equatorRing = new THREE.Mesh(ringGeo, ringMat);
+            equatorRing.rotation.x = Math.PI / 2;
+            scene.add(equatorRing);
+
+            // 4. Crear los Ejes (X, Y, Z) corregidos
+            const axisLength = sphereRadius + 0.8;
+            const axisColor = 0x334155; 
+
+            // Eje Z (Bloch Z -> Mapeado a Y en Three.js)
+            scene.add(new THREE.ArrowHelper(new THREE.Vector3(0, 1, 0), origin, axisLength, axisColor, 0.2, 0.15));
+            scene.add(new THREE.ArrowHelper(new THREE.Vector3(0, -1, 0), origin, axisLength, axisColor, 0.2, 0.15));
+            // Eje Y (Bloch Y -> Mapeado a X en Three.js)
+            scene.add(new THREE.ArrowHelper(new THREE.Vector3(1, 0, 0), origin, axisLength, axisColor, 0.2, 0.15));
+            // Eje X (Bloch X -> Mapeado a Z en Three.js)
+            scene.add(new THREE.ArrowHelper(new THREE.Vector3(0, 0, 1), origin, axisLength, axisColor, 0.2, 0.15));
+
+            // 5. Crear el Vector de Estado (Línea + Punto)
+            const psiColor = 0xe11d48;
+
+            const lineMat = new THREE.LineBasicMaterial({ color: psiColor, linewidth: 2 });
+            const lineGeo = new THREE.BufferGeometry().setFromPoints([origin, origin]);
+            vectorLine = new THREE.Line(lineGeo, lineMat);
+            scene.add(vectorLine);
+
+            const pointGeo = new THREE.SphereGeometry(0.12, 32, 32);
+            const pointMat = new THREE.MeshBasicMaterial({ color: psiColor });
+            vectorPoint = new THREE.Mesh(pointGeo, pointMat);
+            scene.add(vectorPoint);
+
+            const hitGeo = new THREE.SphereGeometry(0.5, 16, 16);
+            const hitMat = new THREE.MeshBasicMaterial({ visible: false });
+            hitMesh = new THREE.Mesh(hitGeo, hitMat);
+            vectorPoint.add(hitMesh); 
+
+            // 6. Curvas/Arcos para los ángulos
+            const arcMatTheta = new THREE.LineBasicMaterial({ color: 0x334155, linewidth: 2 });
+            thetaArc = new THREE.Line(new THREE.BufferGeometry(), arcMatTheta);
+            scene.add(thetaArc);
+
+            const arcMatPhi = new THREE.LineBasicMaterial({ color: 0x2563eb, linewidth: 2 });
+            phiArc = new THREE.Line(new THREE.BufferGeometry(), arcMatPhi);
+            scene.add(phiArc);
+
+            // 7. Proyecciones (Líneas Punteadas) ampliadas (5 líneas = 10 puntos = 30 floats)
+            const projMaterial = new THREE.LineDashedMaterial({ 
+                color: 0x64748b, dashSize: 0.15, gapSize: 0.1, linewidth: 1 
+            });
+            const projGeometry = new THREE.BufferGeometry();
+            const positions = new Float32Array(30); 
+            projGeometry.setAttribute('position', new THREE.BufferAttribute(positions, 3));
+            projectionLines = new THREE.LineSegments(projGeometry, projMaterial);
+            scene.add(projectionLines);
+
+            // 8. Event Listeners Físicos
+            window.addEventListener('resize', onWindowResize);
+            sliderTheta.addEventListener('input', updateStateFromSliders);
+            sliderPhi.addEventListener('input', updateStateFromSliders);
+            container.addEventListener('pointerdown', onPointerDown);
+            container.addEventListener('pointermove', onPointerMove);
+            window.addEventListener('pointerup', onPointerUp); 
+
+            // 9. Event Listeners Visuales y Exportación
+            sliderPointSize.addEventListener('input', (e) => {
+                const scale = parseFloat(e.target.value);
+                vectorPoint.scale.set(scale, scale, scale);
+                // Si el navegador soporta LineBasicMaterial.linewidth, también lo engrosa
+                vectorLine.material.linewidth = 2 * scale;
+            });
+
+            sliderLabelSize.addEventListener('input', (e) => {
+                const size = parseFloat(e.target.value);
+                document.querySelectorAll('.label3d').forEach(el => {
+                    if (el.classList.contains('label-angle')) {
+                        el.style.fontSize = (size * 1.2) + 'rem';
+                    } else {
+                        el.style.fontSize = size + 'rem';
+                    }
+                });
+            });
+
+            btnExport.addEventListener('click', exportPNG);
+
+            // Inicializar estado
+            updateStateFromSliders();
+        }
+
+        // Exportar a PNG Transparente
+        function exportPNG() {
+            // Guardar color de fondo actual y removerlo temporalmente
+            const currentBg = scene.background;
+            scene.background = null; 
+
+            // Ocultar temporalmente las etiquetas HTML 2D para que no queden fuera de la imagen
+            // (La exportación de WebGL solo exporta el canvas 3D)
+            renderer.render(scene, camera);
+            
+            const dataURL = renderer.domElement.toDataURL('image/png');
+            
+            // Restaurar fondo
+            scene.background = currentBg;
+            renderer.render(scene, camera);
+
+            // Descargar
+            const link = document.createElement('a');
+            link.download = 'esfera_de_bloch_transparente.png';
+            link.href = dataURL;
+            link.click();
+        }
+
+        // ---- Control de interacciones con el ratón ----
+        function onPointerDown(e) {
+            const rect = container.getBoundingClientRect();
+            mouse.x = ((e.clientX - rect.left) / rect.width) * 2 - 1;
+            mouse.y = -((e.clientY - rect.top) / rect.height) * 2 + 1;
+
+            raycaster.setFromCamera(mouse, camera);
+            const intersects = raycaster.intersectObject(hitMesh);
+            
+            if (intersects.length > 0) {
+                isDraggingPoint = true;
+                controls.enabled = false;
+                container.style.cursor = 'grabbing';
+            }
+        }
+
+        function onPointerMove(e) {
+            const rect = container.getBoundingClientRect();
+            mouse.x = ((e.clientX - rect.left) / rect.width) * 2 - 1;
+            mouse.y = -((e.clientY - rect.top) / rect.height) * 2 + 1;
+
+            if (isDraggingPoint) {
+                raycaster.setFromCamera(mouse, camera);
+                
+                const target = new THREE.Vector3();
+                const hit = raycaster.ray.intersectSphere(mathSphere, target);
+                
+                if (!hit) {
+                    raycaster.ray.closestPointToPoint(origin, target);
+                    target.normalize().multiplyScalar(sphereRadius);
+                }
+
+                // Three Y = Bloch Z. Three Z = Bloch X. Three X = Bloch Y.
+                let t = Math.acos(THREE.MathUtils.clamp(target.y / sphereRadius, -1, 1));
+                let p = Math.atan2(target.x, target.z); 
+                if (p < 0) p += 2 * Math.PI;
+
+                sliderTheta.value = THREE.MathUtils.radToDeg(t);
+                sliderPhi.value = THREE.MathUtils.radToDeg(p);
+                updateStateFromSliders();
+                return;
+            }
+
+            raycaster.setFromCamera(mouse, camera);
+            const intersects = raycaster.intersectObject(hitMesh);
+            if (intersects.length > 0) {
+                container.style.cursor = 'pointer';
+            } else {
+                container.style.cursor = 'grab';
+            }
+        }
+
+        function onPointerUp(e) {
+            isDraggingPoint = false;
+            controls.enabled = true;
+            container.style.cursor = 'grab';
+        }
+
+        // Proyección de etiquetas 3D
+        function updateLabels() {
+            const widthHalf = container.clientWidth / 2;
+            const heightHalf = container.clientHeight / 2;
+
+            function setLabelPos(label, x, y, z) {
+                const pos = new THREE.Vector3(x, y, z);
+                pos.project(camera);
+                label.style.left = (pos.x * widthHalf + widthHalf) + 'px';
+                label.style.top = -(pos.y * heightHalf) + heightHalf + 'px';
+            }
+
+            const offset = sphereRadius + 1.0;
+            setLabelPos(labelZ, 0, offset, 0);       
+            setLabelPos(labelMinusZ, 0, -offset, 0); 
+            setLabelPos(labelX, 0, 0, offset); // Bloch X -> Three Z
+            setLabelPos(labelY, offset, 0, 0); // Bloch Y -> Three X      
+
+            const psiPos = currentDirection.clone().multiplyScalar(sphereRadius + 0.3);
+            setLabelPos(labelPsi, psiPos.x, psiPos.y, psiPos.z);
+
+            const r_t = sphereRadius * 0.45;
+            setLabelPos(labelTheta3D, 
+                r_t * Math.sin(theta/2) * Math.sin(phi), 
+                r_t * Math.cos(theta/2),                 
+                r_t * Math.sin(theta/2) * Math.cos(phi)  
+            );
+
+            const r_p = sphereRadius * 0.55;
+            setLabelPos(labelPhi3D, Math.sin(phi/2) * r_p, 0, Math.cos(phi/2) * r_p);
+        }
+
+        function updateStateFromSliders() {
+            const thetaDeg = parseFloat(sliderTheta.value);
+            const phiDeg = parseFloat(sliderPhi.value);
+
+            valTheta.textContent = thetaDeg + "°";
+            valPhi.textContent = phiDeg + "°";
+
+            theta = THREE.MathUtils.degToRad(thetaDeg);
+            phi = THREE.MathUtils.degToRad(phiDeg);
+
+            const t_x = Math.sin(theta) * Math.sin(phi); // Bloch Y
+            const t_z = Math.sin(theta) * Math.cos(phi); // Bloch X 
+            const t_y = Math.cos(theta);                 // Bloch Z
+
+            currentDirection.set(t_x, t_y, t_z).normalize();
+            
+            const cX = currentDirection.x * sphereRadius;
+            const cY = currentDirection.y * sphereRadius;
+            const cZ = currentDirection.z * sphereRadius;
+
+            // Vector principal
+            vectorLine.geometry.setFromPoints([origin, new THREE.Vector3(cX, cY, cZ)]);
+            vectorPoint.position.set(cX, cY, cZ);
+
+            // Líneas punteadas (Proyecciones extendidas)
+            const pos = projectionLines.geometry.attributes.position.array;
+            
+            // 1. Punta del vector al plano XY (sombra)
+            pos[0] = cX; pos[1] = cY; pos[2] = cZ;
+            pos[3] = cX; pos[4] = 0;  pos[5] = cZ;
+            
+            // 2. Origen a la sombra en el plano XY
+            pos[6] = 0;  pos[7] = 0;  pos[8] = 0;
+            pos[9] = cX; pos[10]= 0;  pos[11]= cZ;
+            
+            // 3. Punta del vector al eje Z (Bloch Z / Three Y)
+            pos[12]= cX; pos[13]= cY; pos[14]= cZ;
+            pos[15]= 0;  pos[16]= cY; pos[17]= 0;
+
+            // 4. Sombra al eje X (Bloch X / Three Z)
+            pos[18] = cX; pos[19] = 0; pos[20] = cZ;
+            pos[21] = 0;  pos[22] = 0; pos[23] = cZ;
+
+            // 5. Sombra al eje Y (Bloch Y / Three X)
+            pos[24] = cX; pos[25] = 0; pos[26] = cZ;
+            pos[27] = cX; pos[28] = 0; pos[29] = 0;
+
+            projectionLines.geometry.attributes.position.needsUpdate = true;
+            projectionLines.computeLineDistances(); 
+
+            // Arco de Theta
+            const r_arc_theta = sphereRadius * 0.35;
+            const thetaPts = [];
+            for(let i=0; i<=20; i++){
+                let curT = (theta * i) / 20;
+                thetaPts.push(new THREE.Vector3(
+                    r_arc_theta * Math.sin(curT) * Math.sin(phi),
+                    r_arc_theta * Math.cos(curT),                 
+                    r_arc_theta * Math.sin(curT) * Math.cos(phi)  
+                ));
+            }
+            thetaArc.geometry.setFromPoints(thetaPts);
+
+            // Arco de Phi
+            const r_arc_phi = sphereRadius * 0.45;
+            const phiPts = [];
+            for(let i=0; i<=20; i++){
+                let curP = (phi * i) / 20;
+                phiPts.push(new THREE.Vector3(
+                    r_arc_phi * Math.sin(curP), 
+                    0,
+                    r_arc_phi * Math.cos(curP)  
+                ));
+            }
+            phiArc.geometry.setFromPoints(phiPts);
+
+            labelPhi3D.style.display = (thetaDeg === 0 || thetaDeg === 180 || phiDeg === 0) ? 'none' : 'block';
+            labelTheta3D.style.display = (thetaDeg === 0) ? 'none' : 'block';
+
+            renderMath(thetaDeg, phiDeg);
+        }
+
+        function renderMath(tDeg, pDeg) {
+            const latexEquation = `|\\psi\\rangle = \\cos\\left(\\frac{${tDeg}^\\circ}{2}\\right)|H\\rangle + e^{i ${pDeg}^\\circ} \\sin\\left(\\frac{${tDeg}^\\circ}{2}\\right)|V\\rangle`;
+            const probH = Math.pow(Math.cos(theta/2), 2);
+            const probV = Math.pow(Math.sin(theta/2), 2);
+            const latexAmplitudes = `P(H) = ${(probH*100).toFixed(1)}\\% \\quad P(V) = ${(probV*100).toFixed(1)}\\%`;
+
+            try {
+                katex.render(latexEquation, mathEquation, { displayMode: true, throwOnError: false });
+                katex.render(latexAmplitudes, mathAmplitudes, { displayMode: false, throwOnError: false });
+            } catch (e) {
+                console.error("Error en KaTeX", e);
+            }
+        }
+
+        function onWindowResize() {
+            camera.aspect = container.clientWidth / container.clientHeight;
+            camera.updateProjectionMatrix();
+            renderer.setSize(container.clientWidth, container.clientHeight);
+        }
+
+        function animate() {
+            requestAnimationFrame(animate);
+            controls.update();
+            updateLabels();
+            renderer.render(scene, camera);
+        }
+    </script>
+</body>
+</html>
