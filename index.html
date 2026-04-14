@@ -45,7 +45,15 @@
 
         body { font-family: 'Inter', system-ui, sans-serif; }
 
-        /* A4 Word-Style Viewer (Dynamic Typography Applied via JS) */
+        /* ==========================================
+           MOTOR DE ESTILOS Y ENUMERACIÓN DE FÓRMULAS
+           ========================================== */
+        
+        /* Reiniciamos el contador de ecuaciones en las páginas base */
+        .a4-page, .web-page {
+            counter-reset: equation;
+        }
+
         .a4-page {
             width: 210mm;
             min-height: 297mm;
@@ -58,13 +66,35 @@
             transition: all 0.3s ease;
         }
         .dark .a4-page { box-shadow: 0 10px 25px rgba(0,0,0,0.5); }
+        
         .a4-page h1, .web-page h1 { font-size: 1.8em; font-weight: bold; margin-bottom: 1.5rem; text-align: center; }
         .a4-page h2, .web-page h2 { font-size: 1.4em; font-weight: bold; margin-top: 2rem; margin-bottom: 1rem; }
         .a4-page h3, .web-page h3 { font-size: 1.2em; font-weight: bold; margin-top: 1.5rem; margin-bottom: 0.75rem; }
         .a4-page p, .web-page p { margin-bottom: 1em; }
         .a4-page ul, .web-page ul { list-style-type: disc; margin-left: 2rem; margin-bottom: 1em; }
         .a4-page ol, .web-page ol { list-style-type: decimal; margin-left: 2rem; margin-bottom: 1em; }
-        .a4-page .katex-display, .web-page .katex-display { margin: 1.5em 0; overflow-x: auto; overflow-y: hidden; }
+        
+        /* Configuración de las Ecuaciones en Bloque con Contador */
+        .a4-page .katex-display, .web-page .katex-display { 
+            margin: 1.5em 0; 
+            overflow-x: auto; 
+            overflow-y: hidden; 
+            position: relative;
+            padding-right: 3rem; /* Espacio para el número */
+        }
+
+        /* Inyección del número de fórmula */
+        .a4-page .katex-display::after, .web-page .katex-display::after {
+            counter-increment: equation;
+            content: "(" counter(equation) ")";
+            position: absolute;
+            right: 0;
+            top: 50%;
+            transform: translateY(-50%);
+            font-family: 'Times New Roman', Times, serif;
+            font-size: 11pt;
+            color: #333;
+        }
         
         /* Media rendering inside text */
         .a4-page img, .web-page img { max-width: 100%; height: auto; display: block; margin: 1.5rem auto; border-radius: 4px; }
@@ -141,7 +171,11 @@
             <button onclick="window.app.loginGuest()" class="w-full bg-slate-800 hover:bg-slate-700 text-white font-bold py-3 px-4 rounded-xl transition-colors shadow">
                 Ver Proyecto (Solo Lectura)
             </button>
-            <p id="login-error" class="text-red-400 text-xs mt-4 hidden bg-red-900/20 py-2 rounded">Contraseña incorrecta o error de red.</p>
+            
+            <!-- Contenedor de Errores Mejorado -->
+            <div id="login-error-container" class="hidden mt-4 bg-red-900/20 border border-red-900/50 p-3 rounded-lg text-left">
+                <p id="login-error-msg" class="text-red-400 text-xs leading-relaxed"></p>
+            </div>
         </div>
     </div>
 
@@ -161,7 +195,7 @@
             
             <div class="space-y-4 text-sm text-slate-600 dark:text-slate-300">
                 <div class="flex gap-3"><i data-lucide="grip-vertical" class="w-5 h-5 text-quantum-500 shrink-0"></i><p><strong>Arrastrar y Soltar:</strong> En la barra lateral puedes arrastrar los capítulos para reordenarlos.</p></div>
-                <div class="flex gap-3"><i data-lucide="edit-3" class="w-5 h-5 text-quantum-500 shrink-0"></i><p><strong>Renderizado Vivo:</strong> Markdown y LaTeX (<code>$$...$$</code>) se renderiza al instante en la hoja A4.</p></div>
+                <div class="flex gap-3"><i data-lucide="edit-3" class="w-5 h-5 text-quantum-500 shrink-0"></i><p><strong>Renderizado Vivo (KaTeX):</strong> Markdown y LaTeX (<code>$$...$$</code>) se renderizan al instante en la hoja A4. <strong>Las ecuaciones en bloque se enumeran automáticamente.</strong></p></div>
                 <div class="flex gap-3"><i data-lucide="image" class="w-5 h-5 text-quantum-500 shrink-0"></i><p><strong>Multimedia:</strong> Inyecta imágenes y <strong>Simuladores en vivo (iframes)</strong> desde la barra de herramientas superior.</p></div>
                 <div class="flex gap-3"><i data-lucide="settings" class="w-5 h-5 text-quantum-500 shrink-0"></i><p><strong>Tipografía:</strong> Haz clic en el ícono del engranaje (arriba a la izquierda) para cambiar la fuente, tamaño e interlineado del documento.</p></div>
                 <div class="flex gap-3"><i data-lucide="bot" class="w-5 h-5 text-quantum-500 shrink-0"></i><p><strong>Tutor de IA:</strong> Interactúa con Gemini para analizar tu redacción cuántica en tiempo real.</p></div>
@@ -291,6 +325,7 @@
                     <span>Índice de Contenido</span>
                 </div>
                 
+                <!-- Lista Drag & Drop -->
                 <div id="chapter-list" class="space-y-1 pb-4"></div>
                 
                 <div class="border-t border-slate-200 dark:border-slate-800 my-2 admin-only"></div>
@@ -519,11 +554,13 @@
 
         async function initFirebase() {
             try {
-                // Autenticación según regla 3 de Firebase Canvas
+                // Autenticación Canvas
                 if (typeof __initial_auth_token !== 'undefined' && __initial_auth_token) {
                     await signInWithCustomToken(auth, __initial_auth_token);
                 } else {
-                    await signInAnonymously(auth);
+                    // Fallback to local testing or standard firebase
+                    // Intencionalmente NO llamamos signInAnonymously si no queremos fallar con error 400
+                    // Solo escuchamos el estado si ya hay uno.
                 }
 
                 onAuthStateChanged(auth, (user) => {
@@ -547,9 +584,11 @@
                     }
                 });
             } catch (error) { 
-                console.warn("Error iniciando Firebase. Forzando modo local.", error);
+                console.warn("Firebase Auth fallido o bloqueado. Iniciando Modo Local Completo.", error);
                 setOfflineMode();
                 loadFromLocal(); 
+                document.getElementById('login-overlay').classList.add('hidden');
+                document.getElementById('app-container').classList.remove('opacity-0');
             }
         }
 
@@ -558,15 +597,16 @@
             const txt = document.getElementById('cloud-text');
             if(dot && txt) {
                 dot.classList.replace('bg-emerald-500', 'bg-amber-500');
-                txt.textContent = "Offline (Modo Local)";
+                txt.textContent = "Offline (Local)";
             }
+            isAdmin = true; // Si está offline localmente, asumimos que es el dueño de su navegador
+            document.body.classList.remove('reader-mode');
         }
 
         const docRef = doc(db, 'artifacts', 'tesis-dudbil', 'public', 'data', 'manuscript', 'dudbil_doc');
 
         async function loadFromCloud() {
             try {
-                // Timeout manual para evitar que Firebase se cuelgue 10 segundos
                 const fetchPromise = getDoc(docRef);
                 const timeoutPromise = new Promise((_, reject) => setTimeout(() => reject(new Error('timeout')), 5000));
                 
@@ -585,7 +625,7 @@
                 renderSidebar();
                 renderRefs();
             } catch (e) { 
-                console.warn("⚠️ Firebase offline o sin permisos. Cambiando a LocalStorage.", e);
+                console.warn("⚠️ Firebase offline o timeout. Cambiando a LocalStorage.", e);
                 setOfflineMode();
                 loadFromLocal(); 
             }
@@ -630,7 +670,7 @@
                         },1500); 
                     }
                 } catch (e) { 
-                    console.error("Error al guardar en nube. Datos guardados en Local.", e); 
+                    console.error("Error nube. Datos guardados en Local.", e); 
                     setOfflineMode();
                 }
             } else {
@@ -645,7 +685,6 @@
             document.getElementById('config-proj-name').value = projectConfig.name || "";
             document.getElementById('config-proj-author').value = projectConfig.author || "";
             
-            // Set font configurations
             const fontSel = document.getElementById('config-font');
             const sizeSel = document.getElementById('config-size');
             const lhSel = document.getElementById('config-lineheight');
@@ -678,7 +717,6 @@
             document.getElementById('app-main-title').textContent = projectConfig.name;
             document.getElementById('app-author-name').textContent = projectConfig.author;
 
-            // Apply dynamic styles to the renders
             const renderPane = document.getElementById('render-pane');
             const globalRender = document.getElementById('global-render-content');
             
@@ -887,7 +925,6 @@
                 throwOnError: false
             });
             
-            // Re-apply typography config
             container.style.fontFamily = projectConfig.font;
             container.style.fontSize = projectConfig.fontSize;
             container.style.lineHeight = projectConfig.lineHeight;
@@ -1018,9 +1055,32 @@
             lucide.createIcons();
         };
 
-        window.app.loginAdmin = async () => { try { await signInWithPopup(auth, googleProvider); } catch(e) { console.error(e); } };
-        window.app.loginGuest = async () => { if(document.getElementById('guest-password').value === GUEST_PASSWORD) { await signInAnonymously(auth); } else { document.getElementById('login-error').classList.remove('hidden'); } };
-        window.app.logout = () => { signOut(auth); };
+        window.app.loginAdmin = async () => { 
+            try { 
+                await signInWithPopup(auth, googleProvider); 
+            } catch(e) { 
+                console.error(e); 
+                document.getElementById('login-error-msg').innerHTML = "<b>Error de Autenticación / Popups bloqueados.</b><br>Si estás en un entorno iframe cerrado, el navegador bloquea las ventanas emergentes por seguridad (COOP/COEP). Para usar Google Auth, por favor abre este archivo HTML directamente en una nueva pestaña o en tu propio servidor local.";
+                document.getElementById('login-error-container').classList.remove('hidden');
+            } 
+        };
+        
+        window.app.loginGuest = async () => { 
+            if(document.getElementById('guest-password').value === GUEST_PASSWORD) { 
+                try {
+                    await signInAnonymously(auth); 
+                } catch(e) {
+                    console.error(e);
+                    document.getElementById('login-error-msg').innerHTML = "<b>Error Anónimo.</b><br>Debes activar el proveedor de <i>Autenticación Anónima</i> en tu consola de Firebase (Authentication > Sign-in method) para que los lectores puedan entrar.";
+                    document.getElementById('login-error-container').classList.remove('hidden');
+                }
+            } else { 
+                document.getElementById('login-error-msg').textContent = "Contraseña incorrecta. Intenta de nuevo.";
+                document.getElementById('login-error-container').classList.remove('hidden');
+            } 
+        };
+        
+        window.app.logout = () => { signOut(auth); location.reload(); };
 
         window.app.exportToWord = () => {
             const container = document.getElementById('hidden-export-container');
@@ -1030,20 +1090,36 @@
             container.innerHTML = DOMPurify.sanitize(marked.parse(md), {ADD_TAGS:['math', 'img'], ADD_ATTR:['display', 'src', 'alt', 'width', 'height']});
             renderMathInElement(container, { delimiters: [{left: '$$', right: '$$', display: true}, {left: '$', right: '$', display: false}], throwOnError: false });
 
-            // INYECCIÓN DINÁMICA DE ESTILOS (Configuración del Usuario)
+            // INYECCIÓN DINÁMICA DE ESTILOS (Configuración del Usuario + Contador de Fórmulas)
             const dynamicCSS = `
                 body { 
                     font-family: ${projectConfig.font || "'Times New Roman', serif"}; 
                     font-size: ${projectConfig.fontSize || "12pt"}; 
                     line-height: ${projectConfig.lineHeight || "1.5"}; 
                     text-align: justify; 
+                    counter-reset: equation;
                 }
                 h1 { font-size: 24pt; font-weight: bold; text-align: center; page-break-before: always; }
                 h2 { font-size: 18pt; font-weight: bold; }
                 h3 { font-size: 14pt; font-weight: bold; }
                 img { max-width: 100%; }
                 .katex { font-family: 'Cambria Math', serif; font-size: 14pt; }
-                .katex-display { text-align: center; margin: 1em 0; }
+                .katex-display { 
+                    text-align: center; 
+                    margin: 1em 0; 
+                    position: relative;
+                }
+                /* Exportación de enumeración de Fórmulas a Word */
+                .katex-display::after {
+                    counter-increment: equation;
+                    content: "(" counter(equation) ")";
+                    position: absolute;
+                    right: 0;
+                    top: 50%;
+                    transform: translateY(-50%);
+                    font-family: 'Times New Roman', serif;
+                    font-size: 11pt;
+                }
             `;
 
             const docContent = `<html xmlns:o='urn:schemas-microsoft-com:office:office' xmlns:w='urn:schemas-microsoft-com:office:word' xmlns='http://www.w3.org/TR/REC-html40'><head><meta charset='utf-8'><style>${dynamicCSS}</style></head><body>${container.innerHTML}</body></html>`;
