@@ -33,7 +33,7 @@
     <script src="https://cdn.jsdelivr.net/npm/dompurify/dist/purify.min.js"></script>
 
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&family=Times+New+Roman&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&family=Lora:ital,wght@0,400;0,700;1,400&display=swap');
 
         /* Custom Scrollbars */
         ::-webkit-scrollbar { width: 6px; height: 6px; }
@@ -45,7 +45,7 @@
 
         body { font-family: 'Inter', system-ui, sans-serif; }
 
-        /* A4 Word-Style Viewer */
+        /* A4 Word-Style Viewer (Dynamic Typography Applied via JS) */
         .a4-page {
             width: 210mm;
             min-height: 297mm;
@@ -54,20 +54,17 @@
             background: white;
             color: black;
             box-shadow: 0 10px 25px rgba(0,0,0,0.1);
-            font-family: 'Times New Roman', Times, serif;
-            font-size: 12pt;
-            line-height: 1.5;
             text-align: justify;
             transition: all 0.3s ease;
         }
         .dark .a4-page { box-shadow: 0 10px 25px rgba(0,0,0,0.5); }
-        .a4-page h1, .web-page h1 { font-size: 20pt; font-weight: bold; margin-bottom: 1.5rem; text-align: center; }
-        .a4-page h2, .web-page h2 { font-size: 16pt; font-weight: bold; margin-top: 2rem; margin-bottom: 1rem; }
-        .a4-page h3, .web-page h3 { font-size: 14pt; font-weight: bold; margin-top: 1.5rem; margin-bottom: 0.75rem; }
-        .a4-page p, .web-page p { margin-bottom: 1rem; }
-        .a4-page ul, .web-page ul { list-style-type: disc; margin-left: 2rem; margin-bottom: 1rem; }
-        .a4-page ol, .web-page ol { list-style-type: decimal; margin-left: 2rem; margin-bottom: 1rem; }
-        .a4-page .katex-display, .web-page .katex-display { margin: 1.5rem 0; overflow-x: auto; overflow-y: hidden; }
+        .a4-page h1, .web-page h1 { font-size: 1.8em; font-weight: bold; margin-bottom: 1.5rem; text-align: center; }
+        .a4-page h2, .web-page h2 { font-size: 1.4em; font-weight: bold; margin-top: 2rem; margin-bottom: 1rem; }
+        .a4-page h3, .web-page h3 { font-size: 1.2em; font-weight: bold; margin-top: 1.5rem; margin-bottom: 0.75rem; }
+        .a4-page p, .web-page p { margin-bottom: 1em; }
+        .a4-page ul, .web-page ul { list-style-type: disc; margin-left: 2rem; margin-bottom: 1em; }
+        .a4-page ol, .web-page ol { list-style-type: decimal; margin-left: 2rem; margin-bottom: 1em; }
+        .a4-page .katex-display, .web-page .katex-display { margin: 1.5em 0; overflow-x: auto; overflow-y: hidden; }
         
         /* Media rendering inside text */
         .a4-page img, .web-page img { max-width: 100%; height: auto; display: block; margin: 1.5rem auto; border-radius: 4px; }
@@ -81,9 +78,6 @@
             padding: 2rem;
             background: transparent;
             color: inherit;
-            font-family: 'Inter', system-ui, sans-serif;
-            font-size: 1.05rem;
-            line-height: 1.7;
             text-align: left;
             transition: all 0.3s ease;
         }
@@ -166,11 +160,11 @@
             </div>
             
             <div class="space-y-4 text-sm text-slate-600 dark:text-slate-300">
-                <div class="flex gap-3"><i data-lucide="grip-vertical" class="w-5 h-5 text-quantum-500 shrink-0"></i><p><strong>Arrastrar y Soltar:</strong> En la barra lateral izquierda puedes arrastrar los capítulos para reordenarlos automáticamente en el documento final.</p></div>
-                <div class="flex gap-3"><i data-lucide="edit-3" class="w-5 h-5 text-quantum-500 shrink-0"></i><p><strong>Renderizado Vivo:</strong> Todo lo que escribas a la izquierda usando Markdown y LaTeX (<code>$$...$$</code>) se renderizará al instante en la hoja A4 de la derecha.</p></div>
-                <div class="flex gap-3"><i data-lucide="image" class="w-5 h-5 text-quantum-500 shrink-0"></i><p><strong>Insertar Multimedia:</strong> Usa la nueva barra de herramientas superior para inyectar imágenes, crear vínculos o incrustar <strong>Simuladores en vivo (iframes)</strong> dentro del texto.</p></div>
-                <div class="flex gap-3"><i data-lucide="book-marked" class="w-5 h-5 text-quantum-500 shrink-0"></i><p><strong>Citas:</strong> Guarda tus papers en el "Gestor de Referencias". Luego usa el botón de Cita de la barra para referenciarlos en el manuscrito.</p></div>
-                <div class="flex gap-3"><i data-lucide="bot" class="w-5 h-5 text-quantum-500 shrink-0"></i><p><strong>Tutor de IA:</strong> Interactúa con Gemini para analizar redundancias, corregir gramática y validar tu física cuántica en tiempo real.</p></div>
+                <div class="flex gap-3"><i data-lucide="grip-vertical" class="w-5 h-5 text-quantum-500 shrink-0"></i><p><strong>Arrastrar y Soltar:</strong> En la barra lateral puedes arrastrar los capítulos para reordenarlos.</p></div>
+                <div class="flex gap-3"><i data-lucide="edit-3" class="w-5 h-5 text-quantum-500 shrink-0"></i><p><strong>Renderizado Vivo:</strong> Markdown y LaTeX (<code>$$...$$</code>) se renderiza al instante en la hoja A4.</p></div>
+                <div class="flex gap-3"><i data-lucide="image" class="w-5 h-5 text-quantum-500 shrink-0"></i><p><strong>Multimedia:</strong> Inyecta imágenes y <strong>Simuladores en vivo (iframes)</strong> desde la barra de herramientas superior.</p></div>
+                <div class="flex gap-3"><i data-lucide="settings" class="w-5 h-5 text-quantum-500 shrink-0"></i><p><strong>Tipografía:</strong> Haz clic en el ícono del engranaje (arriba a la izquierda) para cambiar la fuente, tamaño e interlineado del documento.</p></div>
+                <div class="flex gap-3"><i data-lucide="bot" class="w-5 h-5 text-quantum-500 shrink-0"></i><p><strong>Tutor de IA:</strong> Interactúa con Gemini para analizar tu redacción cuántica en tiempo real.</p></div>
             </div>
             <div class="mt-8 text-center">
                 <button onclick="document.getElementById('tutorial-modal').classList.add('hidden')" class="bg-quantum-600 hover:bg-quantum-700 text-white font-bold py-2.5 px-8 rounded-lg shadow-lg transition-colors">¡Comenzar a escribir!</button>
@@ -178,13 +172,11 @@
         </div>
     </div>
 
-    <!-- MODALES MULTIMEDIA (Imágenes, Enlaces, Iframes) -->
+    <!-- MODALES MULTIMEDIA -->
     <div id="media-modal" class="fixed inset-0 z-[60] bg-slate-900/80 backdrop-blur-sm hidden flex items-center justify-center fade-in">
         <div class="bg-white dark:bg-slate-900 p-6 rounded-2xl shadow-2xl border border-slate-200 dark:border-slate-700 max-w-md w-full">
             <h2 id="media-modal-title" class="text-xl font-bold mb-4 flex items-center gap-2 text-slate-800 dark:text-white"></h2>
-            <div id="media-modal-body" class="space-y-4">
-                <!-- Dinámico -->
-            </div>
+            <div id="media-modal-body" class="space-y-4"></div>
             <div class="mt-6 flex justify-end gap-3">
                 <button onclick="document.getElementById('media-modal').classList.add('hidden')" class="px-4 py-2 rounded text-sm text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800">Cancelar</button>
                 <button id="media-modal-btn" class="bg-quantum-600 text-white px-4 py-2 rounded text-sm font-bold shadow hover:bg-quantum-700">Insertar</button>
@@ -192,23 +184,65 @@
         </div>
     </div>
 
-    <!-- MODAL CONFIGURACIÓN -->
+    <!-- MODAL CONFIGURACIÓN GENERAL Y TIPOGRÁFICA -->
     <div id="settings-modal" class="fixed inset-0 z-[60] bg-slate-900/80 backdrop-blur-sm hidden flex items-center justify-center fade-in">
-        <div class="bg-white dark:bg-slate-900 p-6 rounded-2xl shadow-2xl border border-slate-200 dark:border-slate-700 max-w-md w-full">
-            <h2 class="text-xl font-bold mb-4 flex items-center gap-2"><i data-lucide="settings" class="text-quantum-500"></i> Configuración del Proyecto</h2>
-            <div class="space-y-4">
-                <div>
-                    <label class="block text-xs font-bold text-slate-500 uppercase mb-1">Nombre del Proyecto</label>
-                    <input type="text" id="config-proj-name" class="w-full bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-700 rounded px-3 py-2 text-sm outline-none focus:border-quantum-500 dark:text-white">
+        <div class="bg-white dark:bg-slate-900 p-8 rounded-2xl shadow-2xl border border-slate-200 dark:border-slate-700 max-w-lg w-full max-h-[90vh] overflow-y-auto">
+            <h2 class="text-xl font-bold mb-6 flex items-center gap-2 text-slate-800 dark:text-white"><i data-lucide="settings" class="text-quantum-500"></i> Configuración del Documento</h2>
+            
+            <div class="space-y-6">
+                <!-- Metadatos -->
+                <div class="space-y-4 bg-slate-50 dark:bg-slate-800/50 p-4 rounded-xl border border-slate-200 dark:border-slate-700">
+                    <h3 class="text-xs font-bold text-slate-500 uppercase tracking-widest flex items-center gap-2"><i data-lucide="file-text" class="w-4 h-4"></i> Información Principal</h3>
+                    <div>
+                        <label class="block text-xs font-bold text-slate-500 uppercase mb-1">Título del Proyecto / Tesis</label>
+                        <input type="text" id="config-proj-name" class="w-full bg-white dark:bg-slate-950 border border-slate-200 dark:border-slate-700 rounded px-3 py-2 text-sm outline-none focus:border-quantum-500 dark:text-white shadow-sm">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-bold text-slate-500 uppercase mb-1">Autor / Investigador</label>
+                        <input type="text" id="config-proj-author" class="w-full bg-white dark:bg-slate-950 border border-slate-200 dark:border-slate-700 rounded px-3 py-2 text-sm outline-none focus:border-quantum-500 dark:text-white shadow-sm">
+                    </div>
                 </div>
-                <div>
-                    <label class="block text-xs font-bold text-slate-500 uppercase mb-1">Autor / Investigador</label>
-                    <input type="text" id="config-proj-author" class="w-full bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-700 rounded px-3 py-2 text-sm outline-none focus:border-quantum-500 dark:text-white">
+
+                <!-- Tipografía -->
+                <div class="space-y-4 bg-slate-50 dark:bg-slate-800/50 p-4 rounded-xl border border-slate-200 dark:border-slate-700">
+                    <h3 class="text-xs font-bold text-slate-500 uppercase tracking-widest flex items-center gap-2"><i data-lucide="type" class="w-4 h-4"></i> Formato y Tipografía (Vista A4 y Word)</h3>
+                    
+                    <div>
+                        <label class="block text-xs font-bold text-slate-500 uppercase mb-1">Familia Tipográfica</label>
+                        <select id="config-font" class="w-full bg-white dark:bg-slate-950 border border-slate-200 dark:border-slate-700 rounded px-3 py-2 text-sm outline-none focus:border-quantum-500 dark:text-white shadow-sm">
+                            <option value="'Times New Roman', Times, serif">Times New Roman (Clásica)</option>
+                            <option value="Arial, Helvetica, sans-serif">Arial (Moderna)</option>
+                            <option value="'Lora', Georgia, serif">Lora / Georgia (Elegante)</option>
+                            <option value="Cambria, serif">Cambria (Matemática)</option>
+                        </select>
+                    </div>
+                    
+                    <div class="grid grid-cols-2 gap-4">
+                        <div>
+                            <label class="block text-xs font-bold text-slate-500 uppercase mb-1">Tamaño Base</label>
+                            <select id="config-size" class="w-full bg-white dark:bg-slate-950 border border-slate-200 dark:border-slate-700 rounded px-3 py-2 text-sm outline-none focus:border-quantum-500 dark:text-white shadow-sm">
+                                <option value="10pt">10 pt</option>
+                                <option value="11pt">11 pt</option>
+                                <option value="12pt">12 pt (Estándar)</option>
+                                <option value="14pt">14 pt</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="block text-xs font-bold text-slate-500 uppercase mb-1">Interlineado</label>
+                            <select id="config-lineheight" class="w-full bg-white dark:bg-slate-950 border border-slate-200 dark:border-slate-700 rounded px-3 py-2 text-sm outline-none focus:border-quantum-500 dark:text-white shadow-sm">
+                                <option value="1.0">Sencillo (1.0)</option>
+                                <option value="1.15">Normal (1.15)</option>
+                                <option value="1.5">1.5 líneas (Tesis)</option>
+                                <option value="2.0">Doble (2.0)</option>
+                            </select>
+                        </div>
+                    </div>
                 </div>
             </div>
-            <div class="mt-6 flex justify-end gap-3">
-                <button onclick="document.getElementById('settings-modal').classList.add('hidden')" class="px-4 py-2 rounded text-sm text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800">Cancelar</button>
-                <button onclick="window.app.saveSettings()" class="bg-quantum-600 text-white px-4 py-2 rounded text-sm font-bold shadow">Guardar</button>
+            
+            <div class="mt-8 flex justify-end gap-3">
+                <button onclick="document.getElementById('settings-modal').classList.add('hidden')" class="px-4 py-2.5 rounded-lg text-sm font-semibold text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors">Cancelar</button>
+                <button onclick="window.app.saveSettings()" class="bg-quantum-600 text-white px-6 py-2.5 rounded-lg text-sm font-bold shadow-lg hover:bg-quantum-700 transition-colors">Guardar Cambios</button>
             </div>
         </div>
     </div>
@@ -224,8 +258,8 @@
         </header>
         <div class="flex-1 overflow-y-auto p-4 md:p-8 relative">
             <div class="absolute top-2 right-8 z-10 bg-white/90 dark:bg-slate-800/90 backdrop-blur rounded shadow p-1 flex gap-1">
-                <button onclick="window.app.setPreviewMode('global-render-content', 'a4-page')" class="px-2 py-1 text-xs font-bold rounded hover:bg-slate-200 dark:hover:bg-slate-700">A4</button>
-                <button onclick="window.app.setPreviewMode('global-render-content', 'web-page')" class="px-2 py-1 text-xs font-bold rounded hover:bg-slate-200 dark:hover:bg-slate-700">Web</button>
+                <button onclick="window.app.setPreviewMode('global-render-content', 'a4-page')" class="px-2 py-1 text-xs font-bold rounded hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-800 dark:text-slate-200">A4</button>
+                <button onclick="window.app.setPreviewMode('global-render-content', 'web-page')" class="px-2 py-1 text-xs font-bold rounded hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-800 dark:text-slate-200">Web</button>
             </div>
             <div id="global-render-content" class="a4-page"></div>
         </div>
@@ -241,7 +275,7 @@
                 <div class="flex items-center gap-3 truncate">
                     <i data-lucide="layers" class="w-6 h-6 text-quantum-500 shrink-0"></i>
                     <div class="truncate">
-                        <h1 id="app-main-title" class="text-sm font-bold tracking-tight truncate">Nexus OS</h1>
+                        <h1 id="app-main-title" class="text-sm font-bold tracking-tight truncate text-slate-800 dark:text-white">Nexus OS</h1>
                         <p id="app-author-name" class="text-[10px] text-quantum-600 dark:text-quantum-400 font-mono tracking-widest uppercase truncate">Dr. Dudbil</p>
                     </div>
                 </div>
@@ -257,7 +291,6 @@
                     <span>Índice de Contenido</span>
                 </div>
                 
-                <!-- Lista Drag & Drop -->
                 <div id="chapter-list" class="space-y-1 pb-4"></div>
                 
                 <div class="border-t border-slate-200 dark:border-slate-800 my-2 admin-only"></div>
@@ -278,11 +311,11 @@
             
             <!-- Cloud Status -->
             <div class="p-4 border-t border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-900 shrink-0 flex justify-between items-center text-xs admin-only">
-                <span class="flex items-center gap-2 text-slate-500 font-mono">
-                    <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span> Firebase Sync
+                <span class="flex items-center gap-2 text-slate-500 font-mono" id="cloud-indicator">
+                    <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" id="cloud-dot"></span> <span id="cloud-text">Firebase Sync</span>
                 </span>
                 <button onclick="window.app.logout()" title="Cerrar Sesión" class="hover:text-red-500 transition-colors ml-auto mr-2"><i data-lucide="log-out" class="w-4 h-4"></i></button>
-                <button onclick="window.app.saveToCloud()" title="Guardar en la nube" class="hover:text-quantum-500 transition-colors"><i data-lucide="cloud-upload" class="w-4 h-4"></i></button>
+                <button onclick="window.app.saveToCloud()" title="Forzar Guardado Local/Nube" class="hover:text-quantum-500 transition-colors"><i data-lucide="save" class="w-4 h-4"></i></button>
             </div>
         </aside>
 
@@ -337,7 +370,7 @@
                             <button onclick="window.app.insertFormat('$', '$')" class="p-1.5 hover:bg-slate-200 dark:hover:bg-slate-700 rounded text-quantum-600 dark:text-quantum-400 font-bold font-serif" title="Ec. Inline">$x$</button>
                             <button onclick="window.app.insertFormat('\\n$$\\n', '\\n$$\\n')" class="p-1.5 hover:bg-slate-200 dark:hover:bg-slate-700 rounded text-quantum-600 dark:text-quantum-400 font-bold font-serif" title="Ec. Bloque">$$x$$</button>
                             <div class="w-px h-5 bg-slate-300 dark:bg-slate-700 mx-1"></div>
-                            <!-- Botones Multimedia Nuevos -->
+                            <!-- Botones Multimedia -->
                             <button onclick="window.app.openMediaModal('image')" class="p-1.5 hover:bg-slate-200 dark:hover:bg-slate-700 rounded text-emerald-600 dark:text-emerald-400" title="Insertar Imagen"><i data-lucide="image" class="w-4 h-4"></i></button>
                             <button onclick="window.app.openMediaModal('link')" class="p-1.5 hover:bg-slate-200 dark:hover:bg-slate-700 rounded text-blue-600 dark:text-blue-400" title="Insertar Enlace"><i data-lucide="link" class="w-4 h-4"></i></button>
                             <button onclick="window.app.openMediaModal('citation')" class="p-1.5 hover:bg-slate-200 dark:hover:bg-slate-700 rounded text-amber-600 dark:text-amber-400" title="Citar Referencia"><i data-lucide="book-marked" class="w-4 h-4"></i></button>
@@ -431,7 +464,7 @@
     <!-- LÓGICA PRINCIPAL -->
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
-        import { getAuth, signInWithPopup, GoogleAuthProvider, signInAnonymously, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
+        import { getAuth, signInWithPopup, GoogleAuthProvider, signInAnonymously, onAuthStateChanged, signOut, signInWithCustomToken } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
         import { getFirestore, doc, setDoc, getDoc } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
 
         const firebaseConfig = {
@@ -449,7 +482,15 @@
         const db = getFirestore(app);
         const googleProvider = new GoogleAuthProvider();
 
-        let projectConfig = { name: "Nexus Writer", author: "Dr. Dudbil", type: "Tesis" };
+        let projectConfig = { 
+            name: "Nexus Writer", 
+            author: "Dr. Dudbil", 
+            type: "Tesis",
+            font: "'Times New Roman', Times, serif",
+            fontSize: "12pt",
+            lineHeight: "1.5"
+        };
+        
         let isAdmin = false;
         let isFirebaseActive = false;
         const ADMIN_EMAIL = 'dudbilopr@gmail.com';
@@ -465,12 +506,11 @@
         let referencesDB = [];
         let currentChap = "cap1";
         let renderTimeout;
-        const apiKey = ""; // Inyectada
+        const apiKey = ""; // Inyectada por entorno
 
         window.onload = () => {
             initFirebase();
             lucide.createIcons();
-            // Mostrar tutorial si es la primera vez (localStorage)
             if(!localStorage.getItem('nexus_tutorial_seen')) {
                 document.getElementById('tutorial-modal').classList.remove('hidden');
                 localStorage.setItem('nexus_tutorial_seen', 'true');
@@ -479,6 +519,7 @@
 
         async function initFirebase() {
             try {
+                // Autenticación según regla 3 de Firebase Canvas
                 if (typeof __initial_auth_token !== 'undefined' && __initial_auth_token) {
                     await signInWithCustomToken(auth, __initial_auth_token);
                 } else {
@@ -505,14 +546,32 @@
                         document.getElementById('app-container').classList.add('opacity-0');
                     }
                 });
-            } catch (error) { loadFromLocal(); }
+            } catch (error) { 
+                console.warn("Error iniciando Firebase. Forzando modo local.", error);
+                setOfflineMode();
+                loadFromLocal(); 
+            }
+        }
+
+        function setOfflineMode() {
+            const dot = document.getElementById('cloud-dot');
+            const txt = document.getElementById('cloud-text');
+            if(dot && txt) {
+                dot.classList.replace('bg-emerald-500', 'bg-amber-500');
+                txt.textContent = "Offline (Modo Local)";
+            }
         }
 
         const docRef = doc(db, 'artifacts', 'tesis-dudbil', 'public', 'data', 'manuscript', 'dudbil_doc');
 
         async function loadFromCloud() {
             try {
-                const docSnap = await getDoc(docRef);
+                // Timeout manual para evitar que Firebase se cuelgue 10 segundos
+                const fetchPromise = getDoc(docRef);
+                const timeoutPromise = new Promise((_, reject) => setTimeout(() => reject(new Error('timeout')), 5000));
+                
+                const docSnap = await Promise.race([fetchPromise, timeoutPromise]);
+                
                 if (docSnap.exists()) {
                     const data = docSnap.data();
                     thesisContent = data.content || {};
@@ -525,18 +584,24 @@
                 updateConfigUI();
                 renderSidebar();
                 renderRefs();
-            } catch (e) { loadFromLocal(); }
+            } catch (e) { 
+                console.warn("⚠️ Firebase offline o sin permisos. Cambiando a LocalStorage.", e);
+                setOfflineMode();
+                loadFromLocal(); 
+            }
         }
 
         function loadFromLocal() {
             const saved = localStorage.getItem('nexus_writer_v6');
             if (saved) {
                 const data = JSON.parse(saved);
-                thesisContent = data.content;
+                thesisContent = data.content || {};
                 referencesDB = data.refs || [];
                 if(data.structure) chaptersDef = data.structure;
-                if(data.config) projectConfig = data.config;
-            } else { initEmptyThesis(); }
+                if(data.config) projectConfig = { ...projectConfig, ...data.config };
+            } else { 
+                initEmptyThesis(); 
+            }
             updateConfigUI();
             renderSidebar();
             renderRefs();
@@ -544,7 +609,9 @@
 
         function initEmptyThesis() { chaptersDef.forEach(c => thesisContent[c.id] = `# ${c.title}\n\n`); }
 
-        async function saveToCloud() {
+        window.app = window.app || {};
+
+        window.app.saveToCloud = async () => {
             if (!isAdmin) return; 
             const payload = { content: thesisContent, refs: referencesDB, structure: chaptersDef, config: projectConfig };
             localStorage.setItem('nexus_writer_v6', JSON.stringify(payload));
@@ -552,34 +619,76 @@
             if (isFirebaseActive) {
                 try {
                     await setDoc(docRef, payload);
-                    const pulse = document.querySelector('.animate-pulse');
-                    if(pulse) { pulse.classList.replace('bg-emerald-500', 'bg-blue-500'); setTimeout(()=>pulse.classList.replace('bg-blue-500','bg-emerald-500'),1000); }
-                } catch (e) { console.error("Error al guardar.", e); }
+                    const pulse = document.getElementById('cloud-dot');
+                    if(pulse) { 
+                        pulse.classList.replace('bg-emerald-500', 'bg-blue-500'); 
+                        pulse.classList.replace('bg-amber-500', 'bg-blue-500');
+                        document.getElementById('cloud-text').textContent = "Sincronizado";
+                        setTimeout(()=> {
+                            pulse.classList.replace('bg-blue-500','bg-emerald-500');
+                            document.getElementById('cloud-text').textContent = "Firebase Sync";
+                        },1500); 
+                    }
+                } catch (e) { 
+                    console.error("Error al guardar en nube. Datos guardados en Local.", e); 
+                    setOfflineMode();
+                }
+            } else {
+                setOfflineMode();
             }
-        }
+        };
 
         // ==========================================
-        // UI & DRAG AND DROP
+        // UI, DRAG & DROP, Y CONFIGURACIÓN
         // ==========================================
-        window.app = window.app || {};
-
         window.app.openSettings = () => {
-            document.getElementById('config-proj-name').value = projectConfig.name;
-            document.getElementById('config-proj-author').value = projectConfig.author;
+            document.getElementById('config-proj-name').value = projectConfig.name || "";
+            document.getElementById('config-proj-author').value = projectConfig.author || "";
+            
+            // Set font configurations
+            const fontSel = document.getElementById('config-font');
+            const sizeSel = document.getElementById('config-size');
+            const lhSel = document.getElementById('config-lineheight');
+            
+            if(fontSel) fontSel.value = projectConfig.font || "'Times New Roman', Times, serif";
+            if(sizeSel) sizeSel.value = projectConfig.fontSize || "12pt";
+            if(lhSel) lhSel.value = projectConfig.lineHeight || "1.5";
+
             document.getElementById('settings-modal').classList.remove('hidden');
         };
 
         window.app.saveSettings = () => {
             projectConfig.name = document.getElementById('config-proj-name').value;
             projectConfig.author = document.getElementById('config-proj-author').value;
+            
+            const fontSel = document.getElementById('config-font');
+            const sizeSel = document.getElementById('config-size');
+            const lhSel = document.getElementById('config-lineheight');
+
+            if(fontSel) projectConfig.font = fontSel.value;
+            if(sizeSel) projectConfig.fontSize = sizeSel.value;
+            if(lhSel) projectConfig.lineHeight = lhSel.value;
+
             document.getElementById('settings-modal').classList.add('hidden');
             updateConfigUI();
-            saveToCloud();
+            window.app.saveToCloud();
         };
 
         function updateConfigUI() {
             document.getElementById('app-main-title').textContent = projectConfig.name;
             document.getElementById('app-author-name').textContent = projectConfig.author;
+
+            // Apply dynamic styles to the renders
+            const renderPane = document.getElementById('render-pane');
+            const globalRender = document.getElementById('global-render-content');
+            
+            [renderPane, globalRender].forEach(pane => {
+                if(pane) {
+                    pane.style.fontFamily = projectConfig.font;
+                    pane.style.fontSize = projectConfig.fontSize;
+                    pane.style.lineHeight = projectConfig.lineHeight;
+                }
+            });
         }
 
         window.app.editCurrentChapterTitle = () => {
@@ -589,7 +698,7 @@
                 chapObj.title = newTitle.trim();
                 document.getElementById('current-title').textContent = chapObj.title;
                 renderSidebar();
-                saveToCloud();
+                window.app.saveToCloud();
             }
         };
 
@@ -614,7 +723,7 @@
                         const item = chaptersDef.splice(draggedItemIdx, 1)[0];
                         chaptersDef.splice(idx, 0, item);
                         renderSidebar();
-                        saveToCloud();
+                        window.app.saveToCloud();
                     };
                 }
 
@@ -627,7 +736,7 @@
                 list.appendChild(itemDiv);
             });
             lucide.createIcons();
-            if(!currentChap) selectChapter(chaptersDef[0].id);
+            if(!currentChap && chaptersDef.length > 0) selectChapter(chaptersDef[0].id);
             else updateUI();
         }
 
@@ -639,7 +748,7 @@
         }
 
         // ==========================================
-        // EDITOR Y RENDER (Con Iframes e Imágenes permitidas)
+        // EDITOR Y RENDER
         // ==========================================
         function updateUI() {
             const chapObj = chaptersDef.find(c => c.id === currentChap);
@@ -660,7 +769,6 @@
             renderTimeout = setTimeout(() => {
                 let html = marked.parse(text);
                 
-                // DOMPurify Configurado para PERMITIR iframes e imágenes
                 html = DOMPurify.sanitize(html, { 
                     ADD_TAGS: ['math', 'annotation', 'iframe', 'img', 'a'], 
                     ADD_ATTR: ['display', 'src', 'alt', 'width', 'height', 'allowfullscreen', 'frameborder', 'scrolling', 'href', 'target'] 
@@ -674,7 +782,7 @@
                     throwOnError: false
                 });
 
-                if(isAdmin) { updateAnalytics(); saveToCloud(); }
+                if(isAdmin) { updateAnalytics(); window.app.saveToCloud(); }
             }, 300);
         };
 
@@ -690,7 +798,7 @@
         };
 
         // ==========================================
-        // MENÚS MULTIMEDIA (Imágenes, Enlaces, Citas, Iframes)
+        // MENÚS MULTIMEDIA
         // ==========================================
         let activeMediaAction = null;
         
@@ -778,6 +886,11 @@
                 delimiters: [{left: '$$', right: '$$', display: true}, {left: '$', right: '$', display: false}],
                 throwOnError: false
             });
+            
+            // Re-apply typography config
+            container.style.fontFamily = projectConfig.font;
+            container.style.fontSize = projectConfig.fontSize;
+            container.style.lineHeight = projectConfig.lineHeight;
         };
 
         // ==========================================
@@ -877,7 +990,7 @@
             referencesDB.push({ au, ti, re, an });
             document.querySelectorAll('input[id^="ref-"]').forEach(i => i.value = "");
             renderRefs();
-            saveToCloud();
+            window.app.saveToCloud();
         };
 
         function renderRefs() {
@@ -891,7 +1004,7 @@
         }
 
         // ==========================================
-        // UTILIDADES (Tabs, Themes, Word Export)
+        // UTILIDADES Y EXPORTACIÓN WORD
         // ==========================================
         window.app.switchMainTab = (id) => {
             document.querySelectorAll('.tab-content').forEach(e => e.classList.remove('active'));
@@ -906,7 +1019,7 @@
         };
 
         window.app.loginAdmin = async () => { try { await signInWithPopup(auth, googleProvider); } catch(e) { console.error(e); } };
-        window.app.loginGuest = async () => { if(document.getElementById('guest-password').value === GUEST_PASSWORD) { await signInAnonymously(auth); } else { alert("Clave inválida"); } };
+        window.app.loginGuest = async () => { if(document.getElementById('guest-password').value === GUEST_PASSWORD) { await signInAnonymously(auth); } else { document.getElementById('login-error').classList.remove('hidden'); } };
         window.app.logout = () => { signOut(auth); };
 
         window.app.exportToWord = () => {
@@ -914,17 +1027,33 @@
             let md = ""; 
             chaptersDef.forEach(c => { md += (thesisContent[c.id]||"") + "\n\n<br clear='all' style='page-break-before:always' />\n\n"; });
             
-            // Reemplazo especial para forzar imágenes absolutas en word o mantener iframes en limpio
             container.innerHTML = DOMPurify.sanitize(marked.parse(md), {ADD_TAGS:['math', 'img'], ADD_ATTR:['display', 'src', 'alt', 'width', 'height']});
             renderMathInElement(container, { delimiters: [{left: '$$', right: '$$', display: true}, {left: '$', right: '$', display: false}], throwOnError: false });
 
-            const docContent = `<html xmlns:o='urn:schemas-microsoft-com:office:office' xmlns:w='urn:schemas-microsoft-com:office:word' xmlns='http://www.w3.org/TR/REC-html40'><head><meta charset='utf-8'><style>body{font-family:'Times New Roman',serif;font-size:12pt;text-align:justify;}h1{font-size:24pt;font-weight:bold;text-align:center;page-break-before:always;}h2{font-size:18pt;font-weight:bold;}h3{font-size:14pt;font-weight:bold;}img{max-width:100%;}.katex{font-family:'Cambria Math',serif;font-size:14pt;}.katex-display{text-align:center;margin:1em 0;}</style></head><body>${container.innerHTML}</body></html>`;
+            // INYECCIÓN DINÁMICA DE ESTILOS (Configuración del Usuario)
+            const dynamicCSS = `
+                body { 
+                    font-family: ${projectConfig.font || "'Times New Roman', serif"}; 
+                    font-size: ${projectConfig.fontSize || "12pt"}; 
+                    line-height: ${projectConfig.lineHeight || "1.5"}; 
+                    text-align: justify; 
+                }
+                h1 { font-size: 24pt; font-weight: bold; text-align: center; page-break-before: always; }
+                h2 { font-size: 18pt; font-weight: bold; }
+                h3 { font-size: 14pt; font-weight: bold; }
+                img { max-width: 100%; }
+                .katex { font-family: 'Cambria Math', serif; font-size: 14pt; }
+                .katex-display { text-align: center; margin: 1em 0; }
+            `;
+
+            const docContent = `<html xmlns:o='urn:schemas-microsoft-com:office:office' xmlns:w='urn:schemas-microsoft-com:office:word' xmlns='http://www.w3.org/TR/REC-html40'><head><meta charset='utf-8'><style>${dynamicCSS}</style></head><body>${container.innerHTML}</body></html>`;
             const link = document.createElement("a"); link.href = URL.createObjectURL(new Blob(['\ufeff', docContent], { type: 'application/msword' }));
-            link.download = `${projectConfig.name.replace(/\s+/g,'_')}.doc`; link.click();
+            
+            const fileName = projectConfig.name ? projectConfig.name.replace(/\s+/g,'_') : 'Nexus_Project';
+            link.download = `${fileName}.doc`; 
+            link.click();
         };
 
-        // Iniciar
-        lucide.createIcons();
     </script>
 </body>
 </html>
