@@ -111,9 +111,6 @@
             font-family: serif; font-size: 11pt; opacity: 0.7;
         }
 
-        /* Fake Footer Visual for A4 View */
-        .a4-footer { position: absolute; bottom: 15mm; left: 0; right: 0; text-align: center; font-size: 10pt; color: #64748b; font-family: 'Times New Roman', serif; }
-
         /* UI States & Animations */
         .tab-content { display: none; opacity: 0; transition: opacity 0.3s; }
         .tab-content.active { display: flex; opacity: 1; }
@@ -142,8 +139,8 @@
 </head>
 <body class="h-screen flex flex-col overflow-hidden select-none">
 
-    <!-- MODAL DE LOGIN -->
-    <div id="login-overlay" class="fixed inset-0 z-50 glass-panel flex items-center justify-center">
+    <!-- 1. MODAL DE LOGIN -->
+    <div id="login-overlay" class="fixed inset-0 z-[100] glass-panel flex items-center justify-center">
         <div class="modal-glass text-center relative overflow-hidden fade-in">
             <div class="absolute -top-10 -right-10 w-32 h-32 bg-quantum-500 rounded-full mix-blend-multiply filter blur-3xl opacity-30 animate-float"></div>
             <div class="absolute -bottom-10 -left-10 w-32 h-32 bg-blue-500 rounded-full mix-blend-multiply filter blur-3xl opacity-30 animate-float" style="animation-delay: 2s;"></div>
@@ -169,9 +166,35 @@
         </div>
     </div>
 
-    <!-- MODAL MULTIMEDIA (Figuras, Tablas, Citas, Iframes) -->
-    <div id="media-modal" class="fixed inset-0 z-[60] glass-panel hidden flex items-center justify-center">
-        <div class="modal-glass fade-in">
+    <!-- 2. MODAL DE TUTORIAL -->
+    <div id="tutorial-modal" class="fixed inset-0 z-[70] bg-slate-900/80 backdrop-blur-sm hidden flex items-center justify-center fade-in">
+        <div class="bg-white dark:bg-slate-900 p-8 rounded-2xl shadow-2xl border border-slate-200 dark:border-slate-700 max-w-2xl w-full relative">
+            <button onclick="document.getElementById('tutorial-modal').classList.add('hidden')" class="absolute top-4 right-4 text-slate-400 hover:text-red-500"><i data-lucide="x" class="w-6 h-6"></i></button>
+            <div class="flex items-center gap-4 mb-6 border-b border-slate-100 dark:border-slate-800 pb-4">
+                <div class="w-12 h-12 bg-quantum-100 dark:bg-quantum-900/50 rounded-full flex items-center justify-center text-quantum-600 dark:text-quantum-400">
+                    <i data-lucide="book-open" class="w-6 h-6"></i>
+                </div>
+                <div>
+                    <h2 class="text-2xl font-bold text-slate-800 dark:text-white">Tutorial Rápido</h2>
+                    <p class="text-sm text-slate-500">Aprende a dominar Quantum Nexus Writer</p>
+                </div>
+            </div>
+            
+            <div class="space-y-4 text-sm text-slate-600 dark:text-slate-300">
+                <div class="flex gap-3"><i data-lucide="grip-vertical" class="w-5 h-5 text-quantum-500 shrink-0"></i><p><strong>Arrastrar y Soltar:</strong> En la barra lateral puedes arrastrar los capítulos para reordenarlos.</p></div>
+                <div class="flex gap-3"><i data-lucide="edit-3" class="w-5 h-5 text-quantum-500 shrink-0"></i><p><strong>Renderizado Vivo (KaTeX):</strong> Markdown y LaTeX (<code>$$...$$</code>) se renderizan al instante en la hoja A4. <strong>Las ecuaciones en bloque se enumeran automáticamente.</strong></p></div>
+                <div class="flex gap-3"><i data-lucide="image" class="w-5 h-5 text-quantum-500 shrink-0"></i><p><strong>Multimedia:</strong> Inyecta imágenes, Tablas con Leyendas, y <strong>Simuladores en vivo (iframes)</strong> desde la barra de herramientas superior.</p></div>
+                <div class="flex gap-3"><i data-lucide="settings" class="w-5 h-5 text-quantum-500 shrink-0"></i><p><strong>Tipografía:</strong> Haz clic en el ícono del engranaje (arriba a la izquierda) para cambiar la fuente, tamaño e interlineado del documento.</p></div>
+            </div>
+            <div class="mt-8 text-center">
+                <button onclick="document.getElementById('tutorial-modal').classList.add('hidden')" class="bg-quantum-600 hover:bg-quantum-700 text-white font-bold py-2.5 px-8 rounded-lg shadow-lg transition-colors">¡Comenzar a escribir!</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- 3. MODALES MULTIMEDIA (Figuras, Tablas, Citas, Iframes) -->
+    <div id="media-modal" class="fixed inset-0 z-[60] glass-panel hidden flex items-center justify-center fade-in">
+        <div class="modal-glass">
             <h2 id="media-modal-title" class="text-2xl font-bold mb-6 flex items-center gap-3"></h2>
             <div id="media-modal-body" class="space-y-4"></div>
             <div class="mt-8 flex justify-end gap-3">
@@ -181,12 +204,96 @@
         </div>
     </div>
 
-    <!-- INTERFAZ PRINCIPAL -->
+    <!-- 4. MODAL CONFIGURACIÓN GENERAL Y TIPOGRÁFICA -->
+    <div id="settings-modal" class="fixed inset-0 z-[60] glass-panel hidden flex items-center justify-center fade-in">
+        <div class="bg-white dark:bg-slate-900 p-8 rounded-3xl shadow-2xl border border-slate-200 dark:border-slate-700 max-w-lg w-full max-h-[90vh] overflow-y-auto">
+            <h2 class="text-xl font-bold mb-6 flex items-center gap-2 text-slate-800 dark:text-white"><i data-lucide="settings" class="text-quantum-500"></i> Configuración del Documento</h2>
+            
+            <div class="space-y-6">
+                <!-- Metadatos -->
+                <div class="space-y-4 bg-slate-50 dark:bg-slate-800/50 p-4 rounded-xl border border-slate-200 dark:border-slate-700">
+                    <h3 class="text-xs font-bold text-slate-500 uppercase tracking-widest flex items-center gap-2"><i data-lucide="file-text" class="w-4 h-4"></i> Información Principal</h3>
+                    <div>
+                        <label class="block text-xs font-bold text-slate-500 uppercase mb-1">Título del Proyecto / Tesis</label>
+                        <input type="text" id="config-proj-name" class="w-full bg-white dark:bg-slate-950 border border-slate-200 dark:border-slate-700 rounded px-3 py-2 text-sm outline-none focus:border-quantum-500 dark:text-white shadow-sm">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-bold text-slate-500 uppercase mb-1">Autor / Investigador</label>
+                        <input type="text" id="config-proj-author" class="w-full bg-white dark:bg-slate-950 border border-slate-200 dark:border-slate-700 rounded px-3 py-2 text-sm outline-none focus:border-quantum-500 dark:text-white shadow-sm">
+                    </div>
+                </div>
+
+                <!-- Tipografía -->
+                <div class="space-y-4 bg-slate-50 dark:bg-slate-800/50 p-4 rounded-xl border border-slate-200 dark:border-slate-700">
+                    <h3 class="text-xs font-bold text-slate-500 uppercase tracking-widest flex items-center gap-2"><i data-lucide="type" class="w-4 h-4"></i> Formato y Tipografía</h3>
+                    
+                    <div>
+                        <label class="block text-xs font-bold text-slate-500 uppercase mb-1">Familia Tipográfica</label>
+                        <select id="config-font" class="w-full bg-white dark:bg-slate-950 border border-slate-200 dark:border-slate-700 rounded px-3 py-2 text-sm outline-none focus:border-quantum-500 dark:text-white shadow-sm">
+                            <option value="'Times New Roman', Times, serif">Times New Roman (Clásica)</option>
+                            <option value="Arial, Helvetica, sans-serif">Arial (Moderna)</option>
+                            <option value="'Lora', Georgia, serif">Lora / Georgia (Elegante)</option>
+                            <option value="'Inter', sans-serif">Inter (App-Like)</option>
+                        </select>
+                    </div>
+                    
+                    <div class="grid grid-cols-2 gap-4">
+                        <div>
+                            <label class="block text-xs font-bold text-slate-500 uppercase mb-1">Tamaño Base</label>
+                            <select id="config-size" class="w-full bg-white dark:bg-slate-950 border border-slate-200 dark:border-slate-700 rounded px-3 py-2 text-sm outline-none focus:border-quantum-500 dark:text-white shadow-sm">
+                                <option value="10pt">10 pt</option>
+                                <option value="11pt">11 pt</option>
+                                <option value="12pt">12 pt (Estándar)</option>
+                                <option value="14pt">14 pt</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="block text-xs font-bold text-slate-500 uppercase mb-1">Interlineado</label>
+                            <select id="config-lineheight" class="w-full bg-white dark:bg-slate-950 border border-slate-200 dark:border-slate-700 rounded px-3 py-2 text-sm outline-none focus:border-quantum-500 dark:text-white shadow-sm">
+                                <option value="1.0">Sencillo (1.0)</option>
+                                <option value="1.15">Normal (1.15)</option>
+                                <option value="1.5">1.5 líneas (Tesis)</option>
+                                <option value="2.0">Doble (2.0)</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="mt-8 flex justify-end gap-3">
+                <button onclick="document.getElementById('settings-modal').classList.add('hidden')" class="px-4 py-2.5 rounded-lg text-sm font-semibold text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors">Cancelar</button>
+                <button onclick="window.app.saveSettings()" class="bg-quantum-600 text-white px-6 py-2.5 rounded-lg text-sm font-bold shadow-lg hover:bg-quantum-700 transition-colors">Guardar Cambios</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- 5. MODAL VISTA GLOBAL -->
+    <div id="global-preview-modal" class="fixed inset-0 z-[60] bg-slate-100 dark:bg-slate-950 hidden flex flex-col fade-in">
+        <header class="h-16 glass-panel flex items-center justify-between px-6 shrink-0 shadow-sm z-10">
+            <h2 class="font-bold flex items-center gap-2"><i data-lucide="book-open" class="text-quantum-500"></i> Documento Completo Integrado</h2>
+            <div class="flex gap-3">
+                <button onclick="window.app.exportToWord()" class="btn-primary py-1.5 text-xs"><i data-lucide="file-output" class="w-4 h-4"></i> Descargar .doc</button>
+                <button onclick="document.getElementById('global-preview-modal').classList.add('hidden')" class="btn-icon bg-red-500/10 text-red-500 hover:bg-red-500/20"><i data-lucide="x" class="w-5 h-5"></i></button>
+            </div>
+        </header>
+        <div class="flex-1 overflow-y-auto p-4 md:p-8 relative bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-transparent to-black/5 dark:to-white/5">
+            <div class="absolute top-4 right-8 z-10 glass-panel rounded-full p-1 flex gap-1 shadow-lg">
+                <button onclick="window.app.setPreviewMode('global-render-content', 'a4-page')" class="px-4 py-1.5 text-[10px] font-bold uppercase rounded-full hover:bg-black/10 dark:hover:bg-white/10 transition-colors">A4 Print</button>
+                <button onclick="window.app.setPreviewMode('global-render-content', 'web-page')" class="px-4 py-1.5 text-[10px] font-bold uppercase rounded-full hover:bg-black/10 dark:hover:bg-white/10 transition-colors bg-quantum-500/20 text-quantum-600 dark:text-quantum-400">Web App</button>
+            </div>
+            <div id="global-render-content" class="web-page render-area pb-[25mm]"></div>
+        </div>
+    </div>
+
+    <!-- CONTENEDOR OCULTO EXPORTACIÓN -->
+    <div id="hidden-export-container" style="display:none;" class="a4-page render-area"></div>
+
+    <!-- 6. INTERFAZ PRINCIPAL DE LA APLICACIÓN -->
     <div class="flex flex-1 overflow-hidden opacity-0 transition-opacity duration-500" id="app-container">
         
         <!-- SIDEBAR (ÍNDICE Y NAVEGACIÓN) -->
         <aside class="sidebar w-72 glass-panel border-r border-white/20 flex flex-col shrink-0 z-20 shadow-xl transition-all duration-300 relative">
-            <div class="h-16 flex items-center justify-between px-6 shrink-0 border-b border-white/10">
+            <div class="h-16 flex items-center justify-between px-6 shrink-0 border-b border-slate-200 dark:border-white/10">
                 <div class="flex items-center gap-3 overflow-hidden">
                     <div class="w-8 h-8 rounded-xl bg-gradient-to-br from-quantum-400 to-blue-500 flex items-center justify-center text-white shadow-md shrink-0"><i data-lucide="book-open" class="w-4 h-4"></i></div>
                     <div class="truncate">
@@ -203,7 +310,7 @@
                 <!-- Lista Drag & Drop -->
                 <div id="chapter-list" class="space-y-1 pb-4"></div>
                 
-                <div class="border-t border-white/10 my-4 admin-only"></div>
+                <div class="border-t border-slate-200 dark:border-white/10 my-4 admin-only"></div>
 
                 <div class="text-[10px] opacity-50 font-bold uppercase tracking-widest px-3 mb-2 admin-only">Módulos de Investigación</div>
                 <div class="space-y-1 admin-only">
@@ -214,7 +321,7 @@
             </div>
             
             <!-- Footer Sync -->
-            <div class="p-4 border-t border-white/10 shrink-0 flex justify-between items-center text-xs admin-only bg-white/30 dark:bg-slate-900/30 backdrop-blur">
+            <div class="p-4 border-t border-slate-200 dark:border-white/10 shrink-0 flex justify-between items-center text-xs admin-only bg-slate-50/50 dark:bg-slate-900/30 backdrop-blur">
                 <span class="flex items-center gap-2 font-mono opacity-70" id="cloud-indicator">
                     <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" id="cloud-dot"></span> <span id="cloud-text">Sync Activo</span>
                 </span>
@@ -229,7 +336,7 @@
         <main class="flex-1 flex flex-col relative min-w-0">
             
             <!-- Topbar (Toolbar) -->
-            <header class="toolbar h-16 glass-panel border-b border-white/10 flex items-center justify-between px-6 shrink-0 z-10 transition-all duration-300">
+            <header class="toolbar h-16 glass-panel border-b border-slate-200 dark:border-white/10 flex items-center justify-between px-6 shrink-0 z-10 transition-all duration-300">
                 <div class="flex items-center gap-4 flex-1 overflow-hidden pr-4">
                     <button onclick="window.app.toggleFocusMode()" class="btn-icon text-quantum-500 bg-quantum-500/10" title="Modo Enfoque / Leer"><i data-lucide="maximize" class="w-4 h-4"></i></button>
                     <span id="current-title" class="font-bold text-sm lg:text-base truncate">Cargando...</span>
@@ -237,12 +344,12 @@
                 </div>
                 
                 <div class="flex items-center gap-2 shrink-0">
-                    <div class="hidden lg:flex items-center gap-3 text-xs font-mono px-4 py-1.5 rounded-full bg-white/50 dark:bg-slate-800/50 border border-white/20 admin-only mr-2 opacity-70">
+                    <div class="hidden lg:flex items-center gap-3 text-xs font-mono px-4 py-1.5 rounded-full bg-slate-100/50 dark:bg-slate-800/50 border border-slate-200 dark:border-white/20 admin-only mr-2 opacity-70">
                         <span title="Palabras"><i data-lucide="type" class="w-3 h-3 inline"></i> <span id="word-count">0</span></span><span class="mx-1">|</span>
                         <span title="Páginas (Estimado)"><i data-lucide="file" class="w-3 h-3 inline"></i> <span id="page-count">0</span>p</span>
                     </div>
                     <button onclick="window.app.toggleTheme()" class="btn-icon opacity-70" title="Tema Claro/Oscuro"><i data-lucide="moon" id="theme-icon" class="w-5 h-5"></i></button>
-                    <button onclick="window.app.openGlobalPreview()" class="btn-primary py-1.5 px-4 text-xs ml-2 hidden sm:flex"><i data-lucide="book-open" class="w-4 h-4"></i> Vista Libro Final</button>
+                    <button onclick="window.app.openGlobalPreview()" class="btn-primary py-1.5 px-4 text-xs ml-2 hidden sm:flex"><i data-lucide="book-open" class="w-4 h-4"></i> Vista Libro</button>
                 </div>
             </header>
 
@@ -253,9 +360,9 @@
                 <div id="tab-editor" class="tab-content active h-full flex flex-col lg:flex-row w-full select-text">
                     
                     <!-- Editor Panel -->
-                    <div id="editor-container" class="w-full lg:w-1/2 h-1/2 lg:h-full flex flex-col border-b lg:border-b-0 lg:border-r border-white/10 relative glass-panel admin-only shadow-xl z-10">
-                        <!-- Barra Formato Redondeada -->
-                        <div class="h-14 flex items-center justify-center gap-1 shrink-0 bg-white/40 dark:bg-black/20 border-b border-white/10 px-2 overflow-x-auto backdrop-blur-md">
+                    <div id="editor-container" class="w-full lg:w-1/2 h-1/2 lg:h-full flex flex-col border-b lg:border-b-0 lg:border-r border-slate-200 dark:border-white/10 relative glass-panel admin-only shadow-xl z-10">
+                        <!-- Barra Formato -->
+                        <div class="h-14 flex items-center justify-center gap-1 shrink-0 bg-slate-50/40 dark:bg-black/20 border-b border-slate-200 dark:border-white/10 px-2 overflow-x-auto backdrop-blur-md">
                             <button onclick="window.app.insertFormat('**', '**')" class="btn-icon opacity-70" title="Negrita"><i data-lucide="bold" class="w-4 h-4"></i></button>
                             <button onclick="window.app.insertFormat('*', '*')" class="btn-icon opacity-70" title="Cursiva"><i data-lucide="italic" class="w-4 h-4"></i></button>
                             <div class="w-px h-4 bg-current opacity-20 mx-1"></div>
@@ -265,7 +372,6 @@
                             <button onclick="window.app.insertFormat('$', '$')" class="btn-icon font-serif font-bold text-quantum-500" title="Ecuación Línea (LaTeX)">$x$</button>
                             <button onclick="window.app.insertFormat('\\n$$\\n', '\\n$$\\n')" class="btn-icon font-serif font-bold text-quantum-500" title="Ecuación Bloque (Autoenumerada)">$$x$$</button>
                             <div class="w-px h-4 bg-current opacity-20 mx-1"></div>
-                            <!-- Botones Motores Académicos -->
                             <button onclick="window.app.openMediaModal('image')" class="btn-icon text-emerald-500" title="Insertar Figura Autoenumerada"><i data-lucide="image" class="w-4 h-4"></i></button>
                             <button onclick="window.app.openMediaModal('table')" class="btn-icon text-amber-500" title="Insertar Tabla Autoenumerada"><i data-lucide="table" class="w-4 h-4"></i></button>
                             <button onclick="window.app.openMediaModal('crossref')" class="btn-icon text-blue-500" title="Referencia Cruzada (Fig/Tab)"><i data-lucide="link-2" class="w-4 h-4"></i></button>
@@ -276,10 +382,8 @@
                         </div>
                         
                         <div class="flex-1 flex overflow-hidden">
-                            <!-- Main Editor -->
                             <textarea id="editor-pane" class="flex-1 w-full bg-transparent p-6 text-sm font-medium focus:ring-0" placeholder="Redacta en Markdown / LaTeX. Usa [LISTA_FIGURAS] o [LISTA_TABLAS] para generar índices automáticos..." oninput="window.app.handleInput()"></textarea>
                             
-                            <!-- Notes Panel (Sliding) -->
                             <div id="notes-panel" class="notes-panel bg-amber-50/50 dark:bg-amber-900/10 flex flex-col">
                                 <div class="h-10 border-b border-amber-200 dark:border-amber-900/50 flex items-center justify-between px-4 bg-amber-100/50 dark:bg-amber-900/20">
                                     <span class="text-xs font-bold text-amber-700 dark:text-amber-500 uppercase tracking-widest"><i data-lucide="sticky-note" class="w-3 h-3 inline mr-1"></i> Correcciones</span>
@@ -296,10 +400,7 @@
                             <button onclick="window.app.setPreviewMode('render-pane', 'a4-page')" class="px-4 py-1.5 text-[10px] font-bold uppercase rounded-full hover:bg-black/10 dark:hover:bg-white/10 transition-colors">A4 Print</button>
                             <button onclick="window.app.setPreviewMode('render-pane', 'web-page')" class="px-4 py-1.5 text-[10px] font-bold uppercase rounded-full hover:bg-black/10 dark:hover:bg-white/10 transition-colors bg-quantum-500/20 text-quantum-600 dark:text-quantum-400">Web App</button>
                         </div>
-                        <!-- Canvas Render con Footer Simulado -->
-                        <div id="render-pane" class="a4-page render-area pb-[25mm] relative">
-                            <!-- El contenido se inyecta via JS -->
-                        </div>
+                        <div id="render-pane" class="a4-page render-area pb-[25mm] relative"></div>
                     </div>
                     
                     <button id="exit-focus-btn" onclick="window.app.toggleFocusMode()" class="fixed bottom-6 right-6 btn-primary hidden z-50 shadow-2xl opacity-50 hover:opacity-100">
@@ -311,9 +412,7 @@
                 <div id="tab-analytics" class="tab-content h-full p-6 lg:p-10 overflow-y-auto admin-only flex flex-col items-center bg-slate-50 dark:bg-[#020617]">
                     <div class="max-w-6xl w-full space-y-6 fade-in">
                         <h2 class="text-3xl font-extrabold flex items-center gap-3 mb-6"><i data-lucide="network" class="w-8 h-8 text-emerald-500"></i> Analítica Cuántica y Topología</h2>
-                        
                         <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-                            <!-- Stats Column -->
                             <div class="space-y-6">
                                 <div class="glass-panel rounded-3xl p-6 flex flex-col justify-center text-center shadow-lg border-emerald-500/30">
                                     <p class="text-xs uppercase font-bold tracking-widest opacity-60 mb-1">Palabras Netas</p>
@@ -324,17 +423,11 @@
                                     <p class="text-4xl font-mono font-bold text-quantum-500" id="stat-math">0</p>
                                 </div>
                             </div>
-                            
-                            <!-- Commitment Chart -->
                             <div class="glass-panel rounded-3xl p-6 shadow-lg md:col-span-2 border-blue-500/30 flex flex-col">
                                 <h3 class="text-sm font-bold uppercase tracking-widest opacity-60 mb-2 flex items-center gap-2"><i data-lucide="activity" class="w-4 h-4"></i> Compromiso de Escritura</h3>
-                                <div class="flex-1 relative w-full h-full min-h-[150px]">
-                                    <canvas id="commitment-chart"></canvas>
-                                </div>
+                                <div class="flex-1 relative w-full h-full min-h-[150px]"><canvas id="commitment-chart"></canvas></div>
                             </div>
                         </div>
-
-                        <!-- Knowledge Graph -->
                         <div class="glass-panel rounded-3xl p-6 shadow-lg min-h-[500px] flex flex-col">
                             <h3 class="text-sm font-bold uppercase tracking-widest opacity-60 mb-4 text-center flex items-center justify-center gap-2">
                                 <i data-lucide="share-2" class="w-4 h-4 text-quantum-500"></i> Grafo de Conocimiento (Conexión Tesis-Términos)
@@ -345,8 +438,8 @@
                 </div>
 
                 <!-- 3. TUTOR IA TAB -->
-                <div id="tab-tutor" class="tab-content h-full flex flex-col admin-only max-w-4xl mx-auto glass-panel border-x border-white/10 shadow-2xl">
-                    <div class="p-6 border-b border-white/10 shrink-0 text-center">
+                <div id="tab-tutor" class="tab-content h-full flex flex-col admin-only max-w-4xl mx-auto glass-panel border-x border-slate-200 dark:border-white/10 shadow-2xl">
+                    <div class="p-6 border-b border-slate-200 dark:border-white/10 shrink-0 text-center">
                         <div class="w-16 h-16 bg-purple-500/20 rounded-full flex items-center justify-center mx-auto mb-3 border border-purple-500/50 shadow-[0_0_15px_rgba(168,85,247,0.4)]">
                             <i data-lucide="bot" class="w-8 h-8 text-purple-500"></i>
                         </div>
@@ -359,10 +452,10 @@
                             <div class="glass-panel p-4 rounded-2xl rounded-tl-none shadow-sm max-w-2xl text-sm border-purple-500/30">Hola Dudbil. Analizo tus capítulos en tiempo real. Pídeme que revise la gramática, evalúe tus conclusiones o sugiera conexiones entre la óptica y la simulación.</div>
                         </div>
                     </div>
-                    <div class="p-4 shrink-0 bg-black/5 dark:bg-white/5">
+                    <div class="p-4 shrink-0 bg-white/50 dark:bg-slate-900/50 border-t border-slate-200 dark:border-white/10">
                         <div class="relative flex items-center">
                             <input type="text" id="chat-input" class="input-glass pr-16 rounded-full" placeholder="Escribe un comando o consulta al tutor..." onkeypress="if(event.key === 'Enter') window.app.sendChatMessage()">
-                            <button onclick="window.app.sendChatMessage()" class="absolute right-2 p-2 bg-purple-500 hover:bg-purple-600 text-white rounded-full transition-transform active:scale-95"><i data-lucide="send" class="w-4 h-4"></i></button>
+                            <button onclick="window.app.sendChatMessage()" class="absolute right-2 p-2 bg-purple-500 hover:bg-purple-600 text-white rounded-full transition-transform active:scale-95 shadow-md"><i data-lucide="send" class="w-4 h-4"></i></button>
                         </div>
                     </div>
                 </div>
@@ -393,58 +486,19 @@
         </main>
     </div>
 
-    <!-- MODAL CONFIGURACIÓN GENERAL -->
-    <div id="settings-modal" class="fixed inset-0 z-[60] glass-panel hidden flex items-center justify-center">
-        <div class="modal-glass">
-            <h2 class="text-2xl font-bold mb-6 flex items-center gap-3"><i data-lucide="settings" class="text-quantum-500"></i> Ajustes de Proyecto</h2>
-            <div class="space-y-5">
-                <div><label class="text-[10px] font-bold uppercase opacity-60 ml-2">Nombre de Tesis</label><input type="text" id="config-proj-name" class="input-glass mt-1"></div>
-                <div><label class="text-[10px] font-bold uppercase opacity-60 ml-2">Autor (Candidato)</label><input type="text" id="config-proj-author" class="input-glass mt-1"></div>
-                <div class="grid grid-cols-2 gap-4">
-                    <div>
-                        <label class="text-[10px] font-bold uppercase opacity-60 ml-2">Tipografía Exportación</label>
-                        <select id="config-font" class="input-glass mt-1 cursor-pointer">
-                            <option value="'Times New Roman', serif">Times New Roman</option>
-                            <option value="Arial, sans-serif">Arial</option>
-                            <option value="'Lora', serif">Lora / Book</option>
-                            <option value="'Inter', sans-serif">Inter (Modern)</option>
-                        </select>
-                    </div>
-                    <div>
-                        <label class="text-[10px] font-bold uppercase opacity-60 ml-2">Tamaño / Interlineado</label>
-                        <div class="flex gap-2 mt-1">
-                            <select id="config-size" class="input-glass px-2 cursor-pointer"><option value="11pt">11pt</option><option value="12pt">12pt</option><option value="14pt">14pt</option></select>
-                            <select id="config-lineheight" class="input-glass px-2 cursor-pointer"><option value="1.0">1.0</option><option value="1.5">1.5</option><option value="2.0">2.0</option></select>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="mt-8 flex justify-end gap-3">
-                <button onclick="document.getElementById('settings-modal').classList.add('hidden')" class="px-5 py-2.5 rounded-full text-sm font-semibold opacity-70 hover:opacity-100 hover:bg-black/5 dark:hover:bg-white/5 transition-all">Cancelar</button>
-                <button onclick="window.app.saveSettings()" class="btn-primary">Guardar Ajustes</button>
-            </div>
+    <!-- 7. FOOTER INSTITUCIONAL -->
+    <footer class="bg-white dark:bg-slate-900 border-t border-slate-200 dark:border-slate-800 py-2 px-6 flex justify-between items-center shrink-0 z-30 transition-colors duration-300">
+        <div class="text-[10px] text-slate-500 font-mono flex items-center gap-2">
+            <span>&copy; 2026 Dudbil. Todos los derechos reservados.</span>
+            <span class="opacity-30 hidden sm:inline">|</span>
+            <span class="hidden sm:inline">Universidad de Buenos Aires</span>
         </div>
-    </div>
-
-    <!-- MODAL VISTA GLOBAL (LIBRO COMPLETO) -->
-    <div id="global-preview-modal" class="fixed inset-0 z-[60] bg-slate-100 dark:bg-slate-950 hidden flex flex-col fade-in">
-        <header class="h-16 glass-panel flex items-center justify-between px-6 shrink-0 shadow-sm z-10">
-            <h2 class="font-bold flex items-center gap-2"><i data-lucide="book-open" class="text-quantum-500"></i> Documento Completo Integrado</h2>
-            <div class="flex gap-3">
-                <button onclick="window.app.exportToWord()" class="btn-primary py-1.5 text-xs"><i data-lucide="file-output" class="w-4 h-4"></i> Descargar Tesis (.doc)</button>
-                <button onclick="document.getElementById('global-preview-modal').classList.add('hidden')" class="btn-icon bg-red-500/10 text-red-500 hover:bg-red-500/20"><i data-lucide="x" class="w-5 h-5"></i></button>
-            </div>
-        </header>
-        <div class="flex-1 overflow-y-auto p-4 md:p-8 relative bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-transparent to-black/5 dark:to-white/5">
-            <div class="absolute top-4 right-8 z-10 glass-panel rounded-full p-1 flex gap-1 shadow-lg">
-                <button onclick="window.app.setPreviewMode('global-render-content', 'a4-page')" class="px-4 py-1.5 text-[10px] font-bold uppercase rounded-full hover:bg-black/10 dark:hover:bg-white/10 transition-colors">A4 Print</button>
-                <button onclick="window.app.setPreviewMode('global-render-content', 'web-page')" class="px-4 py-1.5 text-[10px] font-bold uppercase rounded-full hover:bg-black/10 dark:hover:bg-white/10 transition-colors bg-quantum-500/20 text-quantum-600 dark:text-quantum-400">Web App</button>
-            </div>
-            <div id="global-render-content" class="web-page render-area pb-[25mm]"></div>
+        <div class="text-[10px] text-slate-500 font-mono flex items-center gap-2">
+            <i data-lucide="cpu" class="w-3 h-3 text-quantum-500"></i> Realizado con IA
         </div>
-    </div>
+    </footer>
 
-    <!-- CONTENEDOR OCULTO EXPORTACIÓN -->
+    <!-- Contenedor Oculto Exportación -->
     <div id="hidden-export-container" style="display:none;" class="a4-page render-area"></div>
 
     <!-- === LÓGICA JAVASCRIPT Y MOTOR DE REFERENCIAS CRUZADAS === -->
@@ -470,7 +524,6 @@
         let commitmentChartInstance = null; let networkInstance = null;
         const ADMIN_EMAIL = 'dudbilopr@gmail.com', GUEST_PASSWORD = 'tesis', apiKey = ""; 
         
-        // Estructura Real de Tesis Doctoral por Defecto
         let chaptersDef = [ 
             { id: "front", title: "Portada y Agradecimientos" }, 
             { id: "resumen", title: "Resumen / Abstract" }, 
@@ -482,14 +535,16 @@
         ];
         
         let thesisContent = {}, referencesDB = [], chapterNotes = {}, commitmentLog = [];
-        
-        // --- MOTOR DE ETIQUETAS Y CROSS-REFERENCES ---
-        let globalRegistry = { fig: {}, tab: {} };
-        let listFigures = [], listTables = [];
+        let globalRegistry = { fig: {}, tab: {} }; let listFigures = [], listTables = [];
 
         window.onload = () => {
-            initFirebase(); lucide.createIcons();
-            if(!localStorage.getItem('nexus_v85_tut')) { document.getElementById('tutorial-modal').classList.remove('hidden'); localStorage.setItem('nexus_v85_tut', 'true'); }
+            initFirebase(); 
+            lucide.createIcons();
+            const tutModal = document.getElementById('tutorial-modal');
+            if(tutModal && !localStorage.getItem('nexus_v86_tut')) { 
+                tutModal.classList.remove('hidden'); 
+                localStorage.setItem('nexus_v86_tut', 'true'); 
+            }
         };
 
         async function initFirebase() {
@@ -499,19 +554,35 @@
                     if (user) {
                         isFirebaseActive = true; isAdmin = (user.email === ADMIN_EMAIL);
                         document.body.classList.toggle('reader-mode', !isAdmin);
-                        document.getElementById('user-role-badge').textContent = isAdmin ? 'ADMINISTRADOR' : 'LECTOR';
-                        document.getElementById('login-overlay').classList.add('hidden'); document.getElementById('app-container').classList.remove('opacity-0');
+                        
+                        const roleBadge = document.getElementById('user-role-badge');
+                        if (roleBadge) roleBadge.textContent = isAdmin ? 'ADMINISTRADOR' : 'LECTOR';
+                        
+                        const overlay = document.getElementById('login-overlay');
+                        if(overlay) overlay.classList.add('hidden'); 
+                        
+                        const appCont = document.getElementById('app-container');
+                        if(appCont) appCont.classList.remove('opacity-0');
+                        
                         loadFromCloud();
                     } else {
-                        document.getElementById('login-overlay').classList.remove('hidden'); document.getElementById('app-container').classList.add('opacity-0');
+                        const overlay = document.getElementById('login-overlay');
+                        if(overlay) overlay.classList.remove('hidden'); 
+                        const appCont = document.getElementById('app-container');
+                        if(appCont) appCont.classList.add('opacity-0');
                     }
                 });
-            } catch (error) { setOfflineMode(); loadFromLocal(); document.getElementById('login-overlay').classList.add('hidden'); document.getElementById('app-container').classList.remove('opacity-0'); }
+            } catch (error) { setOfflineMode(); loadFromLocal(); }
         }
 
         function setOfflineMode() {
-            const dot = document.getElementById('cloud-dot'); if(dot) { dot.classList.replace('bg-emerald-500', 'bg-amber-500'); document.getElementById('cloud-text').textContent = "Modo Local"; }
+            const dot = document.getElementById('cloud-dot'); 
+            if(dot) { dot.classList.replace('bg-emerald-500', 'bg-amber-500'); document.getElementById('cloud-text').textContent = "Modo Local"; }
             isAdmin = true; document.body.classList.remove('reader-mode');
+            const overlay = document.getElementById('login-overlay');
+            if(overlay) overlay.classList.add('hidden'); 
+            const appCont = document.getElementById('app-container');
+            if(appCont) appCont.classList.remove('opacity-0');
         }
 
         const docRef = doc(db, 'artifacts', 'tesis-dudbil', 'public', 'data', 'manuscript', 'dudbil_doc');
@@ -528,7 +599,7 @@
         }
 
         function loadFromLocal() {
-            const saved = localStorage.getItem('nexus_writer_v85');
+            const saved = localStorage.getItem('nexus_writer_v86');
             if (saved) {
                 const data = JSON.parse(saved); thesisContent = data.content || {}; referencesDB = data.refs || []; chapterNotes = data.notes || {}; commitmentLog = data.commits || [];
                 if(data.structure) chaptersDef = data.structure; if(data.config) projectConfig = { ...projectConfig, ...data.config };
@@ -538,15 +609,15 @@
 
         function initEmptyThesis() { 
             chaptersDef.forEach(c => thesisContent[c.id] = `# ${c.title}\n\nEscribe aquí...`); 
-            // Inyectar comando mágico en índices por defecto
             if(thesisContent["indices"]) thesisContent["indices"] = "# Índices\n\n## Lista de Figuras\n[LISTA_FIGURAS]\n\n## Lista de Tablas\n[LISTA_TABLAS]\n";
         }
 
         window.app = window.app || {};
 
-        // CORE UI & DRAG-DROP
         function renderSidebar() {
-            const list = document.getElementById('chapter-list'); list.innerHTML = "";
+            const list = document.getElementById('chapter-list'); 
+            if(!list) return;
+            list.innerHTML = "";
             chaptersDef.forEach((chap, idx) => {
                 const itemDiv = document.createElement('div'); itemDiv.className = 'draggable-item mb-1'; itemDiv.draggable = isAdmin; 
                 if(isAdmin) {
@@ -556,7 +627,7 @@
                     itemDiv.ondrop = (e) => {
                         e.preventDefault(); if(draggedItemIdx === null || draggedItemIdx === idx) return;
                         chaptersDef.splice(idx, 0, chaptersDef.splice(draggedItemIdx, 1)[0]);
-                        renderSidebar(); window.app.saveToCloud(); window.app.handleInput(); // Re-render for global counting
+                        renderSidebar(); window.app.saveToCloud(); window.app.handleInput(); 
                     };
                 }
                 const btn = document.createElement('button');
@@ -570,45 +641,37 @@
 
         function updateUI() {
             const chapObj = chaptersDef.find(c => c.id === currentChap); if(!chapObj) return;
-            document.getElementById('current-title').textContent = chapObj.title;
-            if(isAdmin) { document.getElementById('editor-pane').value = thesisContent[currentChap] || ""; document.getElementById('notes-pane').value = chapterNotes[currentChap] || ""; }
+            const curTitle = document.getElementById('current-title');
+            if(curTitle) curTitle.textContent = chapObj.title;
+            if(isAdmin) { 
+                const editor = document.getElementById('editor-pane');
+                if(editor) editor.value = thesisContent[currentChap] || ""; 
+                const notes = document.getElementById('notes-pane');
+                if(notes) notes.value = chapterNotes[currentChap] || ""; 
+            }
             window.app.handleInput(); 
         }
 
-        // =========================================================
-        // MOTOR PRE-PROCESADOR (Cross-References, Figuras y Tablas)
-        // =========================================================
         function buildGlobalRegistry() {
             globalRegistry = { fig: {}, tab: {} }; listFigures = []; listTables = [];
             let figCount = 1, tabCount = 1;
-            
-            // Scan chapters sequentially to assure proper numbering
             chaptersDef.forEach(chap => {
                 let content = thesisContent[chap.id] || "";
-                
-                // Matches [FIG | url | caption | label]
                 const figRegex = /\[FIG\s*\|\s*(.*?)\s*\|\s*(.*?)\s*\|\s*(.*?)\]/g;
                 let match;
                 while ((match = figRegex.exec(content)) !== null) {
-                    let label = match[3].trim();
-                    globalRegistry.fig[label] = figCount;
-                    listFigures.push({ num: figCount, caption: match[2].trim(), label: label });
-                    figCount++;
+                    let label = match[3].trim(); globalRegistry.fig[label] = figCount;
+                    listFigures.push({ num: figCount, caption: match[2].trim(), label: label }); figCount++;
                 }
-
-                // Matches [TAB | caption | label]
                 const tabRegex = /\[TAB\s*\|\s*(.*?)\s*\|\s*(.*?)\]/g;
                 while ((match = tabRegex.exec(content)) !== null) {
-                    let label = match[2].trim();
-                    globalRegistry.tab[label] = tabCount;
-                    listTables.push({ num: tabCount, caption: match[1].trim(), label: label });
-                    tabCount++;
+                    let label = match[2].trim(); globalRegistry.tab[label] = tabCount;
+                    listTables.push({ num: tabCount, caption: match[1].trim(), label: label }); tabCount++;
                 }
             });
         }
 
         function preprocessText(text) {
-            // 1. Reemplazar Figuras por HTML
             let processed = text.replace(/\[FIG\s*\|\s*(.*?)\s*\|\s*(.*?)\s*\|\s*(.*?)\]/g, (m, url, caption, label) => {
                 let num = globalRegistry.fig[label.trim()] || '?';
                 return `<figure id="${label.trim()}" style="text-align: center; margin: 2rem 0;">
@@ -616,75 +679,70 @@
                             <figcaption style="margin-top: 0.75rem; font-size: 0.9em; color: inherit; opacity: 0.8;"><strong>Figura ${num}:</strong> ${caption.trim()}</figcaption>
                         </figure>`;
             });
-
-            // 2. Reemplazar Encabezado Tablas
             processed = processed.replace(/\[TAB\s*\|\s*(.*?)\s*\|\s*(.*?)\]/g, (m, caption, label) => {
                 let num = globalRegistry.tab[label.trim()] || '?';
                 return `<div id="${label.trim()}" style="text-align: center; font-size: 0.9em; opacity: 0.8; margin-bottom: 0.5rem;"><strong>Tabla ${num}:</strong> ${caption.trim()}</div>`;
             });
-
-            // 3. Reemplazar Citas/Referencias Cruzadas
             processed = processed.replace(/\[REF\s*\|\s*(.*?)\]/g, (m, label) => {
                 let l = label.trim();
                 if (globalRegistry.fig[l]) return `<a href="#${l}" style="color: #0ea5e9; text-decoration: none; font-weight: 600;">Figura ${globalRegistry.fig[l]}</a>`;
                 if (globalRegistry.tab[l]) return `<a href="#${l}" style="color: #0ea5e9; text-decoration: none; font-weight: 600;">Tabla ${globalRegistry.tab[l]}</a>`;
                 return `<span style="color: red; font-weight: bold;">[Ref. no encontrada: ${l}]</span>`;
             });
-
-            // 4. Auto-generadores de Índice
             processed = processed.replace(/\[LISTA_FIGURAS\]/g, () => {
                 if(listFigures.length === 0) return "<p class='italic opacity-50'>No se han insertado figuras en el documento.</p>";
                 return "<ul style='list-style-type: none; padding: 0;'>" + listFigures.map(f => `<li style='margin-bottom: 0.5em;'><a href="#${f.label}" style="text-decoration:none; color:inherit;"><strong style="color: #0ea5e9;">Figura ${f.num}:</strong> ${f.caption}</a></li>`).join('') + "</ul>";
             });
-
             processed = processed.replace(/\[LISTA_TABLAS\]/g, () => {
                 if(listTables.length === 0) return "<p class='italic opacity-50'>No se han insertado tablas en el documento.</p>";
                 return "<ul style='list-style-type: none; padding: 0;'>" + listTables.map(t => `<li style='margin-bottom: 0.5em;'><a href="#${t.label}" style="text-decoration:none; color:inherit;"><strong style="color: #0ea5e9;">Tabla ${t.num}:</strong> ${t.caption}</a></li>`).join('') + "</ul>";
             });
-
             return processed;
         }
 
-        // RENDERIZER MAIN
         window.app.handleInput = () => {
-            let text = isAdmin ? document.getElementById('editor-pane').value : (thesisContent[currentChap] || "");
+            let text = isAdmin ? (document.getElementById('editor-pane') ? document.getElementById('editor-pane').value : "") : (thesisContent[currentChap] || "");
             if(isAdmin) thesisContent[currentChap] = text;
             
             clearTimeout(renderTimeout);
             renderTimeout = setTimeout(() => {
-                buildGlobalRegistry(); // Always rebuild registry first
-                let processedText = preprocessText(text); // Process specific tags
-                
+                buildGlobalRegistry(); 
+                let processedText = preprocessText(text); 
                 let html = DOMPurify.sanitize(marked.parse(processedText), { ADD_TAGS: ['math', 'annotation', 'iframe', 'img', 'a', 'figure', 'figcaption'], ADD_ATTR: ['display', 'src', 'alt', 'width', 'height', 'allowfullscreen', 'frameborder', 'scrolling', 'href', 'target', 'id', 'style'] });
-                const renderPane = document.getElementById('render-pane'); renderPane.innerHTML = html;
-                renderMathInElement(renderPane, { delimiters: [ {left: '$$', right: '$$', display: true}, {left: '$', right: '$', display: false}, {left: '\\[', right: '\\]', display: true} ], throwOnError: false });
-                
+                const renderPane = document.getElementById('render-pane'); 
+                if (renderPane) {
+                    renderPane.innerHTML = html;
+                    renderMathInElement(renderPane, { delimiters: [ {left: '$$', right: '$$', display: true}, {left: '$', right: '$', display: false}, {left: '\\[', right: '\\]', display: true} ], throwOnError: false });
+                }
                 if(isAdmin) { trackCommitment(); window.app.saveToCloud(); updateAnalytics(); }
             }, 500);
         };
 
-        // TRACK COMMITMENT (Estadísticas Github Style)
         function trackCommitment() {
             const today = new Date().toISOString().split('T')[0];
             let totalWords = 0; Object.values(thesisContent).forEach(t => totalWords += t.trim().split(/\s+/).filter(w=>w).length);
             let log = commitmentLog.find(l => l.date === today);
             if(log) { log.words = totalWords; } else { commitmentLog.push({ date: today, words: totalWords }); }
-            if(commitmentLog.length > 14) commitmentLog.shift(); // Keep last 14 days
+            if(commitmentLog.length > 14) commitmentLog.shift();
         }
 
-        // NOTES SYSTEM
-        window.app.toggleNotesPanel = () => { document.getElementById('notes-panel').classList.toggle('open'); };
-        window.app.saveNotes = () => { chapterNotes[currentChap] = document.getElementById('notes-pane').value; window.app.saveToCloud(); };
+        window.app.toggleNotesPanel = () => { const np = document.getElementById('notes-panel'); if(np) np.classList.toggle('open'); };
+        window.app.saveNotes = () => { const np = document.getElementById('notes-pane'); if(np) chapterNotes[currentChap] = np.value; window.app.saveToCloud(); };
 
-        // GRAPH & CHART RENDER
+        function initCommitmentChart() {} // Placeholder, rendered on tab switch
+        function initNetworkGraph() {}
+
         window.app.renderGraphAndChart = () => {
             if(commitmentChartInstance) commitmentChartInstance.destroy();
-            const ctx = document.getElementById('commitment-chart').getContext('2d');
-            const labels = commitmentLog.map(l => l.date.substring(5)); const data = commitmentLog.map(l => l.words);
-            commitmentChartInstance = new Chart(ctx, {
-                type: 'line', data: { labels: labels, datasets: [{ label: 'Palabras', data: data, borderColor: '#14b8a6', backgroundColor: 'rgba(20,184,166,0.2)', fill: true, tension: 0.4 }] },
-                options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } } }
-            });
+            const ctxElem = document.getElementById('commitment-chart');
+            if (ctxElem) {
+                const ctx = ctxElem.getContext('2d');
+                const labels = commitmentLog.map(l => l.date.substring(5)); const data = commitmentLog.map(l => l.words);
+                commitmentChartInstance = new Chart(ctx, {
+                    type: 'line', data: { labels: labels, datasets: [{ label: 'Palabras', data: data, borderColor: '#14b8a6', backgroundColor: 'rgba(20,184,166,0.2)', fill: true, tension: 0.4 }] },
+                    options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } } }
+                });
+            }
 
             const stops = new Set(["este","esta","para","como","pero","donde","cuando","entre","sobre","desde","hacia","hasta","tiene","puede","hacer"]);
             let nodes = [], edges = []; const termCount = {};
@@ -696,24 +754,27 @@
             });
             Object.keys(termCount).forEach(w => { nodes.push({ id: `w_${w}`, label: w, group: 'term', shape: 'dot', size: 10 + (termCount[w]/2), color: '#14b8a6' }); });
 
-            if(networkInstance) networkInstance.destroy();
-            networkInstance = new vis.Network(document.getElementById('knowledge-graph'), { nodes: new vis.DataSet(nodes), edges: new vis.DataSet(edges) }, { physics: { stabilization: true } });
+            const graphContainer = document.getElementById('knowledge-graph');
+            if(graphContainer) {
+                if(networkInstance) networkInstance.destroy();
+                networkInstance = new vis.Network(graphContainer, { nodes: new vis.DataSet(nodes), edges: new vis.DataSet(edges) }, { physics: { stabilization: true } });
+            }
         };
 
-        // ANALYTICS & WORD CLOUD
         function updateAnalytics() {
             let totalWords = 0; let totalMath = 0;
             Object.values(thesisContent).forEach(t => {
                 totalWords += t.trim().split(/\s+/).filter(w=>w).length;
                 if(t.match(/\$\$/g)) totalMath += t.match(/\$\$/g).length / 2;
             });
-            document.getElementById('word-count').textContent = totalWords; document.getElementById('page-count').textContent = Math.ceil(totalWords/300);
+            const wc = document.getElementById('word-count'); if(wc) wc.textContent = totalWords; 
+            const pc = document.getElementById('page-count'); if(pc) pc.textContent = Math.ceil(totalWords/300);
             if(document.getElementById('stat-words')) { document.getElementById('stat-words').textContent = totalWords; document.getElementById('stat-math').textContent = Math.floor(totalMath); }
         }
 
-        // MODALS MULTIMEDIA (Actualizado para el nuevo pre-procesador)
         window.app.openMediaModal = (type) => {
             const modal = document.getElementById('media-modal'); const title = document.getElementById('media-modal-title'); const body = document.getElementById('media-modal-body'); const btn = document.getElementById('media-modal-btn');
+            if(!modal || !title || !body || !btn) return;
             body.innerHTML = ''; activeMediaAction = type;
 
             if(type === 'image') { 
@@ -747,35 +808,52 @@
             modal.classList.remove('hidden'); lucide.createIcons();
         };
 
-        window.app.insertFormat = (prefix, suffix) => { const ed = document.getElementById('editor-pane'); const s = ed.selectionStart, e = ed.selectionEnd, t = ed.value; ed.value = t.substring(0, s) + prefix + t.substring(s, e) + suffix + t.substring(e); ed.focus(); ed.setSelectionRange(s + prefix.length, e + prefix.length); window.app.handleInput(); };
+        window.app.insertFormat = (prefix, suffix) => { const ed = document.getElementById('editor-pane'); if(!ed) return; const s = ed.selectionStart, e = ed.selectionEnd, t = ed.value; ed.value = t.substring(0, s) + prefix + t.substring(s, e) + suffix + t.substring(e); ed.focus(); ed.setSelectionRange(s + prefix.length, e + prefix.length); window.app.handleInput(); };
 
-        // CONFIG, AUTH & CLOUD
-        window.app.saveSettings = () => { projectConfig.name = document.getElementById('config-proj-name').value; projectConfig.author = document.getElementById('config-proj-author').value; projectConfig.font = document.getElementById('config-font').value; projectConfig.fontSize = document.getElementById('config-size').value; projectConfig.lineHeight = document.getElementById('config-lineheight').value; document.getElementById('settings-modal').classList.add('hidden'); updateConfigUI(); window.app.saveToCloud(); };
-        window.app.openSettings = () => { document.getElementById('config-proj-name').value = projectConfig.name; document.getElementById('config-proj-author').value = projectConfig.author; document.getElementById('config-font').value = projectConfig.font; document.getElementById('config-size').value = projectConfig.fontSize; document.getElementById('config-lineheight').value = projectConfig.lineHeight; document.getElementById('settings-modal').classList.remove('hidden'); };
-        function updateConfigUI() { document.getElementById('app-main-title').textContent = projectConfig.name; document.getElementById('app-author-name').textContent = projectConfig.author; const styles = `font-family:${projectConfig.font}; font-size:${projectConfig.fontSize}; line-height:${projectConfig.lineHeight};`; document.getElementById('render-pane').style.cssText = styles; document.getElementById('global-render-content').style.cssText = styles; }
+        window.app.saveSettings = () => { 
+            const n = document.getElementById('config-proj-name'); if(n) projectConfig.name = n.value; 
+            const a = document.getElementById('config-proj-author'); if(a) projectConfig.author = a.value; 
+            const f = document.getElementById('config-font'); if(f) projectConfig.font = f.value; 
+            const s = document.getElementById('config-size'); if(s) projectConfig.fontSize = s.value; 
+            const l = document.getElementById('config-lineheight'); if(l) projectConfig.lineHeight = l.value; 
+            const modal = document.getElementById('settings-modal'); if(modal) modal.classList.add('hidden'); 
+            updateConfigUI(); window.app.saveToCloud(); 
+        };
+        window.app.openSettings = () => { 
+            const n = document.getElementById('config-proj-name'); if(n) n.value = projectConfig.name; 
+            const a = document.getElementById('config-proj-author'); if(a) a.value = projectConfig.author; 
+            const f = document.getElementById('config-font'); if(f) f.value = projectConfig.font; 
+            const s = document.getElementById('config-size'); if(s) s.value = projectConfig.fontSize; 
+            const l = document.getElementById('config-lineheight'); if(l) l.value = projectConfig.lineHeight; 
+            const modal = document.getElementById('settings-modal'); if(modal) modal.classList.remove('hidden'); 
+        };
+        function updateConfigUI() { 
+            const mt = document.getElementById('app-main-title'); if(mt) mt.textContent = projectConfig.name; 
+            const au = document.getElementById('app-author-name'); if(au) au.textContent = projectConfig.author; 
+            const styles = `font-family:${projectConfig.font}; font-size:${projectConfig.fontSize}; line-height:${projectConfig.lineHeight};`; 
+            const rp = document.getElementById('render-pane'); if(rp) rp.style.cssText = styles; 
+            const gr = document.getElementById('global-render-content'); if(gr) gr.style.cssText = styles; 
+        }
         
-        window.app.saveToCloud = async () => { if (!isAdmin) return; const payload = { content: thesisContent, refs: referencesDB, structure: chaptersDef, config: projectConfig, notes: chapterNotes, commits: commitmentLog }; localStorage.setItem('nexus_writer_v85', JSON.stringify(payload)); if (isFirebaseActive) { try { await setDoc(docRef, payload); const dot = document.getElementById('cloud-dot'); if(dot) { dot.classList.replace('bg-emerald-500', 'bg-blue-500'); setTimeout(()=>dot.classList.replace('bg-blue-500','bg-emerald-500'),1000); } } catch (e) { setOfflineMode(); } } };
+        window.app.saveToCloud = async () => { if (!isAdmin) return; const payload = { content: thesisContent, refs: referencesDB, structure: chaptersDef, config: projectConfig, notes: chapterNotes, commits: commitmentLog }; localStorage.setItem('nexus_writer_v86', JSON.stringify(payload)); if (isFirebaseActive) { try { await setDoc(docRef, payload); const dot = document.getElementById('cloud-dot'); if(dot) { dot.classList.replace('bg-emerald-500', 'bg-blue-500'); setTimeout(()=>dot.classList.replace('bg-blue-500','bg-emerald-500'),1000); } } catch (e) { setOfflineMode(); } } };
         window.app.editCurrentChapterTitle = () => { const chapObj = chaptersDef.find(c => c.id === currentChap); const n = prompt("Renombrar:", chapObj.title); if(n && n.trim()!=="") { chapObj.title = n.trim(); renderSidebar(); window.app.saveToCloud(); updateUI(); } };
-        window.app.setPreviewMode = (id, c) => { document.getElementById(id).className = `${c} render-area pb-[25mm] relative`; };
-        window.app.switchMainTab = (id) => { document.querySelectorAll('.tab-content').forEach(e => e.classList.remove('active')); document.getElementById(`tab-${id}`).classList.add('active'); if(id==='analytics') { updateAnalytics(); setTimeout(()=>window.app.renderGraphAndChart(), 100); } };
-        window.app.toggleTheme = () => { document.documentElement.classList.toggle('dark'); document.getElementById('theme-icon').setAttribute('data-lucide', document.documentElement.classList.contains('dark')?'sun':'moon'); lucide.createIcons(); };
-        window.app.loginAdmin = async () => { try { await signInWithPopup(auth, googleProvider); } catch(e) { document.getElementById('login-error-container').innerHTML = "Error Auth."; document.getElementById('login-error-container').classList.remove('hidden'); } };
-        window.app.loginGuest = async () => { if(document.getElementById('guest-password').value === GUEST_PASSWORD) { try{await signInAnonymously(auth);}catch(e){document.getElementById('login-error-container').innerHTML = "Activa Autenticación Anónima en Firebase."; document.getElementById('login-error-container').classList.remove('hidden');} } else { document.getElementById('login-error-container').innerHTML = "Clave Inválida"; document.getElementById('login-error-container').classList.remove('hidden'); } };
+        window.app.setPreviewMode = (id, c) => { const el = document.getElementById(id); if(el) el.className = `${c} render-area pb-[25mm] relative`; };
+        window.app.switchMainTab = (id) => { document.querySelectorAll('.tab-content').forEach(e => e.classList.remove('active')); const t = document.getElementById(`tab-${id}`); if(t) t.classList.add('active'); if(id==='analytics') { updateAnalytics(); setTimeout(()=>window.app.renderGraphAndChart(), 100); } };
+        window.app.toggleTheme = () => { document.documentElement.classList.toggle('dark'); const ti = document.getElementById('theme-icon'); if(ti) ti.setAttribute('data-lucide', document.documentElement.classList.contains('dark')?'sun':'moon'); lucide.createIcons(); };
+        window.app.loginAdmin = async () => { try { await signInWithPopup(auth, googleProvider); } catch(e) { const err = document.getElementById('login-error-container'); if(err) { err.innerHTML = "Error Auth."; err.classList.remove('hidden'); } } };
+        window.app.loginGuest = async () => { const gp = document.getElementById('guest-password'); if(gp && gp.value === GUEST_PASSWORD) { try{await signInAnonymously(auth);}catch(e){ const err = document.getElementById('login-error-container'); if(err) { err.innerHTML = "Activa Autenticación Anónima en Firebase."; err.classList.remove('hidden'); } } } else { const err = document.getElementById('login-error-container'); if(err) { err.innerHTML = "Clave Inválida"; err.classList.remove('hidden'); } } };
         window.app.logout = () => { signOut(auth); location.reload(); };
-        window.app.toggleFocusMode = () => { const fm = document.body.classList.toggle('focus-mode'); document.getElementById('exit-focus-btn').classList.toggle('hidden', !fm); if(fm) { document.getElementById('editor-container').classList.add('hidden'); document.getElementById('render-container').classList.replace('lg:w-1/2', 'w-full'); window.app.setPreviewMode('render-pane', 'web-page'); } else { document.getElementById('editor-container').classList.remove('hidden'); document.getElementById('render-container').classList.replace('w-full', 'lg:w-1/2'); window.app.setPreviewMode('render-pane', 'a4-page'); } };
+        window.app.toggleFocusMode = () => { const fm = document.body.classList.toggle('focus-mode'); const btn = document.getElementById('exit-focus-btn'); if(btn) btn.classList.toggle('hidden', !fm); if(fm) { const ec = document.getElementById('editor-container'); if(ec) ec.classList.add('hidden'); const rc = document.getElementById('render-container'); if(rc) rc.classList.replace('lg:w-1/2', 'w-full'); window.app.setPreviewMode('render-pane', 'web-page'); } else { const ec = document.getElementById('editor-container'); if(ec) ec.classList.remove('hidden'); const rc = document.getElementById('render-container'); if(rc) rc.classList.replace('w-full', 'lg:w-1/2'); window.app.setPreviewMode('render-pane', 'a4-page'); } };
 
-        // TUTOR IA
-        window.app.sendChatMessage = async () => { const input = document.getElementById('chat-input'); const msg = input.value.trim(); if(!msg) return; appendChat('user', msg); input.value = ""; if(!apiKey) { setTimeout(() => appendChat('tutor', "API Key de Gemini no configurada."), 500); return; } const id = appendChat('tutor', 'Pensando...'); try { const res = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-09-2025:generateContent?key=${apiKey}`, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ contents: [{ parts: [{ text: `El autor pregunta: "${msg}". Contexto: "${(thesisContent[currentChap]||"").substring(0,1000)}". Responde técnicamente.` }] }] }) }); const data = await res.json(); document.getElementById(id).innerHTML = marked.parse(data.candidates?.[0]?.content?.parts?.[0]?.text || "Error"); } catch (e) { document.getElementById(id).textContent = "Error de red."; } };
-        function appendChat(role, text) { const c = document.getElementById('chat-container'); const id = 'msg-'+Date.now(); const isU = role==='user'; c.insertAdjacentHTML('beforeend', `<div class="flex gap-4 ${isU?'flex-row-reverse':''}"><div class="w-8 h-8 rounded-full ${isU?'bg-blue-500 text-white':'bg-purple-500 text-white'} flex items-center justify-center shrink-0"><i data-lucide="${isU?'user':'bot'}" class="w-4 h-4"></i></div><div class="glass-panel p-4 rounded-2xl shadow-sm max-w-2xl text-sm ${isU?'rounded-tr-none':'rounded-tl-none'}" id="${id}">${text}</div></div>`); lucide.createIcons(); c.scrollTop = c.scrollHeight; return id; }
+        window.app.sendChatMessage = async () => { const input = document.getElementById('chat-input'); if(!input) return; const msg = input.value.trim(); if(!msg) return; appendChat('user', msg); input.value = ""; if(!apiKey) { setTimeout(() => appendChat('tutor', "API Key de Gemini no configurada."), 500); return; } const id = appendChat('tutor', 'Pensando...'); try { const res = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-09-2025:generateContent?key=${apiKey}`, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ contents: [{ parts: [{ text: `El autor pregunta: "${msg}". Contexto: "${(thesisContent[currentChap]||"").substring(0,1000)}". Responde técnicamente.` }] }] }) }); const data = await res.json(); const msgEl = document.getElementById(id); if(msgEl) msgEl.innerHTML = marked.parse(data.candidates?.[0]?.content?.parts?.[0]?.text || "Error"); } catch (e) { const msgEl = document.getElementById(id); if(msgEl) msgEl.textContent = "Error de red."; } };
+        function appendChat(role, text) { const c = document.getElementById('chat-container'); if(!c) return null; const id = 'msg-'+Date.now(); const isU = role==='user'; c.insertAdjacentHTML('beforeend', `<div class="flex gap-4 ${isU?'flex-row-reverse':''}"><div class="w-8 h-8 rounded-full ${isU?'bg-blue-500 text-white':'bg-purple-500 text-white'} flex items-center justify-center shrink-0"><i data-lucide="${isU?'user':'bot'}" class="w-4 h-4"></i></div><div class="glass-panel p-4 rounded-2xl shadow-sm max-w-2xl text-sm ${isU?'rounded-tr-none':'rounded-tl-none'}" id="${id}">${text}</div></div>`); lucide.createIcons(); c.scrollTop = c.scrollHeight; return id; }
 
-        // REFERENCIAS Y BIBTEX
-        window.app.addReference = () => { const au = document.getElementById('ref-autores').value, ti = document.getElementById('ref-titulo').value, re = document.getElementById('ref-revista').value, an = document.getElementById('ref-anio').value, doi = document.getElementById('ref-doi').value; if(!au || !ti) return; referencesDB.push({ au, ti, re, an, doi }); document.querySelectorAll('input[id^="ref-"]').forEach(i => i.value = ""); renderRefs(); window.app.saveToCloud(); };
-        function renderRefs() { const list = document.getElementById('ref-list'); list.innerHTML = ""; referencesDB.forEach((r, i) => { list.innerHTML += `<div class="glass-panel p-4 rounded-xl border-l-4 border-l-blue-500"><strong>[${i+1}]</strong> ${r.au}, "${r.ti}," <em>${r.re}</em>, ${r.an}. ${r.doi ? `DOI: ${r.doi}` : ''}</div>`; }); }
+        window.app.addReference = () => { const au = document.getElementById('ref-autores'); const ti = document.getElementById('ref-titulo'); const re = document.getElementById('ref-revista'); const an = document.getElementById('ref-anio'); const doi = document.getElementById('ref-doi'); if(!au || !ti || !au.value || !ti.value) return; referencesDB.push({ au: au.value, ti: ti.value, re: re.value, an: an.value, doi: doi.value }); document.querySelectorAll('input[id^="ref-"]').forEach(i => i.value = ""); renderRefs(); window.app.saveToCloud(); };
+        function renderRefs() { const list = document.getElementById('ref-list'); if(!list) return; list.innerHTML = ""; referencesDB.forEach((r, i) => { list.innerHTML += `<div class="glass-panel p-4 rounded-xl border-l-4 border-l-blue-500"><strong>[${i+1}]</strong> ${r.au}, "${r.ti}," <em>${r.re}</em>, ${r.an}. ${r.doi ? `DOI: ${r.doi}` : ''}</div>`; }); }
         window.app.exportBibtex = () => { let bib = ""; referencesDB.forEach((r, i) => { bib += `@article{ref${i+1},\n  author = {${r.au}},\n  title = {${r.ti}},\n  journal = {${r.re}},\n  year = {${r.an}},\n  doi = {${r.doi||''}}\n}\n\n`; }); const link = document.createElement("a"); link.href = URL.createObjectURL(new Blob([bib], { type: 'text/plain' })); link.download = 'referencias.bib'; link.click(); };
 
-        // EXPORTACIÓN WORD (Paginación Dinámica)
         window.app.openGlobalPreview = () => { 
-            const modal = document.getElementById('global-preview-modal'); const c = document.getElementById('global-render-content'); modal.classList.remove('hidden'); 
+            const modal = document.getElementById('global-preview-modal'); const c = document.getElementById('global-render-content'); if(!modal || !c) return; modal.classList.remove('hidden'); 
             buildGlobalRegistry(); let md = ""; chaptersDef.forEach(chap => { md += (thesisContent[chap.id] || "") + "\n\n---\n\n"; }); 
             let processed = preprocessText(md);
             c.innerHTML = DOMPurify.sanitize(marked.parse(processed), { ADD_TAGS: ['math', 'iframe', 'img', 'figure', 'figcaption'], ADD_ATTR: ['display', 'src', 'alt', 'width', 'height', 'frameborder', 'scrolling', 'id', 'style'] }); 
@@ -783,13 +861,12 @@
         };
         
         window.app.exportToWord = () => {
-            const container = document.getElementById('hidden-export-container'); 
+            const container = document.getElementById('hidden-export-container'); if(!container) return;
             buildGlobalRegistry(); let md = ""; chaptersDef.forEach(c => { md += (thesisContent[c.id]||"") + "\n\n<br clear='all' style='page-break-before:always' />\n\n"; });
             let processed = preprocessText(md);
-            container.innerHTML = DOMPurify.sanitize(marked.parse(processed), {ADD_TAGS:['math', 'img', 'figure', 'figcaption'], ADD_ATTR:['display', 'src', 'alt', 'width', 'height', 'id', 'style']}); 
+            container.innerHTML = DOMPurify.sanitize(marked.parse(processed), {ADD_TAGS:['math', 'img', 'figure', 'figcaption', 'a'], ADD_ATTR:['display', 'src', 'alt', 'width', 'height', 'id', 'style', 'href']}); 
             renderMathInElement(container, { delimiters: [{left: '$$', right: '$$', display: true}, {left: '$', right: '$', display: false}], throwOnError: false }); 
 
-            // INYECCIÓN DINÁMICA DE ESTILOS y PIE DE PÁGINA MSO
             const dynamicCSS = `
                 @page WordSection1 { size: 21cm 29.7cm; margin: 2.5cm 2.5cm 2.5cm 2.5cm; mso-footer: f1; mso-footer-margin: 1.25cm; }
                 div.WordSection1 { page: WordSection1; }
@@ -809,7 +886,6 @@
                 .katex-display::after{counter-increment:equation;content:"(" counter(equation) ")";position:absolute;right:0;top:50%;transform:translateY(-50%);font-family:'Times New Roman',serif;font-size:11pt;}
             `;
 
-            // HTML VML Wrap para soportar footer nativo
             const docContent = `
                 <html xmlns:o='urn:schemas-microsoft-com:office:office' xmlns:w='urn:schemas-microsoft-com:office:word' xmlns='http://www.w3.org/TR/REC-html40'>
                 <head>
@@ -831,7 +907,6 @@
                 
             const link = document.createElement("a"); link.href = URL.createObjectURL(new Blob(['\ufeff', docContent], { type: 'application/msword' })); link.download = `${(projectConfig.name||'Proyecto').replace(/\s+/g,'_')}.doc`; link.click();
         };
-
     </script>
 </body>
 </html>
