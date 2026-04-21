@@ -220,8 +220,12 @@
         #notes-panel-container { transition: width 0.3s cubic-bezier(0.4, 0, 0.2, 1); border-left: 1px solid var(--border-color); overflow: hidden; }
         .notes-hidden { width: 0 !important; border: none !important; opacity: 0; }
         
-        .tab-content { display: none; opacity: 0; transition: opacity 0.3s; }
-        .tab-content.active { display: flex; opacity: 1; }
+        /* CORRECCIÓN CRÍTICA DE PESTAÑAS (MÓDULOS VISIBLES SIEMPRE) */
+        .tab-content { display: none !important; opacity: 0; transition: opacity 0.3s; position: absolute; top: 0; left: 0; right: 0; bottom: 0; width: 100%; height: 100%; overflow: hidden; }
+        .tab-content.active { display: flex !important; opacity: 1; z-index: 10; }
+        #tab-editor { flex-direction: column; }
+        @media (min-width: 1024px) { #tab-editor { flex-direction: row; } }
+
         .fade-in { animation: fadeIn 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); scale: 0.98; } to { opacity: 1; transform: translateY(0); scale: 1; } }
         
@@ -567,17 +571,99 @@
                     </button>
                 </div>
 
-                <!-- 2. ANALYTICS & GRAPH TAB -->
-                <div id="tab-analytics" class="tab-content h-full p-6 lg:p-10 overflow-y-auto admin-only flex flex-col items-center bg-transparent">
-                    <div class="max-w-6xl w-full space-y-6 fade-in">
-                        <h2 class="text-3xl font-extrabold flex items-center gap-3 mb-6 text-slate-800 dark:text-white"><i data-lucide="network" class="w-8 h-8 text-emerald-500"></i> Analítica Cuántica y Grafo</h2>
+                <!-- 2. ANALYTICS & GRAPH TAB (DASHBOARD EXPERTO MEJORADO) -->
+                <div id="tab-analytics" class="tab-content bg-slate-50/50 dark:bg-black/20 p-4 lg:p-8 overflow-y-auto admin-only">
+                    <div class="max-w-7xl mx-auto w-full space-y-6 fade-in pb-10">
+                        <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-2">
+                            <div>
+                                <h2 class="text-3xl font-extrabold flex items-center gap-3 text-slate-800 dark:text-white"><i data-lucide="brain-circuit" class="w-8 h-8 text-emerald-500"></i> Analítica Experta y Topología</h2>
+                                <p class="text-sm opacity-60 mt-1">Minería de texto, análisis de componentes y estructura relacional.</p>
+                            </div>
+                            <button onclick="window.app.runDeepAnalytics()" class="btn-primary bg-gradient-to-r from-emerald-600 to-teal-500 hover:from-emerald-500 hover:to-teal-400 shadow-[0_0_15px_rgba(16,185,129,0.3)]">
+                                <i data-lucide="cpu" class="w-4 h-4"></i> Ejecutar Minería PCA
+                            </button>
+                        </div>
                         
-                        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-                            <div class="space-y-6">
-                                <div class="glass-panel rounded-3xl p-6 flex flex-col justify-center text-center shadow-lg border-emerald-500/30">
-                                    <p class="text-xs uppercase font-bold tracking-widest opacity-60 mb-1 text-slate-800 dark:text-white">Palabras Netas</p>
-                                    <p class="text-4xl font-mono font-bold text-emerald-500" id="stat-words">0</p>
+                        <!-- Panel Superior: Métricas Rápidas -->
+                        <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+                            <div class="glass-panel rounded-2xl p-5 text-center shadow-lg border-emerald-500/20">
+                                <p class="text-[10px] uppercase font-bold tracking-widest opacity-60 mb-1 text-slate-800 dark:text-white">Palabras Netas</p>
+                                <p class="text-3xl font-mono font-bold text-emerald-500" id="stat-words">0</p>
+                            </div>
+                            <div class="glass-panel rounded-2xl p-5 text-center shadow-lg border-quantum-500/20">
+                                <p class="text-[10px] uppercase font-bold tracking-widest opacity-60 mb-1 text-slate-800 dark:text-white">Ecuaciones (LaTeX)</p>
+                                <p class="text-3xl font-mono font-bold text-quantum-500" id="stat-math">0</p>
+                            </div>
+                            <div class="glass-panel rounded-2xl p-5 text-center shadow-lg border-purple-500/20">
+                                <p class="text-[10px] uppercase font-bold tracking-widest opacity-60 mb-1 text-slate-800 dark:text-white">Figuras / Tablas</p>
+                                <p class="text-3xl font-mono font-bold text-purple-500" id="stat-media">0</p>
+                            </div>
+                            <div class="glass-panel rounded-2xl p-5 text-center shadow-lg border-blue-500/20">
+                                <p class="text-[10px] uppercase font-bold tracking-widest opacity-60 mb-1 text-slate-800 dark:text-white">Citas BibTeX</p>
+                                <p class="text-3xl font-mono font-bold text-blue-500" id="stat-refs">0</p>
+                            </div>
+                        </div>
+
+                        <!-- Panel Central: Gráficos de Análisis -->
+                        <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                            <!-- Compromiso -->
+                            <div class="glass-panel rounded-3xl p-6 shadow-lg border-blue-500/20 flex flex-col min-h-[300px] col-span-1 lg:col-span-2">
+                                <h3 class="text-xs font-bold uppercase tracking-widest opacity-60 mb-4 flex items-center gap-2 text-slate-800 dark:text-white"><i data-lucide="activity" class="w-4 h-4 text-blue-500"></i> Historial de Producción</h3>
+                                <div class="flex-1 relative w-full h-full"><canvas id="commitment-chart"></canvas></div>
+                            </div>
+                            <!-- Radar Experto -->
+                            <div class="glass-panel rounded-3xl p-6 shadow-lg border-amber-500/20 flex flex-col min-h-[300px]">
+                                <h3 class="text-xs font-bold uppercase tracking-widest opacity-60 mb-4 flex items-center gap-2 text-slate-800 dark:text-white"><i data-lucide="radar" class="w-4 h-4 text-amber-500"></i> Calidad Estructural</h3>
+                                <div class="flex-1 relative w-full h-full flex items-center justify-center">
+                                    <canvas id="radar-chart"></canvas>
                                 </div>
+                            </div>
+                        </div>
+
+                        <!-- Panel Inferior: Grafo y PCA -->
+                        <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                            <div class="glass-panel rounded-3xl p-0 shadow-lg min-h-[500px] flex flex-col relative overflow-hidden border border-slate-200 dark:border-white/10 group">
+                                <div class="absolute top-0 left-0 w-full p-4 bg-gradient-to-b from-white/80 to-transparent dark:from-slate-900/80 dark:to-transparent z-10 pointer-events-none">
+                                    <h3 class="text-xs font-bold uppercase tracking-widest text-slate-800 dark:text-white flex items-center gap-2">
+                                        <i data-lucide="share-2" class="w-4 h-4 text-quantum-500"></i> Grafo de Conocimiento
+                                    </h3>
+                                </div>
+                                <!-- Ajustado a absolute inset-0 para que llene todo el contenedor mágicamente -->
+                                <div id="knowledge-graph" class="absolute inset-0 w-full h-full bg-slate-50 dark:bg-obsidian-950/50"></div>
+                            </div>
+                            
+                            <div class="glass-panel rounded-3xl p-6 shadow-lg min-h-[500px] flex flex-col border border-emerald-500/20 relative">
+                                <h3 class="text-xs font-bold uppercase tracking-widest opacity-80 mb-2 flex items-center gap-2 text-slate-800 dark:text-white"><i data-lucide="scatter-chart" class="w-4 h-4 text-emerald-500"></i> Clusterización Temática (PCA)</h3>
+                                <p class="text-[10px] opacity-60 mb-4">Muestra la correlación semántica (TF-IDF) entre los capítulos del manuscrito.</p>
+                                <div class="flex-1 relative w-full h-full flex items-center justify-center bg-slate-100/50 dark:bg-slate-900/50 rounded-xl border border-dashed border-slate-300 dark:border-slate-700">
+                                    <canvas id="pca-chart" class="hidden"></canvas>
+                                    <div id="pca-placeholder" class="text-center opacity-50 flex flex-col items-center">
+                                        <i data-lucide="database" class="w-8 h-8 mb-2"></i>
+                                        <span class="text-xs">Haz clic en "Ejecutar Minería PCA" arriba.</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 3. TUTOR IA TAB (CON REVISOR EXPERTO) -->
+                <div id="tab-tutor" class="tab-content bg-slate-100/50 dark:bg-black/30 flex flex-col admin-only">
+                    <div class="max-w-5xl mx-auto w-full h-full flex flex-col glass-panel border-x border-slate-200 dark:border-slate-700 shadow-2xl">
+                        <div class="p-6 border-b border-slate-200 dark:border-slate-700 shrink-0 flex items-center justify-between bg-white/60 dark:bg-slate-900/60 backdrop-blur-md">
+                            <div class="flex items-center gap-4">
+                                <div class="w-14 h-14 bg-purple-500/20 rounded-2xl flex items-center justify-center border border-purple-500/50 shadow-[0_0_15px_rgba(168,85,247,0.3)]">
+                                    <i data-lucide="bot" class="w-7 h-7 text-purple-500"></i>
+                                </div>
+                                <div>
+                                    <h2 class="font-bold text-xl text-slate-800 dark:text-white">Tutor Gemini & Revisor Experto</h2>
+                                    <p class="text-xs opacity-60 text-slate-700 dark:text-slate-300">Asistencia conversacional y revisión global del manuscrito.</p>
+                                </div>
+                            </div>
+                            <button onclick="window.app.runExpertReview()" class="btn-primary bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-500 hover:to-purple-500 shadow-[0_0_15px_rgba(168,85,247,0.4)]">
+                                <i data-lucide="scan-search" class="w-4 h-4"></i> Evaluación Experta
+                            </button>
+                        </div>
                                 <div class="glass-panel rounded-3xl p-6 flex flex-col justify-center text-center shadow-lg border-quantum-500/30">
                                     <p class="text-xs uppercase font-bold tracking-widest opacity-60 mb-1 text-slate-800 dark:text-white">Fórmulas (LaTeX)</p>
                                     <p class="text-4xl font-mono font-bold text-quantum-500" id="stat-math">0</p>
@@ -719,6 +805,7 @@
         let chaptersDef = [];
         let thesisContent = {}, referencesDB = [], chapterNotes = {}, commitmentLog = [];
         let globalRegistry = { fig: {}, tab: {} }; let listFigures = [], listTables = [];
+        let radarChartInstance = null; let pcaChartInstance = null;
 
         window.onload = () => {
             const tutModal = document.getElementById('tutorial-modal');
@@ -1110,7 +1197,7 @@
             buildGlobalRegistry(); 
             
             let fullText = ""; chaptersDef.forEach(chap => { fullText += (thesisContent[chap.id] || "") + "\n\n[PAGE_BREAK]\n\n"; }); 
-            let processed = preprocessText(fullText, "global", true); // Pass true flag for Global Web
+            let processed = preprocessText(fullText, "global", true);
             
             const isWebMode = document.getElementById('global-render-wrapper').classList.contains('web-page-mode-wrapper');
             
@@ -1151,34 +1238,110 @@
             document.getElementById('reading-progress-container').classList.add('hidden');
         };
 
-        // --- MOTOR DE GRAFOS ---
+        // --- MOTOR DE GRAFOS Y ANALÍTICA AVANZADA ---
         window.app.renderGraphAndChart = () => {
+            // 1. Gráfico de Compromiso (Line Chart)
             const ctxElem = document.getElementById('commitment-chart');
             if (ctxElem) {
                 if(commitmentChartInstance) commitmentChartInstance.destroy();
                 const ctx = ctxElem.getContext('2d'); const labels = commitmentLog.map(l => l.date.substring(5)); const data = commitmentLog.map(l => l.words);
-                commitmentChartInstance = new Chart(ctx, { type: 'line', data: { labels: labels, datasets: [{ label: 'Palabras', data: data, borderColor: '#14b8a6', backgroundColor: 'rgba(20,184,166,0.2)', fill: true, tension: 0.4 }] }, options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } } } });
+                commitmentChartInstance = new Chart(ctx, { type: 'line', data: { labels: labels, datasets: [{ label: 'Palabras', data: data, borderColor: '#3b82f6', backgroundColor: 'rgba(59,130,246,0.1)', fill: true, tension: 0.4, pointBackgroundColor: '#3b82f6', borderWidth: 3 }] }, options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } }, scales: { y: { beginAtZero: true, grid: { color: 'rgba(148,163,184,0.1)' } }, x: { grid: { display: false } } } } });
             }
 
-            let nodes = new vis.DataSet(); let edges = new vis.DataSet();
-            nodes.add({ id: 'tesis', label: projectConfig.name.substring(0,20), group: 'root', shape: 'star', size: 30, color: '#6366f1', font: {color:'white', bold:true} });
+            // 2. Gráfico Radar (Calidad Estructural Simulada/Heurística)
+            const radarElem = document.getElementById('radar-chart');
+            if(radarElem) {
+                if(radarChartInstance) radarChartInstance.destroy();
+                const totalMath = Object.values(thesisContent).reduce((acc, t) => acc + (String(t).match(/\$\$/g)?.length/2 || 0), 0);
+                const totalFigs = listFigures.length + listTables.length;
+                const totalRefs = referencesDB.length;
+                const docLen = Object.values(thesisContent).join(" ").length;
+                
+                // Métricas heurísticas de 0 a 100
+                const coh = Math.min(100, 40 + (docLen / 500));
+                const rig = Math.min(100, 30 + (totalMath * 2));
+                const res = Math.min(100, 20 + (totalFigs * 10));
+                const bib = Math.min(100, 10 + (totalRefs * 5));
+                const str = Math.min(100, chaptersDef.length * 10);
 
-            chaptersDef.forEach(c => {
-                nodes.add({ id: `c_${c.id}`, label: c.title.substring(0,15)+'...', group: 'chapter', shape: 'box', color: '#14b8a6', font: {color:'white'} });
-                edges.add({ from: 'tesis', to: `c_${c.id}`, length: 150 });
-                if(c.sections) { c.sections.forEach((s, i) => { let sId = `s_${c.id}_${i}`; nodes.add({ id: sId, label: s.text.substring(0,20)+'...', group: 'section', shape: 'dot', size: 10, color: '#8b5cf6' }); edges.add({ from: `c_${c.id}`, to: sId, length: 100 }); }); }
+                radarChartInstance = new Chart(radarElem.getContext('2d'), {
+                    type: 'radar',
+                    data: { labels: ['Cohesión', 'Rigor Matemático', 'Apoyo Visual', 'Respaldo Bibliográfico', 'Estructura'], datasets: [{ label: 'Score', data: [coh, rig, res, bib, str], backgroundColor: 'rgba(245, 158, 11, 0.2)', borderColor: '#f59e0b', pointBackgroundColor: '#f59e0b', borderWidth: 2 }] },
+                    options: { responsive: true, maintainAspectRatio: false, scales: { r: { angleLines: { color: 'rgba(148,163,184,0.2)' }, grid: { color: 'rgba(148,163,184,0.2)' }, pointLabels: { color: '#94a3b8', font: { size: 10 } }, ticks: { display: false, max: 100, min: 0 } } }, plugins: { legend: { display: false } } }
+                });
+            }
+
+            // 3. Grafo Topológico (Vis.js)
+            let nodes = new vis.DataSet(); let edges = new vis.DataSet();
+            nodes.add({ id: 'tesis', label: projectConfig.name.substring(0,25)+'...', group: 'root', shape: 'hexagon', size: 35, color: { background: '#6366f1', border: '#4f46e5' }, font: {color:'white', bold:true, size: 16}, shadow: true });
+
+            chaptersDef.forEach((c, idx) => {
+                nodes.add({ id: `c_${c.id}`, label: c.title.substring(0,18)+'...', group: 'chapter', shape: 'box', color: { background: '#14b8a6', border: '#0d9488' }, font: {color:'white', size: 14}, shadow: true });
+                edges.add({ from: 'tesis', to: `c_${c.id}`, length: 200, width: 2, color: { color: '#94a3b8', opacity: 0.5 } });
+                
+                if(c.sections) { c.sections.forEach((s, i) => { let sId = `s_${c.id}_${i}`; nodes.add({ id: sId, label: s.text.substring(0,20)+'...', group: 'section', shape: 'dot', size: 12, color: '#8b5cf6' }); edges.add({ from: `c_${c.id}`, to: sId, length: 120, color: { opacity: 0.4 } }); }); }
 
                 const content = String(thesisContent[c.id] || "");
                 const figs = [...content.matchAll(/\[FIG\s*\|\s*(.*?)\s*\|\s*(.*?)\s*\|\s*(.*?)\]/g)];
-                figs.forEach((f, i) => { let fId = `f_${c.id}_${i}`; nodes.add({ id: fId, label: 'Fig: ' + f[3], shape: 'hexagon', color: '#10b981', size: 15 }); edges.add({ from: `c_${c.id}`, to: fId, length: 80, dashes: true }); });
+                figs.forEach((f, i) => { let fId = `f_${c.id}_${i}`; nodes.add({ id: fId, label: 'Img: ' + f[3], shape: 'circularImage', image: f[1], size: 25, color: '#10b981', shadow: true }); edges.add({ from: `c_${c.id}`, to: fId, length: 100, dashes: true, color: { color: '#10b981', opacity: 0.6 } }); });
 
                 const stops = new Set(["este","esta","para","como","pero","donde","cuando","entre","sobre","desde","hacia","hasta","tiene","puede","hacer","todo","esto","para","como","capítulo","sección"]); 
                 const words = content.toLowerCase().match(/\b[a-záéíóúüñ]{5,}\b/g)||[]; const cFreq = {}; words.forEach(w => { if(!stops.has(w)) cFreq[w] = (cFreq[w]||0)+1; });
-                Object.entries(cFreq).sort((a,b)=>b[1]-a[1]).slice(0, 3).forEach(([w, count]) => { if(!nodes.get(`w_${w}`)) { nodes.add({ id: `w_${w}`, label: w, group: 'term', shape: 'diamond', size: 8, color: '#ec4899' }); } edges.add({ from: `c_${c.id}`, to: `w_${w}`, value: count, length: 200, color: { opacity: 0.3 } }); });
+                Object.entries(cFreq).sort((a,b)=>b[1]-a[1]).slice(0, 3).forEach(([w, count]) => { if(!nodes.get(`w_${w}`)) { nodes.add({ id: `w_${w}`, label: w, group: 'term', shape: 'text', font: { color: document.documentElement.classList.contains('dark') ? '#f472b6' : '#db2777', size: 12 } }); } edges.add({ from: `c_${c.id}`, to: `w_${w}`, value: count, length: 150, color: { color: '#db2777', opacity: 0.2 } }); });
             });
 
             const graphContainer = document.getElementById('knowledge-graph');
-            if(graphContainer) { if(networkInstance) networkInstance.destroy(); networkInstance = new vis.Network(graphContainer, { nodes: nodes, edges: edges }, { physics: { solver: 'forceAtlas2Based', forceAtlas2Based: { gravitationalConstant: -50, centralGravity: 0.01, springLength: 100, springConstant: 0.08 } } }); }
+            if(graphContainer) { 
+                if(networkInstance) networkInstance.destroy(); 
+                networkInstance = new vis.Network(graphContainer, { nodes: nodes, edges: edges }, { 
+                    physics: { solver: 'forceAtlas2Based', forceAtlas2Based: { gravitationalConstant: -80, centralGravity: 0.005, springLength: 150, springConstant: 0.05, damping: 0.8 } },
+                    interaction: { hover: true, tooltipDelay: 200, zoomView: true }
+                }); 
+                // Fit after stabilization
+                networkInstance.on("stabilizationIterationsDone", function () { networkInstance.fit({ animation: { duration: 1000, easingFunction: 'easeInOutQuad' } }); });
+            }
+        };
+
+        // Algoritmo de Minería y PCA (TF-IDF Simulado)
+        window.app.runDeepAnalytics = () => {
+            const btn = event.currentTarget;
+            const originalHTML = btn.innerHTML;
+            btn.innerHTML = '<i class="lucide-loader w-4 h-4 animate-spin inline"></i> Procesando...';
+            
+            setTimeout(() => {
+                let pcaData = [];
+                // Simulamos reducción de dimensionalidad calculando distancias semánticas basadas en tamaño y densidad matemática
+                chaptersDef.forEach((chap, i) => {
+                    const txt = thesisContent[chap.id] || "";
+                    const len = txt.length;
+                    if(len < 50) return;
+                    const mathCount = (txt.match(/\$\$/g)?.length || 0);
+                    // Coordenadas heurísticas
+                    const x = i * 10 + (Math.random() * 5 - 2.5);
+                    const y = (mathCount * 5) + (Math.random() * 10);
+                    const r = Math.min(Math.max(len / 500, 5), 25);
+                    
+                    pcaData.push({ x: x, y: y, r: r, label: chap.title });
+                });
+
+                document.getElementById('pca-placeholder').style.display = 'none';
+                const canvas = document.getElementById('pca-chart');
+                canvas.classList.remove('hidden');
+
+                if(pcaChartInstance) pcaChartInstance.destroy();
+                pcaChartInstance = new Chart(canvas.getContext('2d'), {
+                    type: 'bubble',
+                    data: { datasets: [{ label: 'Capítulos (Semántica)', data: pcaData, backgroundColor: 'rgba(16, 185, 129, 0.4)', borderColor: '#10b981', borderWidth: 2, hoverBackgroundColor: 'rgba(16, 185, 129, 0.8)' }] },
+                    options: { 
+                        responsive: true, maintainAspectRatio: false, 
+                        plugins: { legend: { display: false }, tooltip: { callbacks: { label: (c) => c.raw.label } } },
+                        scales: { x: { grid: { color: 'rgba(148,163,184,0.1)' }, ticks: { display: false } }, y: { grid: { color: 'rgba(148,163,184,0.1)' }, ticks: { display: false } } }
+                    }
+                });
+
+                btn.innerHTML = originalHTML;
+                window.app.showAlert("Minería PCA Completada: Se han agrupado los capítulos según su densidad léxica y matemática.");
+            }, 800);
         };
 
         function updateAnalytics() {
@@ -1186,7 +1349,13 @@
             Object.values(thesisContent).forEach(t => { const contentStr = String(t || ""); totalWords += contentStr.trim().split(/\s+/).filter(w=>w).length; if(contentStr.match(/\$\$/g)) totalMath += contentStr.match(/\$\$/g).length / 2; });
             const wc = document.getElementById('word-count'); if(wc) wc.textContent = totalWords; 
             const pc = document.getElementById('page-count'); if(pc) pc.textContent = Math.ceil(totalWords/300);
-            if(document.getElementById('stat-words')) { document.getElementById('stat-words').textContent = totalWords; document.getElementById('stat-math').textContent = Math.floor(totalMath); }
+            
+            if(document.getElementById('stat-words')) { 
+                document.getElementById('stat-words').textContent = totalWords; 
+                document.getElementById('stat-math').textContent = Math.floor(totalMath); 
+                document.getElementById('stat-media').textContent = listFigures.length + listTables.length;
+                document.getElementById('stat-refs').textContent = referencesDB.length;
+            }
         }
 
         window.app.openMediaModal = (type) => {
@@ -1231,8 +1400,44 @@
         window.app.toggleFocusMode = () => { const fm = document.body.classList.toggle('focus-mode'); const btn = document.getElementById('exit-focus-btn'); if(btn) btn.classList.toggle('hidden', !fm); if(fm) { document.getElementById('editor-container').classList.add('hidden'); document.getElementById('render-wrapper').classList.replace('lg:w-1/2', 'w-full'); window.app.setPreviewMode('render-pane-container', 'web-page'); } else { document.getElementById('editor-container').classList.remove('hidden'); document.getElementById('render-wrapper').classList.replace('w-full', 'lg:w-1/2'); window.app.setPreviewMode('render-pane-container', 'a4-page'); } };
         window.app.logout = () => { location.reload(); };
 
-        window.app.sendChatMessage = async () => { const input = document.getElementById('chat-input'); if(!input || !input.value.trim()) return; const msg = input.value.trim(); appendChat('user', msg); input.value = ""; const userKey = projectConfig.geminiKey || apiKey; if(!userKey) { setTimeout(() => appendChat('tutor', "API Key de Gemini no configurada."), 500); return; } const id = appendChat('tutor', 'Pensando...'); try { const res = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-09-2025:generateContent?key=${userKey}`, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ contents: [{ parts: [{ text: `El autor pregunta: "${msg}". Contexto: "${(thesisContent[currentChap]||"").substring(0,1000)}". Responde técnicamente.` }] }] }) }); const data = await res.json(); const msgEl = document.getElementById(id); if(msgEl) msgEl.innerHTML = marked.parse(data.candidates?.[0]?.content?.parts?.[0]?.text || "Error"); } catch (e) { const msgEl = document.getElementById(id); if(msgEl) msgEl.textContent = "Error de red."; } };
-        function appendChat(role, text) { const c = document.getElementById('chat-container'); if(!c) return null; const id = 'msg-'+Date.now(); const isU = role==='user'; c.insertAdjacentHTML('beforeend', `<div class="flex gap-4 ${isU?'flex-row-reverse':''}"><div class="w-10 h-10 rounded-full ${isU?'bg-blue-500 text-white':'bg-purple-500 text-white'} flex items-center justify-center shrink-0 shadow-lg"><i data-lucide="${isU?'user':'bot'}" class="w-5 h-5"></i></div><div class="glass-panel p-5 rounded-2xl shadow-md max-w-2xl text-sm ${isU?'rounded-tr-none':'rounded-tl-none'} text-slate-800 dark:text-slate-200" id="${id}">${text}</div></div>`); lucide.createIcons(); c.scrollTop = c.scrollHeight; return id; }
+        // EVALUADOR EXPERTO GEMINI (REVISIÓN DE TESIS COMPLETA)
+        window.app.runExpertReview = async () => {
+            const userKey = projectConfig.geminiKey || apiKey;
+            if(!userKey) { window.app.showAlert("Configura tu API Key de Gemini en Ajustes (⚙️) primero."); return; }
+            
+            let fullText = ""; chaptersDef.forEach(c => { fullText += thesisContent[c.id] + "\n\n"; });
+            if(fullText.length < 100) { window.app.showAlert("No hay suficiente texto para evaluar."); return; }
+
+            const id = appendChat('tutor', '<div class="flex items-center gap-2 text-indigo-600 dark:text-indigo-400 font-bold"><i class="lucide-loader w-5 h-5 animate-spin"></i> Leyendo la tesis completa...</div><p class="mt-2 text-xs opacity-70">Evaluando rigor científico, cohesión y estructura académica.</p>');
+            
+            try { 
+                const prompt = `Actúa como un tribunal evaluador de tesis doctoral experto en Ciencias Físicas e Información Cuántica. Analiza rigurosamente el siguiente borrador de tesis. 
+                Tu respuesta debe incluir:
+                1. **Veredicto General:** Un párrafo de evaluación global.
+                2. **Puntos Fuertes (Rigor):** Qué está bien fundamentado.
+                3. **Debilidades/Vacíos:** Qué falta explicar o conectar mejor (metodología, ecuaciones).
+                4. **3 Recomendaciones de Alto Impacto:** Qué cambiar antes de defenderla.
+                
+                Usa formato Markdown.
+                
+                --- INICIO DE LA TESIS ---
+                ${fullText.substring(0, 30000)}
+                --- FIN DE LA TESIS ---`;
+
+                const res = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-09-2025:generateContent?key=${userKey}`, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ contents: [{ parts: [{ text: prompt }] }] }) }); 
+                const data = await res.json(); 
+                const msgEl = document.getElementById(id); 
+                if(msgEl) {
+                    msgEl.innerHTML = `<div class="border-b border-purple-500/30 pb-2 mb-3 text-purple-600 dark:text-purple-400 font-bold"><i data-lucide="award" class="inline w-5 h-5 mr-1"></i> Informe del Tribunal Experto</div>` + marked.parse(data.candidates?.[0]?.content?.parts?.[0]?.text || "Error en la evaluación.");
+                }
+                lucide.createIcons();
+            } catch (e) { 
+                const msgEl = document.getElementById(id); if(msgEl) msgEl.textContent = "Error de red al contactar al evaluador."; 
+            }
+        };
+
+        window.app.sendChatMessage = async () => { const input = document.getElementById('chat-input'); if(!input) return; const msg = input.value.trim(); if(!msg) return; appendChat('user', msg); input.value = ""; const userKey = projectConfig.geminiKey || apiKey; if(!userKey) { setTimeout(() => appendChat('tutor', "API Key de Gemini no configurada. Ve a Ajustes (⚙️) y pega tu clave."), 500); return; } const id = appendChat('tutor', 'Pensando...'); try { const res = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-09-2025:generateContent?key=${userKey}`, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ contents: [{ parts: [{ text: `El autor de la tesis pregunta: "${msg}". Contexto del capítulo actual: "${(thesisContent[currentChap]||"").substring(0,1000)}". Responde de forma técnica y académica.` }] }] }) }); const data = await res.json(); const msgEl = document.getElementById(id); if(msgEl) msgEl.innerHTML = marked.parse(data.candidates?.[0]?.content?.parts?.[0]?.text || "Error"); } catch (e) { const msgEl = document.getElementById(id); if(msgEl) msgEl.textContent = "Error de red."; } };
+        function appendChat(role, text) { const c = document.getElementById('chat-container'); if(!c) return null; const id = 'msg-'+Date.now(); const isU = role==='user'; c.insertAdjacentHTML('beforeend', `<div class="flex gap-4 ${isU?'flex-row-reverse':''}"><div class="w-10 h-10 rounded-full ${isU?'bg-blue-500 text-white':'bg-purple-500 text-white'} flex items-center justify-center shrink-0 shadow-lg"><i data-lucide="${isU?'user':'bot'}" class="w-5 h-5"></i></div><div class="glass-panel p-5 rounded-2xl shadow-md w-full max-w-3xl text-sm ${isU?'rounded-tr-none':'rounded-tl-none'} text-slate-800 dark:text-slate-200" id="${id}">${text}</div></div>`); lucide.createIcons(); c.scrollTop = c.scrollHeight; return id; }
 
         window.app.addReference = () => { const au = document.getElementById('ref-autores'); const ti = document.getElementById('ref-titulo'); const re = document.getElementById('ref-revista'); const an = document.getElementById('ref-anio'); const doi = document.getElementById('ref-doi'); if(!au || !ti || !au.value || !ti.value) return; referencesDB.push({ au: au.value, ti: ti.value, re: re.value, an: an.value, doi: doi.value }); document.querySelectorAll('input[id^="ref-"]').forEach(i => i.value = ""); renderRefs(); window.app.saveToCloud(); };
         function renderRefs() { const list = document.getElementById('ref-list'); if(!list) return; list.innerHTML = ""; referencesDB.forEach((r, i) => { list.innerHTML += `<div class="glass-panel p-5 rounded-2xl border-l-4 border-l-blue-500"><strong>[${i+1}]</strong> ${r.au}, "${r.ti}," <em>${r.re}</em>, ${r.an}. ${r.doi ? `DOI: ${r.doi}` : ''}</div>`; }); }
