@@ -78,8 +78,8 @@
         .page-container { 
             counter-reset: equation figure table; 
             display: flex; flex-direction: column; align-items: center; 
-            padding: 2rem; gap: 2rem; width: 100%; overflow-x: auto; 
-            background: #e2e8f0; 
+            padding: 2rem; gap: 3rem; width: 100%; overflow-x: hidden; 
+            background: #e2e8f0; min-height: 100%;
         }
         .dark .page-container { background: #000; }
         
@@ -128,8 +128,8 @@
 
         /* UTILIDADES APP */
         #editor-pane { font-family: 'JetBrains Mono', monospace; font-size: 0.9rem; line-height: 1.6; resize: none; outline: none; }
-        .tab-content { display: none; opacity: 0; transition: opacity 0.3s; }
-        .tab-content.active { display: flex; opacity: 1; }
+        .tab-content { display: none !important; opacity: 0; transition: opacity 0.3s; height: 100%; width: 100%; }
+        .tab-content.active { display: flex !important; opacity: 1; }
         .fade-in { animation: fadeIn 0.3s ease-out forwards; }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; transform: translateY(0); } }
         
@@ -153,7 +153,25 @@
         .a4-page .page-break-visual { display: none; }
         .sidebar-submenu { max-height: 0; overflow: hidden; transition: max-height 0.3s ease-in-out; }
         .sidebar-submenu.open { max-height: 800px; }
-        .cover-page { text-align: center; padding: 4rem 2rem; margin-bottom: 2rem; border-bottom: 2px solid var(--border-color); }
+        
+        /* ESTILOS DE PORTADA INSTITUCIONAL FCEyN UBA */
+        .cover-page { display: flex; flex-direction: column; justify-content: space-between; align-items: center; min-height: 250mm; text-align: center; padding: 2rem 4rem; border-bottom: none; background: white; color: black; }
+        .cover-page h1 { font-family: 'Arial', sans-serif; font-size: 2.2em; font-weight: bold; margin: 0; line-height: 1.3; color: black; text-align: center; }
+        .cover-page h2 { font-family: 'Arial', sans-serif; font-size: 1.5em; margin: 0; font-weight: normal; color: black; text-align: center; }
+        .header-inst p, .footer-inst p { margin: 0; font-size: 1.1em; line-height: 1.5; font-family: 'Arial', sans-serif; color: black; }
+        .header-inst { margin-bottom: auto; padding-top: 2rem; width: 100%; text-align: center; }
+        .title-space { margin: auto 0; width: 100%; }
+        .author-space { margin-top: auto; padding-bottom: 2rem; width: 100%; text-align: center; }
+        
+        .institutional-backcover { justify-content: flex-start; align-items: flex-start; text-align: left; padding: 3rem 4rem; }
+        .institutional-backcover .title-space-sm { text-align: center; width: 100%; margin-bottom: 4rem; }
+        .institutional-backcover .title-space-sm h1 { font-size: 1.8em; margin-bottom: 1.5rem; }
+        .institutional-backcover .thesis-purpose { margin-top: 3rem; font-size: 1.1em; line-height: 1.5; font-family: 'Arial', sans-serif; text-align: center; }
+        .committee-info { width: 100%; margin-bottom: 2rem; font-family: 'Arial', sans-serif; font-size: 1.05em; }
+        .committee-info p { margin-bottom: 1.5rem; line-height: 1.5; }
+        .research-info { width: 100%; margin-bottom: auto; font-family: 'Arial', sans-serif; font-size: 1.05em; }
+        .research-info p { margin-bottom: 0.5rem; }
+        .footer-inst { text-align: center; width: 100%; margin-top: 4rem; }
     </style>
 </head>
 <body class="h-screen flex flex-col overflow-hidden select-none transition-colors duration-300">
@@ -224,25 +242,38 @@
 
     <!-- MODAL CONFIGURACIÓN DE PORTADA & EXPORT -->
     <div id="settings-modal" class="fixed inset-0 z-[90] glass-panel hidden flex items-center justify-center p-4 fade-in">
-        <div class="modal-glass max-w-3xl max-h-[90vh] overflow-y-auto flex flex-col p-0">
+        <div class="modal-glass max-w-4xl max-h-[90vh] overflow-y-auto flex flex-col p-0">
             <div class="p-6 border-b border-slate-200 dark:border-white/10 flex justify-between items-center bg-slate-50/50 dark:bg-obsidian-950/50">
                 <h2 class="text-xl font-bold flex items-center gap-2"><i data-lucide="settings" class="text-quantum-500"></i> Configuración del Proyecto</h2>
                 <button onclick="document.getElementById('settings-modal').classList.add('hidden')" class="btn-icon"><i data-lucide="x" class="w-5 h-5"></i></button>
             </div>
             
-            <div class="p-6 grid grid-cols-1 md:grid-cols-2 gap-8">
-                <!-- Metadatos de Portada -->
-                <div class="space-y-4">
-                    <h3 class="text-xs font-bold uppercase tracking-wider text-slate-500 flex items-center gap-2 mb-2"><i data-lucide="layout-template" class="w-4 h-4"></i> Datos de Portada</h3>
+            <div class="p-6 grid grid-cols-1 md:grid-cols-12 gap-8">
+                <!-- Metadatos de Portada (Expandidado para UBA) -->
+                <div class="space-y-4 md:col-span-7">
+                    <h3 class="text-xs font-bold uppercase tracking-wider text-slate-500 flex items-center gap-2 mb-2"><i data-lucide="layout-template" class="w-4 h-4"></i> Datos de Portada (FCEyN - UBA)</h3>
                     <div><label class="text-xs font-medium opacity-70 ml-1">Título de la Tesis</label><input type="text" id="config-proj-name" class="input-glass mt-1"></div>
-                    <div><label class="text-xs font-medium opacity-70 ml-1">Autor</label><input type="text" id="config-proj-author" class="input-glass mt-1"></div>
-                    <div><label class="text-xs font-medium opacity-70 ml-1">Director(es)</label><input type="text" id="config-proj-director" class="input-glass mt-1"></div>
-                    <div><label class="text-xs font-medium opacity-70 ml-1">Institución</label><input type="text" id="config-proj-consejero" class="input-glass mt-1"></div>
-                    <div><label class="text-xs font-medium opacity-70 ml-1">Fecha</label><input type="text" id="config-proj-date" class="input-glass mt-1"></div>
+                    
+                    <div class="grid grid-cols-2 gap-3">
+                        <div><label class="text-xs font-medium opacity-70 ml-1">Autor (con título)</label><input type="text" id="config-proj-author" class="input-glass mt-1" placeholder="Mg. Dudbil..."></div>
+                        <div><label class="text-xs font-medium opacity-70 ml-1">Lugar y Fecha</label><input type="text" id="config-proj-date" class="input-glass mt-1" placeholder="Buenos Aires, Argentina 2026"></div>
+                    </div>
+
+                    <div class="grid grid-cols-2 gap-3">
+                        <div><label class="text-xs font-medium opacity-70 ml-1">Directora</label><input type="text" id="config-proj-director" class="input-glass mt-1"></div>
+                        <div><label class="text-xs font-medium opacity-70 ml-1">Codirectora</label><input type="text" id="config-proj-codirector" class="input-glass mt-1"></div>
+                    </div>
+                    
+                    <div><label class="text-xs font-medium opacity-70 ml-1">Consejera / Consejero</label><input type="text" id="config-proj-consejero" class="input-glass mt-1"></div>
+                    
+                    <div class="grid grid-cols-2 gap-3">
+                        <div><label class="text-xs font-medium opacity-70 ml-1">Línea de Investigación</label><input type="text" id="config-proj-linea" class="input-glass mt-1" placeholder="Óptica Cuántica"></div>
+                        <div><label class="text-xs font-medium opacity-70 ml-1">Grupo de Investigación</label><input type="text" id="config-proj-grupo" class="input-glass mt-1" placeholder="LOFT"></div>
+                    </div>
                 </div>
 
                 <!-- Opciones Tipográficas y Sistema -->
-                <div class="space-y-8">
+                <div class="space-y-8 md:col-span-5">
                     <div class="space-y-4">
                         <h3 class="text-xs font-bold uppercase tracking-wider text-slate-500 flex items-center gap-2 mb-2"><i data-lucide="type" class="w-4 h-4"></i> Formato Documental</h3>
                         <div>
@@ -545,11 +576,14 @@
 
         // Configuración inicial por defecto (Editable vía Ajustes)
         let projectConfig = { 
-            name: "Manipulación y Correlación Multidimensional de la Luz mediante un SLM", 
-            author: "Mg. Dudbil", 
-            director: "Dra. S. Ledesma", 
-            consejero: "Universidad de Buenos Aires (UBA) | FCEyN", 
-            date: "Noviembre 2026", 
+            name: "Utilización de moduladores espaciales de luz en la codificación de estados cuánticos", 
+            author: "Dudbil Olvasada Pabón Riaño", 
+            director: "Dra. Silvia Ledesma",
+            codirector: "Dra. Lorena Rebón",
+            consejero: "Dra. Maria Gabriela Capeluto", 
+            linea: "Óptica Cuántica",
+            grupo: "Laboratorio de Óptica y Fotónica (LOFT)",
+            date: "Buenos Aires, Argentina\n2026", 
             font: "'Lora', Georgia, serif", 
             fontSize: "11.5pt", 
             lineHeight: "1.6", 
@@ -785,14 +819,48 @@
             if(chapterId === "front") {
                 const portada = `
 <div class="cover-page">
-    <h1 style="font-size: 2.5em; margin-bottom: 2rem; color: var(--app-text);">${projectConfig.name}</h1>
-    <h2 style="font-size: 1.6em; margin-bottom: 3rem; font-weight: normal;">Autor: <strong>${projectConfig.author}</strong></h2>
-    <div style="font-size: 1.1em; line-height: 2; margin-bottom: 4rem;">
-        ${projectConfig.director ? `<p>Director: <strong>${projectConfig.director}</strong></p>` : ''}
-        ${projectConfig.consejero ? `<p>Institución: <strong>${projectConfig.consejero}</strong></p>` : ''}
+    <div class="header-inst">
+        <p>Universidad de Buenos Aires</p>
+        <p>Facultad de Ciencias Exactas y Naturales</p>
+        <p>Departamento de Física</p>
     </div>
-    <p style="font-size: 1em; opacity: 0.7;">${projectConfig.date || ''}</p>
+    
+    <div class="title-space">
+        <h1>${projectConfig.name}</h1>
+    </div>
+    
+    <div class="author-space">
+        <h2>${projectConfig.author.includes('Mg.') ? projectConfig.author : 'Mg. ' + projectConfig.author}</h2>
+    </div>
 </div>
+<div class="page-break-visual"></div>
+
+<div class="cover-page institutional-backcover">
+    <div class="title-space-sm">
+        <h1>${projectConfig.name}</h1>
+        <h2>${projectConfig.author.replace('Mg. ', '')}</h2>
+        <p class="thesis-purpose">Tesis presentada para optar al título de Doctor de la Universidad de Buenos Aires<br>en el área Ciencias Físicas</p>
+    </div>
+    
+    <div class="committee-info">
+        <p><strong>Directora:</strong> ${projectConfig.director}<br>Departamento de Física<br>Facultad de Ciencias Exactas y Naturales<br>Universidad de Buenos Aires</p>
+        <p><strong>Codirectora:</strong> ${projectConfig.codirector}<br>Departamento de Física<br>Facultad de Ciencias Exactas<br>Instituto de Física de La Plata, Universidad de la Plata</p>
+        <p><strong>Consejero:</strong> ${projectConfig.consejero}<br>Departamento de Física<br>Facultad de Ciencias Exactas y Naturales<br>Universidad de Buenos Aires</p>
+    </div>
+    
+    <div class="research-info">
+        <p><strong>Línea de Investigación:</strong> ${projectConfig.linea}</p>
+        <p><strong>Grupo de Investigación:</strong> ${projectConfig.grupo}</p>
+    </div>
+    
+    <div class="footer-inst">
+        <p>Universidad de Buenos Aires</p>
+        <p>Facultad de Ciencias Exactas y Naturales</p>
+        <p>Departamento de Física</p>
+        <p>${projectConfig.date.replace('\\n', '<br>')}</p>
+    </div>
+</div>
+<div class="page-break-visual"></div>
 `;
                 processed = portada + processed;
             }
@@ -824,7 +892,7 @@
             const chunks = text.split(/<div class="page-break-visual"><\/div>/gi);
             
             chunks.forEach((chunk, index) => {
-                let html = DOMPurify.sanitize(marked.parse(chunk), { ADD_TAGS: ['math','iframe','img','a','figure','figcaption','div','sup','ol','li','ul'], ADD_ATTR: ['src','alt','width','height','frameborder','href','id','style','class'] });
+                let html = DOMPurify.sanitize(marked.parse(chunk), { ADD_TAGS: ['math','iframe','img','a','figure','figcaption','div','sup','ol','li','ul','h1','h2','p','strong'], ADD_ATTR: ['src','alt','width','height','frameborder','href','id','style','class'] });
                 const pageEl = document.createElement('div'); pageEl.className = modeClass;
                 
                 if(modeClass.includes('web-page')) {
@@ -896,41 +964,50 @@
             let nodes = new vis.DataSet(); let edges = new vis.DataSet();
 
             // Nodos Fijos: Tronco de la Tesis (Basado en el prompt)
-            nodes.add({ id: 'idea_prin', label: 'Idea Principal:\nControl Multidimensional\ncon un solo SLM', shape: 'box', color: '#10b981', font: {color:'white', bold:true, size:16} });
+            nodes.add({ id: 'idea_prin', label: 'IDEA PRINCIPAL:\nControl Multidimensional de la Luz\nmediante 1 solo SLM', shape: 'box', color: '#10b981', font: {color:'white', bold:true, size:18} });
             
-            nodes.add({ id: 'fundamento', label: 'Fundamentos', shape: 'ellipse', color: '#6366f1', font: {color:'white'} });
-            nodes.add({ id: 'herramienta', label: 'Herramienta (SLM)', shape: 'ellipse', color: '#8b5cf6', font: {color:'white'} });
-            nodes.add({ id: 'ejecucion', label: 'Hitos Experimentales', shape: 'ellipse', color: '#f59e0b', font: {color:'white'} });
+            nodes.add({ id: 'fundamento', label: '(Fundamento)\nGrados de Libertad Fotónicos', shape: 'ellipse', color: '#6366f1', font: {color:'white'} });
+            nodes.add({ id: 'herramienta', label: '(Herramienta)\nModulador Espacial de Luz (SLM)', shape: 'ellipse', color: '#8b5cf6', font: {color:'white'} });
+            nodes.add({ id: 'ejecucion', label: '(Ejecución Experimental)\nHitos Conectados', shape: 'ellipse', color: '#f59e0b', font: {color:'white'} });
 
             edges.add([ {from: 'idea_prin', to: 'fundamento'}, {from: 'idea_prin', to: 'herramienta'}, {from: 'idea_prin', to: 'ejecucion'} ]);
 
             // Sub-nodos Fundamento
             nodes.add([
-                { id: 'f_qubits', label: 'Qubits de\nPolarización', shape: 'text', font: {color: document.documentElement.classList.contains('dark') ? '#cbd5e1' : '#475569'} },
-                { id: 'f_qudits', label: 'Qudits\nEspaciales', shape: 'text', font: {color: document.documentElement.classList.contains('dark') ? '#cbd5e1' : '#475569'} },
-                { id: 'f_oam', label: 'OAM', shape: 'text', font: {color: document.documentElement.classList.contains('dark') ? '#cbd5e1' : '#475569'} }
+                { id: 'f_qubits', label: 'Qubits de Polarización', shape: 'box', color: 'rgba(99,102,241,0.1)', font: {color: document.documentElement.classList.contains('dark') ? '#cbd5e1' : '#475569'} },
+                { id: 'f_qudits', label: 'Qudits Espaciales (Rendijas)', shape: 'box', color: 'rgba(99,102,241,0.1)', font: {color: document.documentElement.classList.contains('dark') ? '#cbd5e1' : '#475569'} },
+                { id: 'f_oam', label: 'Momento Angular Orbital (OAM)', shape: 'box', color: 'rgba(99,102,241,0.1)', font: {color: document.documentElement.classList.contains('dark') ? '#cbd5e1' : '#475569'} }
             ]);
             edges.add([ {from: 'fundamento', to: 'f_qubits'}, {from: 'fundamento', to: 'f_qudits'}, {from: 'fundamento', to: 'f_oam'} ]);
 
             // Sub-nodos Herramienta
             nodes.add([
-                { id: 'h_caract', label: 'Matrices\nMüller/Jones', shape: 'text', font: {color: document.documentElement.classList.contains('dark') ? '#cbd5e1' : '#475569'} },
-                { id: 'h_flick', label: 'Mitigación\nFlickering', shape: 'text', font: {color: document.documentElement.classList.contains('dark') ? '#cbd5e1' : '#475569'} }
+                { id: 'h_caract', label: 'Caracterización\nMatrices Müller/Jones', shape: 'box', color: 'rgba(139,92,246,0.1)', font: {color: document.documentElement.classList.contains('dark') ? '#cbd5e1' : '#475569'} },
+                { id: 'h_flick', label: 'Mitigación de Flickering\n(Garantía de Pureza)', shape: 'box', color: 'rgba(139,92,246,0.1)', font: {color: document.documentElement.classList.contains('dark') ? '#cbd5e1' : '#475569'} }
             ]);
             edges.add([ {from: 'herramienta', to: 'h_caract'}, {from: 'herramienta', to: 'h_flick'} ]);
 
             // Sub-nodos Ejecución (Hitos)
             nodes.add([
-                { id: 'e_h1', label: 'Hito 1:\nDivisor de Haz', shape: 'box', color: 'rgba(245,158,11,0.2)', font: {color: document.documentElement.classList.contains('dark') ? '#fcd34d' : '#b45309'} },
-                { id: 'e_h2', label: 'Hito 2:\nVórtices OAM', shape: 'box', color: 'rgba(245,158,11,0.2)', font: {color: document.documentElement.classList.contains('dark') ? '#fcd34d' : '#b45309'} },
-                { id: 'e_h3', label: 'HITO 3 (Clímax):\nCamino + OAM', shape: 'star', color: '#ef4444', font: {color: 'white', size: 14} }
+                { id: 'e_h1', label: 'Hito 1: Divisor de Haz Multicanal\nResultado: Simulación de\n"Estados Historia" paralelos.', shape: 'box', color: 'rgba(245,158,11,0.2)', font: {color: document.documentElement.classList.contains('dark') ? '#fcd34d' : '#b45309'} },
+                { id: 'e_h2', label: 'Hito 2: Generador Compacto de Vórtices\nResultado: Haces OAM\n(Laguerre-Gauss/Mathieu) hasta EUV.', shape: 'box', color: 'rgba(245,158,11,0.2)', font: {color: document.documentElement.classList.contains('dark') ? '#fcd34d' : '#b45309'} },
+                { id: 'e_h3', label: 'HITO 3 (Convergencia / Clímax):\nFusión de Camino Transversal + OAM\nen un SLM Puro de Fase.', shape: 'star', color: '#ef4444', font: {color: 'white', size: 14} },
+                { id: 'e_h3_res', label: 'Resultado: Tomografía y control\nde estados bipartitos de\nAlta Dimensión (d × m)\ncon Fidelidades >95%.', shape: 'box', color: 'rgba(239,68,68,0.2)', font: {color: document.documentElement.classList.contains('dark') ? '#fca5a5' : '#b91c1c'} }
             ]);
-            edges.add([ {from: 'ejecucion', to: 'e_h1'}, {from: 'ejecucion', to: 'e_h2'}, {from: 'ejecucion', to: 'e_h3'} ]);
+            edges.add([ 
+                {from: 'ejecucion', to: 'e_h1'}, 
+                {from: 'ejecucion', to: 'e_h2'}, 
+                {from: 'ejecucion', to: 'e_h3'},
+                {from: 'e_h3', to: 'e_h3_res'}
+            ]);
 
             const container = document.getElementById('knowledge-graph');
             if(container) { 
                 if(networkInstance) networkInstance.destroy(); 
-                networkInstance = new vis.Network(container, { nodes, edges }, { physics: { enabled: true, solver: 'forceAtlas2Based' } }); 
+                networkInstance = new vis.Network(container, { nodes, edges }, { 
+                    layout: { hierarchical: { direction: 'UD', sortMethod: 'directed', nodeSpacing: 250, levelSeparation: 120 } },
+                    physics: { enabled: false } 
+                }); 
             }
         };
 
@@ -968,15 +1045,33 @@
 
         window.app.openSettings = () => { 
             const e = (id) => document.getElementById(id); if(!e('settings-modal')) return;
-            e('config-proj-name').value=projectConfig.name||''; e('config-proj-author').value=projectConfig.author||''; e('config-proj-director').value=projectConfig.director||''; e('config-proj-consejero').value=projectConfig.consejero||''; e('config-proj-date').value=projectConfig.date||''; e('config-gemini-key').value=projectConfig.geminiKey||''; e('config-font').value=projectConfig.font; e('config-size').value=projectConfig.fontSize; e('config-lineheight').value=projectConfig.lineHeight;
+            e('config-proj-name').value=projectConfig.name||''; 
+            e('config-proj-author').value=projectConfig.author||''; 
+            e('config-proj-director').value=projectConfig.director||''; 
+            e('config-proj-codirector').value=projectConfig.codirector||''; 
+            e('config-proj-consejero').value=projectConfig.consejero||''; 
+            e('config-proj-linea').value=projectConfig.linea||''; 
+            e('config-proj-grupo').value=projectConfig.grupo||''; 
+            e('config-proj-date').value=projectConfig.date.replace('<br>','\n')||''; 
+            e('config-gemini-key').value=projectConfig.geminiKey||''; 
+            e('config-font').value=projectConfig.font; e('config-size').value=projectConfig.fontSize; e('config-lineheight').value=projectConfig.lineHeight;
             e('settings-modal').classList.remove('hidden'); 
         };
         window.app.saveSettings = () => { 
             const e = (id) => document.getElementById(id)?.value;
-            projectConfig.name=e('config-proj-name'); projectConfig.author=e('config-proj-author'); projectConfig.director=e('config-proj-director'); projectConfig.consejero=e('config-proj-consejero'); projectConfig.date=e('config-proj-date'); projectConfig.geminiKey=e('config-gemini-key'); projectConfig.font=e('config-font'); projectConfig.fontSize=e('config-size'); projectConfig.lineHeight=e('config-lineheight');
+            projectConfig.name=e('config-proj-name'); 
+            projectConfig.author=e('config-proj-author'); 
+            projectConfig.director=e('config-proj-director'); 
+            projectConfig.codirector=e('config-proj-codirector'); 
+            projectConfig.consejero=e('config-proj-consejero'); 
+            projectConfig.linea=e('config-proj-linea'); 
+            projectConfig.grupo=e('config-proj-grupo'); 
+            projectConfig.date=e('config-proj-date'); 
+            projectConfig.geminiKey=e('config-gemini-key'); 
+            projectConfig.font=e('config-font'); projectConfig.fontSize=e('config-size'); projectConfig.lineHeight=e('config-lineheight');
             document.getElementById('settings-modal').classList.add('hidden'); updateConfigUI(); window.app.saveToCloud(); window.app.handleInput(); 
         };
-        function updateConfigUI() { document.getElementById('app-main-title').textContent = projectConfig.name; document.getElementById('app-author-name').textContent = projectConfig.author; }
+        function updateConfigUI() { document.getElementById('app-main-title').textContent = projectConfig.name; document.getElementById('app-author-name').textContent = projectConfig.author.replace('Mg. ', ''); }
 
         window.app.saveToCloud = async () => { 
             if (!isAdmin) return; const payload = { content: thesisContent, refs: referencesDB, structure: chaptersDef, config: projectConfig, commits: commitmentLog }; 
@@ -1021,7 +1116,7 @@
             const container = document.getElementById('hidden-export-container'); if(!container) return;
             buildGlobalRegistry(); let md = ""; chaptersDef.forEach(c => { md += preprocessText(thesisContent[c.id]||"", c.id) + "\n\n[PAGE_BREAK]\n\n"; });
             md = md.replace(/\[PAGE_BREAK\]/g, '<br clear="all" style="page-break-before:always" />');
-            container.innerHTML = DOMPurify.sanitize(marked.parse(md), {ADD_TAGS:['math','img','figure','figcaption','a','div','sup','br'], ADD_ATTR:['src','alt','width','height','id','style','href','class','clear']}); 
+            container.innerHTML = DOMPurify.sanitize(marked.parse(md), {ADD_TAGS:['math','img','figure','figcaption','a','div','sup','br','h1','h2','p','strong'], ADD_ATTR:['src','alt','width','height','id','style','href','class','clear']}); 
             renderMathInElement(container, katexConfig); 
 
             const css = `@page WordSection1 { size: 21cm 29.7cm; margin: 2.5cm; } div.WordSection1 { page: WordSection1; } body { font-family:${projectConfig.font};font-size:${projectConfig.fontSize};line-height:${projectConfig.lineHeight};text-align:${projectConfig.align}; } h1 { font-size:24pt;font-weight:bold;text-align:center; } h2 { font-size:18pt;font-weight:bold; } img { max-width:100%; display:block; margin: 1.5rem auto; } table { width: 100%; border-collapse: collapse; } th, td { border: 1px solid #000; padding: 0.5rem; text-align: left; } .katex-display { text-align:center;margin:1em 0; }`;
