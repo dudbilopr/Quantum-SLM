@@ -769,16 +769,40 @@
             updateConfigUI(); renderSidebar(); renderRefs();
         }
 
-        // PLANTILLA DOCTORAL COMPLETA
+        // PLANTILLA DOCTORAL COMPLETA Y ESTRUCTURADA
         function initEmptyThesis() { 
             chaptersDef = [ 
                 { id: "front", title: "Portada y Agradecimientos", sections: [] }, 
                 { id: "indices", title: "Índices Generales", sections: [] }, 
-                { id: "cap1", title: "Capítulo 1: Introducción", sections: [] }
+                { id: "intro", title: "Introducción", sections: [] },
+                { id: "cap1", title: "Capítulo 1: Fundamentos Teóricos", sections: [] }, 
+                { id: "cap2", title: "Capítulo 2: Moduladores", sections: [] },
+                { id: "cap3", title: "Capítulo 3: Correlación Qudits", sections: [] },
+                { id: "cap4", title: "Capítulo 4: Generación de OAM", sections: [] },
+                { id: "cap5", title: "Capítulo 5: Control Completo", sections: [] },
+                { id: "cap6", title: "Capítulo 6: Conclusiones", sections: [] },
+                { id: "apendices", title: "Apéndices", sections: [] }
             ];
-            thesisContent["front"] = `El inicio de una gran investigación.\n\n[PAGE_BREAK]`;
+
+            thesisContent["front"] = `Agradezco a mis directores, a la Universidad de Buenos Aires y a mis colegas por el apoyo brindado en el desarrollo de este trabajo.\n\n[PAGE_BREAK]`;
+            
             thesisContent["indices"] = `# Índice de Contenidos\n\n[INDICE_GENERAL]\n\n[PAGE_BREAK]\n\n## Lista de Figuras\n[LISTA_FIGURAS]\n\n[PAGE_BREAK]\n\n## Lista de Tablas\n[LISTA_TABLAS]\n`;
-            thesisContent["cap1"] = `# Capítulo 1: Introducción\n\nContexto de la investigación...`;
+            
+            thesisContent["intro"] = `# Introducción\n\n## Motivación y contexto en la Información Cuántica.\nLa distribución de esta tesis cuenta una historia lineal y progresiva. Comienzas explicando el "qué" (los estados), luego el "cómo" tecnológico (el modulador), para finalmente demostrar el dominio sumando grados de libertad uno a uno hasta llegar al clímax en el Capítulo 5.\n\n## Objetivos de la tesis.\n\n## Estructura del manuscrito.\n\n---\n**Grafo de Conexión de la Idea Principal**\nLa idea principal (el tronco de tu tesis) es la "Manipulación y correlación multidimensional de la luz mediante un único Modulador Espacial de Luz (SLM) para expandir la capacidad de la información cuántica".\n\n*Nota: El grafo interactivo en la pestaña "Grafo & Analítica" mostrará visualmente cómo los conceptos se ramifican y luego se fusionan en tu experimento final.*`;
+            
+            thesisContent["cap1"] = `# Capítulo 1: Fundamentos Teóricos de la Información Cuántica Fotónica\n(Consolidación teórica)\n\n**¿Qué colocar aquí?** Aquí va toda la física teórica base. Debes introducir los estados cuánticos, la matriz densidad y la necesidad de usar sistemas de alta dimensión (qudits) en lugar de qubits. Explica la teoría matemática de los tres grados de libertad que gobernarán tu tesis: Qubits de polarización, Qudits espaciales (estados de rendija) y Qudits con Momento Angular Orbital (OAM, haces Laguerre-Gauss y Mathieu). Evita interrumpir los capítulos experimentales más adelante para explicar conceptos básicos.\n\n## 1.1. Representación de Estados Cuánticos\n(Estados puros y matriz densidad).\n\n## 1.2. Qubits y Qudits Fotónicos\n### 1.2.1. Qubits de polarización\n### 1.2.2. Qudits espaciales (Estados de rendija)\n### 1.2.3. Qudits basados en Momento Angular Orbital (OAM)\n\n## 1.3. Estado del Arte\nCodificación y correlación de múltiples grados de libertad fotónicos.`;
+
+            thesisContent["cap2"] = `# Capítulo 2: Moduladores Espaciales de Luz: Caracterización y Optimización\n(Herramientas experimentales)\n\n**¿Qué colocar aquí?** Todo el trabajo duro de laboratorio sobre tu herramienta principal (el Holoeye LC-R 2500). Incluye el formalismo de Müller y Jones para caracterizarlo. Es fundamental colocar aquí tu trabajo sobre la optimización de la modulación (fase, amplitud y polarización) y el análisis del flickering (fluctuaciones temporales), explicando cómo esto afecta la pureza de los estados al inducir depolarización.\n\n## 2.1. Principios de funcionamiento de los Moduladores Espaciales de Luz (SLMs)\n\n## 2.2. Formalismo de Müller y Jones para la caracterización del SLM\n\n## 2.3. Optimización de la modulación (Fase, Amplitud y Polarización)\n\n## 2.4. Análisis y mitigación de fluctuaciones temporales (Flickering)\n\n## 2.5. Validación del SLM en el régimen de fotones individuales`;
+
+            thesisContent["cap3"] = `# Capítulo 3: Correlación de Qudits Espaciales y Polarización\nSimulación de Evoluciones Cuánticas (Primer hito experimental)\n\n**¿Qué colocar aquí?** La combinación de camino transversal + polarización usando un solo SLM. Debes detallar tu diseño del divisor de haz polarizante multicanal. Luego, muestra la aplicación cumbre de este montaje: la simulación óptica de "Estados Historia" para evoluciones cuánticas discretas, mostrando las trayectorias en la esfera de Bloch.\n\n## 3.1. Introducción al entrelazamiento local y correlaciones clásicas\n\n## 3.2. Formalismo del estado híbrido: Momento lineal transversal y Polarización\n\n## 3.3. Diseño experimental con un único SLM\n\n## 3.4. Implementación de un divisor de haz polarizante multicanal\n\n## 3.5. Resultados: Generación de "Estados Historia" (Simulación de evolución cuántica temporal-paralela)`;
+
+            thesisContent["cap4"] = `# Capítulo 4: Generación y Caracterización Compacta de Estados con Momento Angular Orbital (OAM)\n(Segundo hito experimental)\n\n**¿Qué colocar aquí?** La generación aislada de vórtices ópticos. Describe el diseño de la máscara compacta que incluye el holograma generado por computadora (CGH) y un pinhole para el haz de referencia. Muestra las simulaciones y resultados para los haces Laguerre-Gauss y Mathieu. Destaca la escalabilidad de este dispositivo hacia el ultravioleta extremo (EUV), justificando por qué usaste máscaras binarias.\n\n## 4.1. Singularidades ópticas y OAM\n\n## 4.2. Hologramas digitales para vórtices ópticos: Haces Laguerre-Gauss y Mathieu\n\n## 4.3. Propuesta de un dispositivo compacto de generación y testeo interferométrico\n\n## 4.4. Resultados experimentales y proyecciones hacia el régimen del Ultravioleta Extremo (EUV)`;
+
+            thesisContent["cap5"] = `# Capítulo 5: Control Completo de Grados de Libertad Espaciales\nCamino Transversal y OAM (Hito culminante)\n\n**¿Qué colocar aquí?** La unión de los conceptos del Cap. 3 y Cap. 4. Explica cómo superpusiste redes blazed con hologramas tipo tenedor para modular amplitud, fase y OAM simultáneamente con un SLM puro de fase. Muestra los resultados de tus estados bipartitos de dimensión d×m (ej. 5×5 y 9×5). Explica el uso de la Interferometría por Corrimiento de Fase (PSI) para la tomografía y reporta tus excelentes fidelidades (>95%).\n\n## 5.1. Introducción a los estados de alta dimensión y control de múltiples grados de libertad\n\n## 5.2. Formalismo de la superposición de estados de OAM-camino transversal\n\n## 5.3. Codificación en fase pura mediante redes blazed e interferometría por corrimiento de fase (PSI)\n\n## 5.4. Diseño experimental y caracterización de estados bipartitos d×m\n\n## 5.5. Resultados: Reconstrucción tomográfica y fidelidad de estados de alta dimensión`;
+
+            thesisContent["cap6"] = `# Capítulo 6: Conclusiones y Perspectivas Futuras\n\n## 6.1. Conclusiones generales\n\n## 6.2. Recomendaciones y trabajo futuro\n\n[PAGE_BREAK]\n\n# Referencias Bibliográficas\n\n[BIBLIOGRAFIA]\n`;
+
+            thesisContent["apendices"] = `# Apéndices\n\n**¿Por qué estos apéndices?** Mantienen el texto principal limpio de matemática pesada y detalles computacionales.\n\n## Apéndice A: Matrices de Jones y de Müller\nPerfecto para no recargar el Capítulo 2.\n\n## Apéndice B: Caracterización del SLM con fuente de fotones individuales\nDemuestra a los revisores más exigentes que el trabajo con láseres clásicos es válido para óptica cuántica estricta (SPDC).\n\n## Apéndice C: Algoritmos de Reconstrucción Tomográfica y PSI\nDemostraciones matemáticas y la derivación de la fase y visibilidad interferométrica.\n\n## Apéndice D: Diseño computacional de Hologramas (CGH)\nAlgoritmos numéricos, particularmente el uso de la Transformada Rápida de Fourier (FFT) para binarizar haces de Mathieu. Útil para la reproducibilidad en el laboratorio.`;
         }
 
         window.app.addChapter = () => {
