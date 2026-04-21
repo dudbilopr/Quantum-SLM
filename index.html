@@ -74,27 +74,27 @@
         .btn-primary { @apply bg-quantum-600 hover:bg-quantum-500 text-white font-semibold py-2 px-5 rounded-lg shadow-md hover:shadow-quantum-500/25 transition-all flex items-center gap-2; }
         .input-glass { @apply w-full bg-slate-100/50 dark:bg-obsidian-950/50 border border-slate-200 dark:border-white/10 rounded-lg px-4 py-2.5 text-sm outline-none focus:ring-2 focus:ring-quantum-500/50 transition-all text-slate-800 dark:text-slate-100; }
 
-        /* FORMATO DE RENDEREIZADO: A4 REALISTA */
+        /* FORMATO DE RENDEREIZADO: A4 REALISTA & PROFESIONAL */
         .page-container { 
             counter-reset: equation figure table; 
             display: flex; flex-direction: column; align-items: center; 
-            padding: 2rem; gap: 3rem; width: 100%; overflow-x: hidden; 
-            background: #e2e8f0; min-height: 100%;
+            padding: 3rem 0; gap: 4rem; width: 100%; overflow-y: visible;
+            background: transparent; min-height: 100%;
         }
-        .dark .page-container { background: #000; }
         
         .a4-page {
             width: 210mm; min-height: 297mm; padding: 25mm 30mm; 
             background: white; color: black; text-align: justify;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.1); border-radius: 4px;
-            flex-shrink: 0; margin: 0 auto;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25); border-radius: 6px; /* Sombra profesional */
+            flex-shrink: 0; margin: 0 auto; position: relative;
+            border: 1px solid rgba(0,0,0,0.05);
         }
-        .dark .a4-page { filter: brightness(0.9); }
+        .dark .a4-page { filter: brightness(0.95); }
         
         .web-page {
-            width: 100%; max-width: 850px; padding: 3rem 4rem;
-            background: var(--panel-bg); border-radius: 1rem; border: 1px solid var(--border-color);
-            color: var(--app-text); text-align: justify; box-shadow: 0 10px 40px rgba(0,0,0,0.05);
+            width: 100%; max-width: 900px; padding: 4rem 5rem;
+            background: var(--panel-bg); border-radius: 1.5rem; border: 1px solid var(--border-color);
+            color: var(--app-text); text-align: justify; box-shadow: 0 20px 40px rgba(0,0,0,0.08);
             margin: 0 auto;
         }
 
@@ -154,24 +154,31 @@
         .sidebar-submenu { max-height: 0; overflow: hidden; transition: max-height 0.3s ease-in-out; }
         .sidebar-submenu.open { max-height: 800px; }
         
-        /* ESTILOS DE PORTADA INSTITUCIONAL FCEyN UBA */
-        .cover-page { display: flex; flex-direction: column; justify-content: space-between; align-items: center; min-height: 250mm; text-align: center; padding: 2rem 4rem; border-bottom: none; background: white; color: black; }
-        .cover-page h1 { font-family: 'Arial', sans-serif; font-size: 2.2em; font-weight: bold; margin: 0; line-height: 1.3; color: black; text-align: center; }
-        .cover-page h2 { font-family: 'Arial', sans-serif; font-size: 1.5em; margin: 0; font-weight: normal; color: black; text-align: center; }
-        .header-inst p, .footer-inst p { margin: 0; font-size: 1.1em; line-height: 1.5; font-family: 'Arial', sans-serif; color: black; }
-        .header-inst { margin-bottom: auto; padding-top: 2rem; width: 100%; text-align: center; }
+        /* ESTILOS DE PORTADA INSTITUCIONAL FCEyN UBA (DISEÑO PROFESIONAL) */
+        .cover-page { display: flex; flex-direction: column; justify-content: space-between; align-items: center; height: 100%; min-height: 85vh; text-align: center; padding: 1rem; border-bottom: none; box-sizing: border-box; }
+        .a4-page .cover-page { min-height: 240mm; padding: 0; }
+        
+        .cover-page h1 { font-family: 'Arial', sans-serif; font-size: 2.4em; font-weight: 900; margin: 0; line-height: 1.25; color: inherit; text-align: center; text-transform: uppercase; letter-spacing: 1px; }
+        .cover-page h2 { font-family: 'Arial', sans-serif; font-size: 1.5em; margin: 0; font-weight: 500; color: inherit; text-align: center; }
+        
+        .header-inst p, .footer-inst p { margin: 0; font-size: 1.15em; line-height: 1.6; font-family: 'Arial', sans-serif; font-weight: bold; text-transform: uppercase; color: inherit; }
+        .header-inst { margin-bottom: auto; padding-top: 1rem; width: 100%; text-align: center; }
         .title-space { margin: auto 0; width: 100%; }
         .author-space { margin-top: auto; padding-bottom: 2rem; width: 100%; text-align: center; }
         
-        .institutional-backcover { justify-content: flex-start; align-items: flex-start; text-align: left; padding: 3rem 4rem; }
-        .institutional-backcover .title-space-sm { text-align: center; width: 100%; margin-bottom: 4rem; }
-        .institutional-backcover .title-space-sm h1 { font-size: 1.8em; margin-bottom: 1.5rem; }
-        .institutional-backcover .thesis-purpose { margin-top: 3rem; font-size: 1.1em; line-height: 1.5; font-family: 'Arial', sans-serif; text-align: center; }
-        .committee-info { width: 100%; margin-bottom: 2rem; font-family: 'Arial', sans-serif; font-size: 1.05em; }
-        .committee-info p { margin-bottom: 1.5rem; line-height: 1.5; }
-        .research-info { width: 100%; margin-bottom: auto; font-family: 'Arial', sans-serif; font-size: 1.05em; }
-        .research-info p { margin-bottom: 0.5rem; }
-        .footer-inst { text-align: center; width: 100%; margin-top: 4rem; }
+        .institutional-backcover { justify-content: flex-start; align-items: flex-start; text-align: left; padding: 2rem; }
+        .a4-page .institutional-backcover { padding: 1rem 2.5rem; }
+        
+        .institutional-backcover .title-space-sm { text-align: center; width: 100%; margin-bottom: 2.5rem; }
+        .institutional-backcover .title-space-sm h1 { font-size: 1.8em; margin-bottom: 1.5rem; text-transform: none; letter-spacing: normal; }
+        .institutional-backcover .thesis-purpose { margin-top: 2rem; font-size: 1.15em; line-height: 1.6; font-family: 'Arial', sans-serif; text-align: center; font-style: italic; opacity: 0.9; }
+        
+        .committee-info { width: 100%; margin-bottom: 2rem; font-family: 'Arial', sans-serif; font-size: 1.1em; }
+        .committee-info p { margin-bottom: 1.5rem; line-height: 1.6; }
+        
+        .research-info { width: 100%; margin-bottom: auto; font-family: 'Arial', sans-serif; font-size: 1.1em; }
+        .research-info p { margin-bottom: 0.8rem; }
+        .footer-inst { text-align: center; width: 100%; margin-top: 2rem; }
     </style>
 </head>
 <body class="h-screen flex flex-col overflow-hidden select-none transition-colors duration-300">
@@ -322,21 +329,21 @@
     </div>
 
     <!-- COMPILADOR GLOBAL (LIBRO COMPLETO) -->
-    <div id="global-preview-modal" class="fixed inset-0 z-[100] bg-white dark:bg-obsidian-950 hidden flex-col fade-in">
-        <header class="h-14 glass-panel border-b border-slate-200 dark:border-white/10 flex items-center justify-between px-6 shrink-0 z-10 shadow-sm">
+    <div id="global-preview-modal" class="fixed inset-0 z-[100] bg-slate-100 dark:bg-obsidian-950 hidden flex flex-col fade-in">
+        <header class="h-14 glass-panel border-b border-slate-200 dark:border-white/10 flex items-center justify-between px-6 shrink-0 z-20 shadow-md">
             <div class="flex items-center gap-3">
-                <div class="w-8 h-8 rounded bg-quantum-500 text-white flex items-center justify-center"><i data-lucide="book" class="w-4 h-4"></i></div>
-                <h2 class="font-bold text-sm">Previsualización de Tesis Compilada</h2>
+                <div class="w-8 h-8 rounded bg-quantum-500 text-white flex items-center justify-center shadow-lg"><i data-lucide="book" class="w-4 h-4"></i></div>
+                <h2 class="font-bold text-sm text-slate-800 dark:text-white">Previsualización de Tesis Compilada</h2>
             </div>
-            <div class="flex gap-2">
-                <button onclick="window.app.exportToWord()" class="btn-primary py-1.5 text-xs"><i data-lucide="file-text" class="w-4 h-4"></i> Exportar MS Word</button>
-                <button onclick="document.getElementById('global-preview-modal').classList.add('hidden')" class="btn-icon bg-red-500/10 text-red-500 hover:bg-red-500/20"><i data-lucide="x" class="w-4 h-4"></i></button>
+            <div class="flex gap-3">
+                <button onclick="window.app.exportToWord()" class="btn-primary py-1.5 text-xs shadow-lg"><i data-lucide="file-text" class="w-4 h-4"></i> Exportar MS Word</button>
+                <button onclick="document.getElementById('global-preview-modal').classList.add('hidden'); document.body.style.overflow = '';" class="btn-icon bg-red-500/10 text-red-600 dark:text-red-400 hover:bg-red-500/20 transition-colors"><i data-lucide="x" class="w-4 h-4"></i></button>
             </div>
         </header>
-        <div class="flex-1 overflow-y-auto bg-slate-100 dark:bg-black" id="global-scroll-area">
-            <div class="fixed bottom-6 right-8 z-10 glass-panel rounded-full p-1.5 flex gap-1 shadow-xl border border-slate-200 dark:border-slate-700">
-                <button onclick="window.app.setPreviewMode('global-render-content', 'page-container')" class="px-4 py-1.5 text-[10px] font-bold uppercase rounded-full hover:bg-slate-200 dark:hover:bg-slate-800 text-slate-700 dark:text-slate-300">Formato A4</button>
-                <button onclick="window.app.setPreviewMode('global-render-content', 'web-page')" class="px-4 py-1.5 text-[10px] font-bold uppercase rounded-full bg-quantum-600 text-white shadow-md">Modo Web</button>
+        <div class="flex-1 overflow-y-auto bg-slate-200/50 dark:bg-[#08080a] relative" id="global-scroll-area">
+            <div class="fixed bottom-8 right-8 z-30 glass-panel rounded-full p-1.5 flex gap-1 shadow-2xl border border-slate-300 dark:border-slate-700 backdrop-blur-xl">
+                <button onclick="window.app.setPreviewMode('global-render-content', 'page-container')" class="px-5 py-2 text-[11px] font-bold uppercase rounded-full hover:bg-slate-200 dark:hover:bg-slate-800 text-slate-700 dark:text-slate-300 transition-colors">Formato A4</button>
+                <button onclick="window.app.setPreviewMode('global-render-content', 'web-page')" class="px-5 py-2 text-[11px] font-bold uppercase rounded-full bg-quantum-600 text-white shadow-md transition-colors">Modo Web</button>
             </div>
             <!-- Contenedor renderizado -->
             <div id="global-render-content" class="page-container"></div>
@@ -527,12 +534,18 @@
                 <!-- TAB 4: BIBLIOGRAFÍA -->
                 <div id="tab-references" class="tab-content h-full p-6 lg:p-10 overflow-y-auto select-text admin-only bg-transparent custom-scrollbar">
                     <div class="max-w-4xl mx-auto fade-in">
-                        <div class="flex justify-between items-center mb-6">
-                            <h2 class="text-2xl font-bold flex items-center gap-2"><i data-lucide="bookmark" class="w-6 h-6 text-blue-500"></i> Gestor Bibliográfico</h2>
-                            <button onclick="window.app.exportBibtex()" class="btn-primary text-xs"><i data-lucide="download" class="w-3.5 h-3.5"></i> Descargar .bib</button>
+                        <div class="flex flex-col md:flex-row justify-between items-start md:items-center mb-8 gap-4">
+                            <h2 class="text-2xl font-bold flex items-center gap-3"><i data-lucide="bookmark" class="w-7 h-7 text-blue-500"></i> Gestor Bibliográfico</h2>
+                            <div class="flex gap-2">
+                                <label class="btn-primary text-xs cursor-pointer bg-slate-600 hover:bg-slate-500 border border-slate-700 shadow-lg text-white">
+                                    <i data-lucide="upload" class="w-3.5 h-3.5"></i> Importar .bib
+                                    <input type="file" id="import-bib-file" accept=".bib" class="hidden" onchange="window.app.importBibtex(event)">
+                                </label>
+                                <button onclick="window.app.exportBibtex()" class="btn-primary text-xs bg-blue-600 hover:bg-blue-500 shadow-lg"><i data-lucide="download" class="w-3.5 h-3.5"></i> Descargar .bib</button>
+                            </div>
                         </div>
                         
-                        <div class="glass-panel p-6 rounded-2xl shadow-sm mb-8 border-blue-500/20">
+                        <div class="glass-panel p-6 rounded-2xl shadow-md mb-8 border-t-4 border-t-blue-500">
                             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-4">
                                 <div class="lg:col-span-2"><label class="text-[10px] font-bold uppercase opacity-60 ml-1">Autores</label><input type="text" id="ref-autores" placeholder="Ej: Aspect, A. et al." class="input-glass mt-1 py-1.5"></div>
                                 <div class="lg:col-span-2"><label class="text-[10px] font-bold uppercase opacity-60 ml-1">Título</label><input type="text" id="ref-titulo" class="input-glass mt-1 py-1.5"></div>
@@ -540,10 +553,10 @@
                                 <div class="lg:col-span-2"><label class="text-[10px] font-bold uppercase opacity-60 ml-1">Revista/Libro</label><input type="text" id="ref-revista" placeholder="Phys. Rev. Lett." class="input-glass mt-1 py-1.5"></div>
                                 <div><label class="text-[10px] font-bold uppercase opacity-60 ml-1">DOI/URL</label><input type="text" id="ref-doi" placeholder="10.1103/..." class="input-glass mt-1 py-1.5"></div>
                             </div>
-                            <button onclick="window.app.addReference()" class="w-full bg-blue-600 hover:bg-blue-500 text-white font-semibold py-2 rounded-lg transition-colors flex items-center justify-center gap-2 text-sm"><i data-lucide="plus" class="w-4 h-4"></i> Añadir Referencia</button>
+                            <button onclick="window.app.addReference()" class="w-full bg-blue-600 hover:bg-blue-500 text-white font-semibold py-2.5 rounded-xl transition-colors flex items-center justify-center gap-2 text-sm shadow-md"><i data-lucide="plus" class="w-4 h-4"></i> Añadir Referencia Manual</button>
                         </div>
                         
-                        <div id="ref-list" class="space-y-2 font-serif text-sm"></div>
+                        <div id="ref-list" class="space-y-3 font-serif text-sm"></div>
                     </div>
                 </div>
 
@@ -1103,11 +1116,30 @@
         function appendChat(r, t) { const c = document.getElementById('chat-container'); if(!c) return; const id = 'msg-'+Date.now(); c.insertAdjacentHTML('beforeend', `<div class="flex gap-4 ${r==='user'?'flex-row-reverse':''}"><div class="w-8 h-8 rounded-full ${r==='user'?'bg-blue-500':'bg-purple-500'} flex items-center justify-center shrink-0 text-white"><i data-lucide="${r==='user'?'user':'bot'}" class="w-4 h-4"></i></div><div class="glass-panel p-4 rounded-xl text-sm ${r==='user'?'rounded-tr-none':'rounded-tl-none'}" id="${id}">${t}</div></div>`); lucide.createIcons(); c.scrollTop = c.scrollHeight; return id; }
 
         window.app.addReference = () => { const au=document.getElementById('ref-autores')?.value; const ti=document.getElementById('ref-titulo')?.value; if(!au||!ti)return; referencesDB.push({ au, ti, re:document.getElementById('ref-revista')?.value, an:document.getElementById('ref-anio')?.value, doi:document.getElementById('ref-doi')?.value }); document.querySelectorAll('input[id^="ref-"]').forEach(i=>i.value=""); renderRefs(); window.app.saveToCloud(); };
-        function renderRefs() { const list = document.getElementById('ref-list'); if(!list) return; list.innerHTML = referencesDB.map((r,i)=>`<div class="glass-panel p-4 rounded-xl border-l-4 border-l-blue-500 mb-2"><strong>[${i+1}]</strong> ${r.au}, "${r.ti}," <em>${r.re}</em>, ${r.an}. ${r.doi?`DOI:${r.doi}`:''}</div>`).join(''); }
+        function renderRefs() { const list = document.getElementById('ref-list'); if(!list) return; list.innerHTML = referencesDB.map((r,i)=>`<div class="glass-panel p-5 rounded-xl border-l-4 border-l-blue-500 mb-2 shadow-sm"><strong>[${i+1}]</strong> ${r.au}, "${r.ti}," <em>${r.re}</em>, ${r.an}. ${r.doi?`DOI:${r.doi}`:''}</div>`).join(''); }
         window.app.exportBibtex = () => { let bib=""; referencesDB.forEach((r,i)=>bib+=`@article{ref${i+1},\n author={${r.au}},\n title={${r.ti}},\n journal={${r.re}},\n year={${r.an}},\n doi={${r.doi||''}}\n}\n\n`); const link=document.createElement("a"); link.href=URL.createObjectURL(new Blob([bib],{type:'text/plain'})); link.download='referencias.bib'; link.click(); };
+        
+        window.app.importBibtex = (e) => {
+            const file = e.target.files[0]; if(!file) return;
+            const reader = new FileReader();
+            reader.onload = (ev) => {
+                const text = ev.target.result; const entries = text.split('@').slice(1); let added = 0;
+                entries.forEach(entry => {
+                    const getField = (field) => { const m = entry.match(new RegExp(`${field}\\s*=\\s*[{"]([\\s\\S]*?)[}"]`, 'i')); return m ? m[1].replace(/\\n/g, ' ').replace(/\\s+/g, ' ').trim() : ''; };
+                    const au = getField('author'); const ti = getField('title'); const re = getField('journal') || getField('publisher') || getField('booktitle'); const an = getField('year'); const doi = getField('doi');
+                    if(au && ti) { referencesDB.push({ au, ti, re, an, doi }); added++; }
+                });
+                if(added > 0) { renderRefs(); window.app.saveToCloud(); window.app.showAlert(`¡Éxito! Se importaron ${added} referencias desde el archivo .bib.`); }
+                else { window.app.showAlert("No se encontraron referencias válidas (requieren al menos Autor y Título)."); }
+                e.target.value = ''; // Reset
+            };
+            reader.readAsText(file);
+        };
 
         window.app.openGlobalPreview = () => { 
-            const m = document.getElementById('global-preview-modal'); const c = document.getElementById('global-render-content'); if(!m||!c)return; m.classList.remove('hidden'); 
+            const m = document.getElementById('global-preview-modal'); const c = document.getElementById('global-render-content'); if(!m||!c)return; 
+            m.classList.remove('hidden'); 
+            document.body.style.overflow = 'hidden'; // Bloquea el scroll de fondo
             buildGlobalRegistry(); let t = ""; chaptersDef.forEach(chap => { t += (thesisContent[chap.id] || "") + "\n\n[PAGE_BREAK]\n\n"; }); 
             renderToPages(preprocessText(t, "global"), 'global-render-content', c.className);
         };
