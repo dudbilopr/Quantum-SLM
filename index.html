@@ -66,55 +66,21 @@
         /* UI APP-LIKE: DISEÑO MODERNO CON PROFUNDIDAD                       */
         /* ================================================================= */
         
-        .glass-panel { 
-            background: rgba(255, 255, 255, 0.4); 
-            backdrop-filter: blur(24px) saturate(150%); 
-            -webkit-backdrop-filter: blur(24px) saturate(150%); 
-            border: 1px solid rgba(255, 255, 255, 0.6); 
-            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.05);
-        }
-        .dark .glass-panel { 
-            background: rgba(15, 23, 42, 0.5); 
-            border: 1px solid rgba(255, 255, 255, 0.1); 
-            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.5);
-        }
+        .glass-panel { background: rgba(255, 255, 255, 0.4); backdrop-filter: blur(24px) saturate(150%); -webkit-backdrop-filter: blur(24px) saturate(150%); border: 1px solid rgba(255, 255, 255, 0.6); box-shadow: 0 4px 30px rgba(0, 0, 0, 0.05); }
+        .dark .glass-panel { background: rgba(15, 23, 42, 0.5); border: 1px solid rgba(255, 255, 255, 0.1); box-shadow: 0 4px 30px rgba(0, 0, 0, 0.5); }
 
-        .modal-glass {
-            background: rgba(255, 255, 255, 0.95);
-            backdrop-filter: blur(40px); border: 1px solid rgba(255, 255, 255, 1);
-            border-radius: 2rem; padding: 2.5rem;
-            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25), 0 0 0 1px rgba(0,0,0,0.05);
-            max-width: 32rem; width: 100%; transition: all 0.3s ease;
-        }
-        .dark .modal-glass {
-            background: rgba(15, 23, 42, 0.90); border: 1px solid rgba(255, 255, 255, 0.15);
-            box-shadow: 0 30px 60px -10px rgba(0, 0, 0, 0.8), 0 0 0 1px rgba(255,255,255,0.05), inset 0 1px 0 rgba(255,255,255,0.1);
-        }
+        .modal-glass { background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(40px); border: 1px solid rgba(255, 255, 255, 1); border-radius: 2rem; padding: 2.5rem; box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25), 0 0 0 1px rgba(0,0,0,0.05); max-width: 32rem; width: 100%; transition: all 0.3s ease; }
+        .dark .modal-glass { background: rgba(15, 23, 42, 0.90); border: 1px solid rgba(255, 255, 255, 0.15); box-shadow: 0 30px 60px -10px rgba(0, 0, 0, 0.8), 0 0 0 1px rgba(255,255,255,0.05), inset 0 1px 0 rgba(255,255,255,0.1); }
 
-        .input-glass {
-            width: 100%; background: rgba(241, 245, 249, 0.8); border: 2px solid transparent;
-            border-radius: 1rem; padding: 0.875rem 1.25rem; font-size: 0.95rem; color: #0f172a;
-            outline: none; transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            box-shadow: inset 0 2px 4px rgba(0,0,0,0.02); font-weight: 500;
-        }
+        .input-glass { width: 100%; background: rgba(241, 245, 249, 0.8); border: 2px solid transparent; border-radius: 1rem; padding: 0.875rem 1.25rem; font-size: 0.95rem; color: #0f172a; outline: none; transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); box-shadow: inset 0 2px 4px rgba(0,0,0,0.02); font-weight: 500; }
         .input-glass:focus { border-color: #14b8a6; background: #ffffff; box-shadow: 0 0 0 4px rgba(20, 184, 166, 0.15), inset 0 2px 4px rgba(0,0,0,0.02); }
         .dark .input-glass { background: rgba(30, 41, 59, 0.7); border-color: rgba(255, 255, 255, 0.05); color: #f8fafc; }
         .dark .input-glass:focus { border-color: #2dd4bf; background: rgba(15, 23, 42, 0.95); box-shadow: 0 0 0 4px rgba(45, 212, 191, 0.2), inset 0 2px 4px rgba(0,0,0,0.3); }
 
-        .btn-primary { 
-            background: linear-gradient(135deg, #0d9488 0%, #14b8a6 100%); color: white; font-weight: 700;
-            padding: 0.75rem 1.5rem; border-radius: 1rem;
-            box-shadow: 0 10px 15px -3px rgba(20, 184, 166, 0.3), 0 4px 6px -4px rgba(20, 184, 166, 0.2), inset 0 1px 0 rgba(255,255,255,0.2);
-            transition: all 0.3s ease; display: inline-flex; align-items: center; justify-content: center; gap: 0.5rem;
-            border: 1px solid rgba(255,255,255,0.1); cursor: pointer;
-        }
+        .btn-primary { background: linear-gradient(135deg, #0d9488 0%, #14b8a6 100%); color: white; font-weight: 700; padding: 0.75rem 1.5rem; border-radius: 1rem; box-shadow: 0 10px 15px -3px rgba(20, 184, 166, 0.3), 0 4px 6px -4px rgba(20, 184, 166, 0.2), inset 0 1px 0 rgba(255,255,255,0.2); transition: all 0.3s ease; display: inline-flex; align-items: center; justify-content: center; gap: 0.5rem; border: 1px solid rgba(255,255,255,0.1); cursor: pointer; }
         .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 15px 20px -3px rgba(20, 184, 166, 0.4), 0 4px 6px -4px rgba(20, 184, 166, 0.2), inset 0 1px 0 rgba(255,255,255,0.3); background: linear-gradient(135deg, #0f766e 0%, #0d9488 100%); }
 
-        .btn-icon {
-            padding: 0.6rem; border-radius: 0.75rem; transition: all 0.2s; display: inline-flex;
-            align-items: center; justify-content: center; cursor: pointer; background: rgba(255, 255, 255, 0.4);
-            border: 1px solid rgba(255, 255, 255, 0.5); color: #475569;
-        }
+        .btn-icon { padding: 0.6rem; border-radius: 0.75rem; transition: all 0.2s; display: inline-flex; align-items: center; justify-content: center; cursor: pointer; background: rgba(255, 255, 255, 0.4); border: 1px solid rgba(255, 255, 255, 0.5); color: #475569; }
         .btn-icon:hover { background: rgba(255, 255, 255, 0.8); transform: translateY(-1px); box-shadow: 0 4px 6px rgba(0,0,0,0.05); color: #0f172a; }
         .dark .btn-icon { background: rgba(15, 23, 42, 0.4); border-color: rgba(255, 255, 255, 0.05); color: #94a3b8; }
         .dark .btn-icon:hover { background: rgba(30, 41, 59, 0.8); color: #f8fafc; border-color: rgba(255, 255, 255, 0.1); }
@@ -123,53 +89,42 @@
         /* MODOS DE VISUALIZACIÓN: FORMATO APA Y LIBRO WEB DESLUMBRANTE      */
         /* ================================================================= */
 
-        .page-container { counter-reset: equation figure table; display: flex; flex-direction: column; align-items: center; padding: 2rem 1rem; gap: 3rem; width: 100%; overflow-x: hidden; transition: all 0.4s ease; }
+        /* APA COUNTERS: Chapter increment for equations */
+        .page-container { counter-reset: equation figure table chapter_eq; display: flex; flex-direction: column; align-items: center; padding: 2rem 1rem; gap: 3rem; width: 100%; overflow-x: hidden; transition: all 0.4s ease; }
         
-        /* TAMAÑO CARTA Y MÁRGENES APA (2.54cm) */
-        .a4-page {
-            width: 100%; max-width: 21.59cm; min-height: 27.94cm; padding: 2.54cm; 
-            background: white; color: black; text-align: left; 
-            box-shadow: 0 25px 50px rgba(0,0,0,0.15); border-radius: 8px;
-            position: relative; flex-shrink: 0; margin: 0 auto;
-            transition: max-width 0.4s ease;
-        }
+        .a4-page { width: 100%; max-width: 21.59cm; min-height: 27.94cm; padding: 2.54cm; background: white; color: black; text-align: left; box-shadow: 0 25px 50px rgba(0,0,0,0.15); border-radius: 8px; position: relative; flex-shrink: 0; margin: 0 auto; transition: max-width 0.4s ease; }
         .dark .a4-page { box-shadow: 0 25px 50px rgba(0,0,0,0.9); }
         
-        /* MODO LIBRO WEB (DESLUMBRANTE) */
         .web-page-wrapper { width: 100%; display: flex; justify-content: center; transition: all 0.4s ease; }
-        .web-page {
-            width: 100%; max-width: 1100px; padding: 5% 8%;
-            background: rgba(255, 255, 255, 0.85); backdrop-filter: blur(30px) saturate(180%);
-            border-radius: 2rem; border: 1px solid rgba(255,255,255,0.8);
-            color: #1e293b; text-align: left; box-shadow: 0 30px 60px rgba(0,0,0,0.08), inset 0 0 0 1px rgba(255,255,255,0.5);
-            position: relative; flex-shrink: 0; margin: 2rem auto; font-size: 1.15em; line-height: 1.8;
-            transition: max-width 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-        }
+        .web-page { width: 100%; max-width: 1100px; padding: 5% 8%; background: rgba(255, 255, 255, 0.85); backdrop-filter: blur(30px) saturate(180%); border-radius: 2rem; border: 1px solid rgba(255,255,255,0.8); color: #1e293b; text-align: left; box-shadow: 0 30px 60px rgba(0,0,0,0.08), inset 0 0 0 1px rgba(255,255,255,0.5); position: relative; flex-shrink: 0; margin: 2rem auto; font-size: 1.15em; line-height: 1.8; transition: max-width 0.4s cubic-bezier(0.4, 0, 0.2, 1); }
         .dark .web-page { background: rgba(15,23,42,0.75); border-color: rgba(255,255,255,0.15); color: #f1f5f9; box-shadow: 0 30px 60px rgba(0,0,0,0.6), inset 0 0 0 1px rgba(255,255,255,0.05); }
 
-        /* WIDE MODE TRIGGER */
         .wide-active .web-page { max-width: 96% !important; }
         .wide-active .a4-page { max-width: 90% !important; }
 
         /* REGLAS APA ESTRICTAS PARA PÁRRAFOS Y TÍTULOS */
         .render-area p { text-indent: 1.27cm; margin-bottom: 0 !important; line-height: inherit; }
         
-        /* Excepciones a la sangría APA */
-        .render-area table p, .render-area figure p, .render-area .modern-tip p, 
-        .cover-page p, .institutional-backcover p, .render-area li, .render-area h1, .render-area h2, .render-area h3, .web-hero p { 
-            text-indent: 0 !important; 
-        }
+        .render-area table p, .render-area figure p, .render-area .modern-tip p, .render-area .latex-box-body p,
+        .cover-page p, .institutional-backcover p, .render-area li, .render-area h1, .render-area h2, .render-area h3, .web-hero p { text-indent: 0 !important; }
 
-        .render-area h1 { font-size: 2.2em; font-weight: 800; margin-bottom: 1.5em; margin-top: 1.5em; text-align: center; color: inherit; }
+        /* INCREMENTO DE CAPÍTULO PARA ECUACIONES */
+        .render-area h1 { font-size: 2.2em; font-weight: 800; margin-bottom: 1.5em; margin-top: 1.5em; text-align: center; color: inherit; counter-increment: chapter_eq; counter-reset: equation; }
         .render-area h2 { font-size: 1.6em; font-weight: 700; margin-top: 2em; margin-bottom: 1em; color: inherit; }
         .render-area h3 { font-size: 1.3em; font-weight: 600; font-style: italic; margin-top: 1.5em; margin-bottom: 0.8em; color: inherit; }
         
-        /* Estilos Internos Deslumbrantes para Web Mode */
+        /* Estilos Web Mode */
         .web-page h1 { font-family: 'Inter', sans-serif; font-size: 3.8em; font-weight: 900; margin-bottom: 1em; text-align: center; background: linear-gradient(to right, #0ea5e9, #8b5cf6, #14b8a6, #0ea5e9); background-size: 200% auto; -webkit-background-clip: text; -webkit-text-fill-color: transparent; letter-spacing: -1.5px; animation: gradient-x 8s linear infinite; }
         .web-page h2 { font-family: 'Inter', sans-serif; border-bottom: 3px solid rgba(20,184,166,0.3); padding-bottom: 0.4em; font-size: 2.2em; display:flex; align-items:center; gap: 10px; font-weight: 800; }
         .web-page h3 { font-family: 'Inter', sans-serif; color: #14b8a6; font-style: normal; font-size: 1.5em; font-weight: 700; }
 
-        /* PORTADA WEB (Hero Banner de Alto Impacto) */
+        /* CONTENEDORES TIPO LATEX (CAJAS) */
+        .latex-box { border: 1px solid #1e3a8a; border-radius: 8px; margin: 2.5rem 0; overflow: hidden; box-shadow: 0 10px 25px rgba(0,0,0,0.1); page-break-inside: avoid; transition: transform 0.3s; background: white; }
+        .dark .latex-box { border-color: #3b82f6; box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
+        .latex-box-header { background: linear-gradient(90deg, #1e3a8a, #2563eb); color: white; padding: 0.75rem 1.5rem; font-family: 'Inter', sans-serif; font-weight: 800; font-size: 1.1em; letter-spacing: 0.5px; text-transform: uppercase; }
+        .latex-box-body { padding: 1.5rem; color: #0f172a; font-family: inherit; font-size: 0.95em; }
+
+        /* PORTADAS */
         .web-hero { display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; padding: 6rem 3rem; background: linear-gradient(180deg, rgba(20,184,166,0.15) 0%, transparent 100%); border-radius: 2rem; margin-bottom: 4rem; border: 1px solid rgba(20,184,166,0.3); box-shadow: 0 20px 40px rgba(20,184,166,0.05); }
         .web-hero h1 { font-size: 4.5em; line-height: 1.1; margin-bottom: 0.5em; }
         .web-hero h2 { font-size: 2em; font-weight: 600; color: #475569; border: none; margin-bottom: 1.5em; justify-content: center; }
@@ -177,7 +132,6 @@
         .web-hero .author-badge { background: rgba(20,184,166,0.1); border: 1px solid rgba(20,184,166,0.3); padding: 0.5rem 1.5rem; border-radius: 2rem; font-family: 'JetBrains Mono', monospace; font-weight: bold; color: #0d9488; letter-spacing: 2px; }
         .dark .web-hero .author-badge { color: #2dd4bf; }
 
-        /* PORTADA A4 INSTITUCIONAL UBA FCEyN */
         .cover-page { display: flex; flex-direction: column; justify-content: space-between; align-items: center; height: 100%; min-height: 85vh; text-align: center; padding: 1rem; border-bottom: none; box-sizing: border-box; }
         .a4-page .cover-page { min-height: 240mm; padding: 0; }
         .cover-page h1 { font-family: 'Arial', sans-serif; font-size: 2.4em; font-weight: 900; margin: 0; line-height: 1.25; color: inherit; text-align: center; text-transform: uppercase; letter-spacing: 1px; }
@@ -210,14 +164,16 @@
         .render-area th { background-color: rgba(20,184,166,0.15); font-weight: 800; text-align: center; text-transform: uppercase; font-size: 0.85em; letter-spacing: 1px; color: #0f766e; }
         .dark .render-area th { color: #2dd4bf; }
 
-        .render-area .katex-display { margin: 2.5em 0; overflow-x: auto; overflow-y: hidden; position: relative; padding-right: 4rem; background: rgba(255,255,255,0.6); padding: 1.5rem; border-radius: 16px; box-shadow: inset 0 2px 10px rgba(0,0,0,0.02); }
+        /* ECUACIONES (Numeración por Capítulo APA/LaTeX) */
+        .render-area .katex-display { margin: 2.5em 0; overflow-x: auto; overflow-y: hidden; position: relative; padding-right: 5rem; background: rgba(255,255,255,0.6); padding: 1.5rem; border-radius: 16px; box-shadow: inset 0 2px 10px rgba(0,0,0,0.02); }
         .dark .render-area .katex-display { background: rgba(0,0,0,0.3); }
-        .render-area .katex-display::after { counter-increment: equation; content: "(" counter(equation) ")"; position: absolute; right: 1.5rem; top: 50%; transform: translateY(-50%); font-family: 'Times New Roman', serif; font-size: 11pt; font-weight: bold; opacity: 0.8; color: #14b8a6; }
+        .render-area .katex-display::after { counter-increment: equation; content: "(" counter(chapter_eq) "." counter(equation) ")"; position: absolute; right: 1.5rem; top: 50%; transform: translateY(-50%); font-family: 'Times New Roman', serif; font-size: 11pt; font-weight: bold; opacity: 0.8; color: #14b8a6; }
+        
         .render-area a { color: #0ea5e9; text-decoration: none; font-weight: 600; transition: all 0.2s; border-bottom: 2px solid transparent; }
         .render-area a:hover { color: #0284c7; border-bottom-color: #0284c7; background: rgba(14,165,233,0.1); padding: 0 2px; border-radius: 4px; }
 
         /* ================================================================= */
-        /* COMPONENTES INTERACTIVOS (GLOSARIO, TIPS, CARRUSEL)               */
+        /* COMPONENTES INTERACTIVOS Y EXTRAS                                 */
         /* ================================================================= */
         
         /* Glosario Inteligente */
@@ -228,7 +184,7 @@
         .glossary-tooltip::after { content: ''; position: absolute; top: 100%; left: 50%; transform: translateX(-50%); border-width: 8px; border-style: solid; border-color: rgba(15, 23, 42, 0.95) transparent transparent transparent; }
         .glossary-term:hover .glossary-tooltip { opacity: 1; visibility: visible; transform: translateX(-50%) translateY(0) scale(1); }
 
-        /* Tips UI (Alto Impacto) */
+        /* Tips UI */
         .modern-tip { background: linear-gradient(135deg, rgba(20,184,166,0.1), rgba(139,92,246,0.1)); border-left: 6px solid #14b8a6; padding: 2rem; border-radius: 0 1.5rem 1.5rem 0; margin: 3rem 0; display: flex; gap: 1.5rem; align-items: flex-start; box-shadow: 0 15px 35px rgba(0,0,0,0.06); border: 1px solid rgba(255,255,255,0.3); border-left-width: 6px; transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1); }
         .modern-tip:hover { transform: translateX(8px); box-shadow: 0 20px 40px rgba(20,184,166,0.1); }
         .modern-tip-icon { background: linear-gradient(135deg, #14b8a6, #0d9488); color: white; padding: 0.8rem; border-radius: 1.2rem; flex-shrink: 0; box-shadow: 0 8px 20px rgba(20,184,166,0.4); }
@@ -243,31 +199,31 @@
         .carousel-img:hover { transform: scale(1.02); }
         .carousel-wrapper::after { content: '→ Desliza para ver galería'; position: absolute; bottom: -0.5rem; right: 0; font-size: 0.8rem; font-family: 'Inter', sans-serif; font-weight: 800; color: #14b8a6; background: rgba(20,184,166,0.15); padding: 6px 16px; border-radius: 20px; backdrop-filter: blur(5px); border: 1px solid rgba(20,184,166,0.3);}
 
-        /* Comentarios (Tesis Workflow) */
         .thesis-comment { background: rgba(250, 204, 21, 0.15); border-left: 4px solid #facc15; padding: 12px 18px; margin: 15px 0; font-family: 'Inter', sans-serif; font-size: 0.9em; border-radius: 0 8px 8px 0; color: #854d0e; }
         .dark .thesis-comment { color: #fef08a; }
         .thesis-solution { background: rgba(16, 185, 129, 0.15); border-left: 4px solid #10b981; padding: 12px 18px; margin: 15px 0; font-family: 'Inter', sans-serif; font-size: 0.9em; border-radius: 0 8px 8px 0; color: #065f46; }
         .dark .thesis-solution { color: #a7f3d0; }
 
-        /* Animación de Revelado al scrollear (Fade-in-up) */
         .reveal-item { opacity: 0; transform: translateY(40px); transition: opacity 0.8s cubic-bezier(0.2, 0.8, 0.2, 1), transform 0.8s cubic-bezier(0.2, 0.8, 0.2, 1); will-change: opacity, transform; }
         .reveal-item.is-visible { opacity: 1; transform: translateY(0); }
 
-        /* CABECERA APA 7 (Running Head y Paginación en parte superior) */
         .page-header { position: absolute; top: 1.27cm; left: 2.54cm; right: 2.54cm; font-size: 0.9em; color: inherit; text-align: left; display: flex; justify-content: space-between; font-family: inherit; text-transform: uppercase; font-weight: bold; opacity: 0.8; }
 
         /* ================================================================= */
-        /* UTILIDADES APP Y SIDEBARS                                         */
+        /* ÍNDICE Y MENÚS                                                    */
         /* ================================================================= */
 
-        /* TOC Moderno con Paginación APA */
-        .toc-list { list-style: none !important; padding-left: 0 !important; }
-        .toc-list li { margin-bottom: 0.8rem; }
-        .toc-sublist { list-style: none !important; padding-left: 1.5rem !important; margin-top: 0.8rem; border-left: 2px solid rgba(20,184,166,0.3); }
-        .toc-entry-line { display: flex; align-items: baseline; justify-content: space-between; width: 100%; text-indent: 0 !important; }
-        .toc-leader { flex-grow: 1; border-bottom: 2px dotted rgba(148,163,184,0.5); margin: 0 15px; position: relative; top: -6px; }
-        .toc-page-num { font-family: 'Times New Roman', serif; font-weight: bold; color: #0d9488; }
-        .dark .toc-page-num { color: #2dd4bf; }
+        .toc-list { list-style: none !important; padding-left: 0 !important; width: 100%; font-family: 'Times New Roman', serif; font-size: 1.1em;}
+        .toc-list li { margin-bottom: 0.6rem; }
+        .toc-sublist { list-style: none !important; padding-left: 1.5rem !important; margin-top: 0.6rem; border-left: none; }
+        .toc-entry-line { display: flex; align-items: flex-end; justify-content: space-between; width: 100%; text-indent: 0 !important; line-height: 1.2; }
+        .toc-title { display: inline-block; padding-right: 5px; z-index: 2; position:relative; background: var(--app-bg); }
+        .a4-page .toc-title { background: white; color: black; }
+        .dark .a4-page .toc-title { background: white; color: black; }
+        .toc-leader { flex-grow: 1; border-bottom: 2px dotted rgba(0,0,0,0.4); margin: 0; position: relative; top: -5px; z-index: 1;}
+        .dark .a4-page .toc-leader { border-bottom-color: rgba(0,0,0,0.4); }
+        .toc-page-num { font-family: 'Times New Roman', serif; font-weight: bold; color: inherit; background: var(--app-bg); padding-left: 5px; z-index: 2; position:relative;}
+        .a4-page .toc-page-num { background: white; color: black;}
 
         #editor-pane { font-family: 'JetBrains Mono', monospace; resize: none; outline: none; line-height: 1.7; font-size: 0.95rem; }
         #notes-panel-container { transition: width 0.3s cubic-bezier(0.4, 0, 0.2, 1); border-left: 1px solid var(--border-color); overflow: hidden; }
@@ -285,8 +241,7 @@
         .draggable-item:active { cursor: grabbing; }
         .draggable-item.dragging { opacity: 0.5; background: rgba(148,163,184,0.2); }
 
-        /* Ocultar Menú Suavemente */
-        .sidebar { transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1); }
+        .sidebar, .toolbar { transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1); }
         .sidebar.collapsed { width: 0 !important; border: none; opacity: 0; overflow: hidden; padding: 0;}
         
         body.focus-mode .sidebar { width: 0 !important; opacity: 0; overflow: hidden; border: none; }
@@ -298,14 +253,12 @@
         .page-break-visual { width: 100%; border-bottom: 2px dashed #94a3b8; margin: 4rem 0; position: relative; text-align: center; opacity: 0.6; }
         .page-break-visual::after { content: "✂ SALTO DE PÁGINA APA ✂"; background: var(--app-bg); padding: 0 15px; color: #64748b; font-size: 11px; position: relative; top: -8px; font-weight: bold; letter-spacing: 2px; border-radius: 10px; }
         
-        /* Ocultar texto de salto de página en modo WEB y PDF final */
         .web-page .page-break-visual, .web-page-wrapper .page-break-visual { display: none !important; }
         .a4-page .page-break-visual { display: none !important; } 
 
         .sidebar-submenu { max-height: 0; overflow: hidden; transition: max-height 0.4s ease-out; }
         .sidebar-submenu.open { max-height: 800px; }
 
-        /* Grafo Fullscreen */
         .graph-fullscreen { position: fixed !important; top: 0; left: 0; width: 100vw !important; height: 100vh !important; z-index: 200; border-radius: 0 !important; margin: 0 !important; background: var(--app-bg) !important; border: none !important; }
         .graph-fullscreen #knowledge-graph { background: rgba(0,0,0,0.9) !important; }
     </style>
@@ -341,8 +294,8 @@
             <div class="bg-gradient-to-br from-white to-slate-100 dark:from-slate-800 dark:to-slate-900 w-24 h-24 rounded-3xl mx-auto flex items-center justify-center mb-6 shadow-2xl border border-slate-200 dark:border-slate-700 shrink-0 z-10">
                 <i data-lucide="book-open" class="w-12 h-12 text-quantum-500"></i>
             </div>
-            <h2 class="text-4xl font-black mb-2 tracking-tight text-slate-800 dark:text-white z-10 bg-clip-text text-transparent bg-gradient-to-r from-quantum-600 to-blue-600">Nexus Book V15</h2>
-            <p class="text-sm opacity-80 mb-8 font-semibold z-10 text-slate-600 dark:text-slate-300 uppercase tracking-widest">Ultimate Research Engine</p>
+            <h2 class="text-4xl font-black mb-2 tracking-tight text-slate-800 dark:text-white z-10 bg-clip-text text-transparent bg-gradient-to-r from-quantum-600 to-blue-600">Nexus Book V16</h2>
+            <p class="text-sm opacity-80 mb-8 font-semibold z-10 text-slate-600 dark:text-slate-300 uppercase tracking-widest">Ultimate Research Engine (LaTeX Ready)</p>
             
             <div class="flex-1 overflow-y-auto px-2 pb-4 z-10 scroll-smooth">
                 <button onclick="window.app.loginAdminGoogle()" class="w-full bg-white dark:bg-slate-800 text-slate-900 dark:text-white hover:scale-[1.02] transition-transform font-bold py-4 px-4 rounded-2xl flex items-center justify-center gap-3 mb-4 shadow-lg border border-slate-200 dark:border-slate-700">
@@ -584,7 +537,7 @@
                     </div>
                     <div class="w-px h-6 bg-slate-300 dark:bg-slate-700 mx-1 hidden sm:block"></div>
                     <button onclick="window.app.toggleTheme()" class="btn-icon text-slate-600 dark:text-slate-300 bg-white/70 dark:bg-slate-800/70 shadow-sm border border-slate-200 dark:border-slate-700 backdrop-blur-sm hover:scale-105" title="Tema Claro/Oscuro"><i data-lucide="moon" id="theme-icon" class="w-5 h-5"></i></button>
-                    <button onclick="window.app.openGlobalPreview()" class="btn-primary py-2.5 px-6 text-sm ml-2 hidden sm:flex shadow-xl hover:scale-105"><i data-lucide="layers" class="w-4 h-4"></i> Lector Integrado</button>
+                    <button onclick="window.app.openGlobalPreview()" class="btn-primary py-2.5 px-6 text-sm ml-2 hidden sm:flex shadow-xl hover:scale-105"><i data-lucide="layers" class="w-4 h-4"></i> Compilar / Lector</button>
                 </div>
             </header>
 
@@ -604,7 +557,8 @@
                             <button onclick="window.app.insertFormat('*', '*')" class="btn-icon border-none shadow-none text-slate-700 dark:text-slate-300 shrink-0" title="Cursiva"><i data-lucide="italic" class="w-4 h-4"></i></button>
                             <div class="w-px h-5 bg-slate-300 dark:bg-slate-700 mx-1 shrink-0"></div>
                             
-                            <!-- UI Moderna Extras (Tips y Carrusel) -->
+                            <!-- UI Moderna Extras (Cajas, Tips y Carrusel) -->
+                            <button onclick="window.app.insertFormat('\n[CAJA | Título de la Caja]\nContenido de la caja...\n[/CAJA]\n', '')" class="btn-icon border-none shadow-none text-indigo-600 dark:text-indigo-400 hover:bg-indigo-500/10 shrink-0" title="Contenedor tipo LaTeX"><i data-lucide="layout-template" class="w-4 h-4"></i></button>
                             <button onclick="window.app.insertFormat('\n[TIP | Dato Relevante | Escribe aquí el contenido del tip...]\n', '')" class="btn-icon border-none shadow-none text-amber-600 dark:text-amber-500 hover:bg-amber-500/10 shrink-0" title="Añadir Nota / Tip Destacado"><i data-lucide="lightbulb" class="w-4 h-4"></i></button>
                             <button onclick="window.app.insertFormat('\n[CARRUSEL | url1.jpg, url2.jpg | Leyenda de la galería]\n', '')" class="btn-icon border-none shadow-none text-rose-600 dark:text-rose-500 hover:bg-rose-500/10 shrink-0" title="Carrusel de Imágenes"><i data-lucide="gallery-horizontal-end" class="w-4 h-4"></i></button>
                             <div class="w-px h-5 bg-slate-300 dark:bg-slate-700 mx-1 shrink-0"></div>
@@ -633,7 +587,7 @@
                         
                         <!-- Páneles de Texto -->
                         <div class="flex-1 flex overflow-hidden">
-                            <textarea id="editor-pane" class="flex-1 w-full bg-white/50 dark:bg-black/50 p-6 text-[1rem] text-slate-800 dark:text-slate-200 focus:ring-0" placeholder="Redacta tu tesis. Comandos Mágicos Modernos:\n\n[INDICE_GENERAL]\n[LISTA_FIGURAS]\n[BIBLIOGRAFIA]\n[PAGE_BREAK]\n[TIP | Titulo | Texto]\n[CARRUSEL | url1, url2 | Leyenda]" oninput="window.app.handleInput()"></textarea>
+                            <textarea id="editor-pane" class="flex-1 w-full bg-white/50 dark:bg-black/50 p-6 text-[1rem] text-slate-800 dark:text-slate-200 focus:ring-0" placeholder="Redacta tu tesis. Comandos Mágicos Modernos:\n\n[INDICE_GENERAL]\n[LISTA_FIGURAS]\n[BIBLIOGRAFIA]\n[CAJA | Titulo] ... [/CAJA]\n[TIP | Titulo | Texto]" oninput="window.app.handleInput()"></textarea>
                             
                             <!-- Notes Panel (Sliding) -->
                             <div id="notes-panel-container" class="notes-hidden w-72 bg-amber-50/80 dark:bg-amber-900/20 flex flex-col shrink-0 border-l border-amber-200 dark:border-amber-800/50 shadow-inner">
@@ -852,10 +806,10 @@
             codirector: "Dra. Lorena Rebón", 
             consejero: "Dra. Maria Gabriela Capeluto", 
             date: "Buenos Aires, Argentina\n2026", 
-            font: "'Times New Roman', Times, serif", // APA Font
-            fontSize: "12pt", // APA Size
-            lineHeight: "2.0", // APA Double Spacing
-            align: "left", // APA Alignment
+            font: "'Times New Roman', Times, serif", 
+            fontSize: "12pt", 
+            lineHeight: "2.0", 
+            align: "left", 
             geminiKey: "" 
         };
         
@@ -916,7 +870,7 @@
         };
 
         window.app.toggleWideMode = () => {
-            const wrappers = document.querySelectorAll('.web-page-wrapper');
+            const wrappers = document.querySelectorAll('.web-page-wrapper, .a4-page');
             wrappers.forEach(w => w.classList.toggle('wide-active'));
         };
 
@@ -999,7 +953,7 @@
         }
 
         function loadFromLocal() {
-            const saved = localStorage.getItem('nexus_writer_v15');
+            const saved = localStorage.getItem('nexus_writer_v16');
             if (saved) {
                 const data = JSON.parse(saved); 
                 thesisContent = data.content || {}; referencesDB = data.refs || []; chapterNotes = data.notes || {}; commitmentLog = data.commits || [];
@@ -1027,7 +981,7 @@
             
             thesisContent["cap1"] = `# Capítulo 1. Fundamentos Teóricos de la Información Cuántica Fotónica\n*(Consolidación teórica: Introduce toda la física base sin interrumpir la narrativa en los capítulos posteriores).*\n\n## 1.1. Representación de Estados Cuánticos\nEstados puros y matriz densidad $\\rho$.\n\n## 1.2. Qubits y Qudits Fotónicos\n### 1.2.1. Qubits de polarización.\n### 1.2.2. Qudits espaciales (Estados de rendija).\n### 1.2.3. Qudits basados en Momento Angular Orbital (OAM).\n\n## 1.3. Estado del Arte: Codificación y correlación de múltiples grados de libertad fotónicos.\n\n[TIP | OAM y Qubits | Pasa el mouse sobre palabras como OAM o SLM para ver el glosario interactivo.]`;
             
-            thesisContent["cap2"] = `# Capítulo 2. Moduladores Espaciales de Luz (SLMs): Caracterización y Optimización\n*(Herramientas experimentales: Valida el instrumento principal de la tesis).*\n\n## 2.1. Principios de funcionamiento de las pantallas de cristal líquido.\n\n## 2.2. Formalismo de caracterización óptica.\n\n## 2.3. Optimización de la modulación (Fase, Amplitud y Polarización).\n\n## 2.4. Análisis y mitigación de fluctuaciones temporales (Flickering) inducidoras de depolarización.`;
+            thesisContent["cap2"] = `# Capítulo 2. Moduladores Espaciales de Luz (SLMs): Caracterización y Optimización\n*(Herramientas experimentales: Valida el instrumento principal de la tesis).*\n\n## 2.1. Principios de funcionamiento de las pantallas de cristal líquido.\n\n## 2.2. Formalismo de caracterización óptica.\n\n[CAJA | Caracterización de las láminas de cuarto de onda]\nPara realizar esta caracterización nosotros colocamos las láminas de cuarto de onda entre polarizadores lineales con ejes alineados. Registramos todos los valores de intensidad medida que se va rotando la lámina. Los valores siguen la siguiente expresión (ver Fig. 2.1):\n\n$$ I = 0.5 [1 + \\cos^2(\\theta + \\theta_0) + \\sin^2(\\theta + \\theta_0)\\cos(\\delta)] $$\n\ndonde $\\theta$ es el ángulo de rotación de la lámina y $\\delta$ es el desfasaje de la misma.\n[/CAJA]\n\n## 2.3. Optimización de la modulación (Fase, Amplitud y Polarización).\n\n## 2.4. Análisis y mitigación de fluctuaciones temporales (Flickering) inducidoras de depolarización.`;
             
             thesisContent["cap3"] = `# Capítulo 3. Correlación de Qudits Espaciales y Polarización\n*(Primer hito experimental: Combina camino transversal + polarización).*\n\n## 3.1. Introducción al entrelazamiento local y correlaciones.\n\n## 3.2. Formalismo del estado híbrido: Momento lineal transversal y Polarización.\n\n## 3.3. Implementación de un divisor de haz polarizante multicanal programable con un solo SLM.\n\n## 3.4. Resultados: Simulación óptica paralela-en-el-tiempo de "Estados Historia".`;
             
@@ -1048,9 +1002,10 @@
         renderer.heading = function (tokenOrText, level, raw) { 
             let text = typeof tokenOrText === 'object' ? String(tokenOrText.text || '') : String(tokenOrText || ''); 
             let depth = typeof tokenOrText === 'object' ? (tokenOrText.depth || 1) : (level || 1); 
-            // Usamos un slug más robusto para asegurar que los IDs encajen con los del Índice
+            // FIXED: Parseamos estilos en línea (como *) dentro de los títulos
+            let parsedText = marked.parseInline(text);
             const slug = text.toLowerCase().replace(/[^\w]+/g, '-'); 
-            return `<h${depth} id="${slug}">${text}</h${depth}>`; 
+            return `<h${depth} id="${slug}">${parsedText}</h${depth}>`; 
         }; 
         marked.use({ renderer });
         
@@ -1063,10 +1018,10 @@
             chaptersDef.forEach((chap, idx) => {
                 const itemDiv = document.createElement('div'); itemDiv.className = 'draggable-item mb-1 relative'; itemDiv.draggable = isAdmin; 
                 if(isAdmin) { itemDiv.ondragstart = () => { draggedItemIdx = idx; itemDiv.classList.add('dragging'); }; itemDiv.ondragend = () => { itemDiv.classList.remove('dragging'); }; itemDiv.ondragover = (e) => { e.preventDefault(); }; itemDiv.ondrop = (e) => { e.preventDefault(); if(draggedItemIdx === null || draggedItemIdx === idx) return; chaptersDef.splice(idx, 0, chaptersDef.splice(draggedItemIdx, 1)[0]); renderSidebar(); window.app.saveToCloud(); window.app.handleInput(); }; }
-                const btn = document.createElement('button'); btn.className = `w-full text-left px-4 py-3 rounded-xl text-sm flex items-center justify-between transition-all ${currentChap === chap.id ? 'bg-quantum-500 text-white shadow-md font-bold' : 'hover:bg-slate-200/50 dark:hover:bg-slate-800/50 text-slate-700 dark:text-slate-300 font-medium'}`; btn.innerHTML = `<span class="truncate flex items-center gap-3"><i data-lucide="file-text" class="w-4 h-4 opacity-80"></i> ${chap.title}</span>`;
+                const btn = document.createElement('button'); btn.className = `w-full text-left px-4 py-3 rounded-xl text-sm flex items-center justify-between transition-all ${currentChap === chap.id ? 'bg-quantum-500 text-white shadow-md font-bold' : 'hover:bg-slate-200/50 dark:hover:bg-slate-800/50 text-slate-700 dark:text-slate-300 font-medium'}`; btn.innerHTML = `<span class="truncate flex items-center gap-3"><i data-lucide="file-text" class="w-4 h-4 opacity-80"></i> ${marked.parseInline(chap.title)}</span>`;
                 if(chap.sections && chap.sections.length > 0) { const chevron = document.createElement('i'); chevron.setAttribute('data-lucide', 'chevron-right'); chevron.className = `w-4 h-4 chevron ${currentChap === chap.id ? 'open' : 'opacity-50'}`; chevron.onclick = (e) => { e.stopPropagation(); const sub = document.getElementById(`sub-${chap.id}`); if(sub) sub.classList.toggle('open'); chevron.classList.toggle('open'); }; btn.appendChild(chevron); }
                 btn.onclick = (e) => { if(e.target.tagName !== 'svg' && e.target.tagName !== 'line' && e.target.tagName !== 'polyline') selectChapter(chap.id); }; itemDiv.appendChild(btn);
-                if(chap.sections && chap.sections.length > 0) { const subDiv = document.createElement('div'); subDiv.id = `sub-${chap.id}`; subDiv.className = `sidebar-submenu flex flex-col pl-9 pt-1 pb-2 text-[11px] text-slate-500 dark:text-slate-400 font-medium ${currentChap === chap.id ? 'open' : ''}`; chap.sections.forEach(sec => { const secSpan = document.createElement('span'); secSpan.className = `py-1.5 truncate hover:text-quantum-600 dark:hover:text-quantum-400 cursor-pointer transition-colors ${sec.level === 3 ? 'pl-3 border-l border-slate-300 dark:border-slate-700' : ''}`; secSpan.textContent = sec.text; subDiv.appendChild(secSpan); }); itemDiv.appendChild(subDiv); }
+                if(chap.sections && chap.sections.length > 0) { const subDiv = document.createElement('div'); subDiv.id = `sub-${chap.id}`; subDiv.className = `sidebar-submenu flex flex-col pl-9 pt-1 pb-2 text-[11px] text-slate-500 dark:text-slate-400 font-medium ${currentChap === chap.id ? 'open' : ''}`; chap.sections.forEach(sec => { const secSpan = document.createElement('span'); secSpan.className = `py-1.5 truncate hover:text-quantum-600 dark:hover:text-quantum-400 cursor-pointer transition-colors ${sec.level === 3 ? 'pl-3 border-l border-slate-300 dark:border-slate-700' : ''}`; secSpan.innerHTML = marked.parseInline(sec.text); subDiv.appendChild(secSpan); }); itemDiv.appendChild(subDiv); }
                 list.appendChild(itemDiv);
             });
             lucide.createIcons(); if(!currentChap && chaptersDef.length > 0) { currentChap = chaptersDef[0].id; updateUI(); }
@@ -1075,12 +1030,48 @@
         function selectChapter(id) { currentChap = id; if(isAdmin) window.app.switchMainTab('editor'); renderSidebar(); updateUI(); }
 
         function buildGlobalRegistry() {
-            globalRegistry = { fig: {}, tab: {} }; listFigures = []; listTables = []; let figCount = 1, tabCount = 1;
-            chaptersDef.forEach(chap => { let content = thesisContent[chap.id] || ""; const figRegex = /\[FIG\s*\|\s*(.*?)\s*\|\s*(.*?)\s*\|\s*(.*?)\]/g; let match; while ((match = figRegex.exec(content)) !== null) { let label = match[3].trim(); globalRegistry.fig[label] = figCount; listFigures.push({ num: figCount++, caption: match[2].trim(), label: label, url: match[1].trim() }); } const tabRegex = /\[TAB\s*\|\s*(.*?)\s*\|\s*(.*?)\]/g; while ((match = tabRegex.exec(content)) !== null) { let label = match[2].trim(); globalRegistry.tab[label] = tabCount; listTables.push({ num: tabCount++, caption: match[1].trim(), label: label }); } });
+            globalRegistry = { fig: {}, tab: {} }; listFigures = []; listTables = []; 
+            let chapNum = 0;
+            
+            chaptersDef.forEach(chap => { 
+                let content = thesisContent[chap.id] || ""; 
+                
+                // Determinamos si es un capítulo para numeración ej: Capítulo 1
+                let isChap = /^#\s*(Capítulo|Chapter)\s*\d+/i.test(content);
+                if(isChap) {
+                    let m = content.match(/^#\s*(?:Capítulo|Chapter)\s*(\d+)/i);
+                    if(m) chapNum = parseInt(m[1]); else chapNum++;
+                } else if (content.match(/^#\s+/)) {
+                    if(chap.id.startsWith('cap')) chapNum++;
+                }
+
+                let figCount = 1, tabCount = 1;
+                const figRegex = /\[FIG\s*\|\s*(.*?)\s*\|\s*(.*?)\s*\|\s*(.*?)\]/g; let match; 
+                while ((match = figRegex.exec(content)) !== null) { 
+                    let label = match[3].trim(); 
+                    let displayNum = chapNum > 0 ? `${chapNum}.${figCount}` : `${figCount}`;
+                    globalRegistry.fig[label] = displayNum; 
+                    listFigures.push({ num: displayNum, caption: match[2].trim(), label: label, url: match[1].trim() }); 
+                    figCount++;
+                } 
+                
+                const tabRegex = /\[TAB\s*\|\s*(.*?)\s*\|\s*(.*?)\]/g; 
+                while ((match = tabRegex.exec(content)) !== null) { 
+                    let label = match[2].trim(); 
+                    let displayNum = chapNum > 0 ? `${chapNum}.${tabCount}` : `${tabCount}`;
+                    globalRegistry.tab[label] = displayNum; 
+                    listTables.push({ num: displayNum, caption: match[1].trim(), label: label }); 
+                    tabCount++;
+                } 
+            });
         }
 
         function preprocessText(text, chapterId, isGlobalWebMode = false) {
             let processed = text;
+            
+            // Auto fix headings missing a space (#Capítulo -> # Capítulo)
+            processed = processed.replace(/^#(?=[^\s#])/gm, '# ');
+
             if(chapterId === "front") {
                 const portada = isGlobalWebMode ? 
 `<div class="web-hero reveal-item"><div class="author-badge mb-4">Investigación Doctoral</div><h1>${projectConfig.name}</h1><h2>${projectConfig.author}</h2><p class="mt-4 font-mono font-bold">${projectConfig.date}</p></div>` :
@@ -1090,9 +1081,12 @@
 
             processed = processed.replace(/\[PAGE_BREAK\]/g, '<div class="page-break-visual" style="page-break-after: always;"></div>');
 
-            // COMPONENTES AVANZADOS
+            // COMPONENTES AVANZADOS (Cajas LaTeX, Tips, Carrusel)
+            processed = processed.replace(/\[CAJA\s*\|\s*(.*?)\]([\s\S]*?)\[\/CAJA\]/gi, `<div class="latex-box reveal-item"><div class="latex-box-header">$1</div><div class="latex-box-body">$2</div></div>`);
             processed = processed.replace(/\[TIP\s*\|\s*(.*?)\s*\|\s*(.*?)\]/g, `<div class="modern-tip reveal-item"><div class="modern-tip-icon"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 14c.2-1 .7-1.7 1.5-2.5 1-.9 1.5-2.2 1.5-3.5A6 6 0 0 0 6 8c0 1 .2 2.2 1.5 3.5.7.9 1.2 1.5 1.5 2.5"/><path d="M9 18h6"/><path d="M10 22h4"/></svg></div><div class="modern-tip-content"><h4>$1</h4><p>$2</p></div></div>`);
             processed = processed.replace(/\[CARRUSEL\s*\|\s*(.*?)\s*\|\s*(.*?)\]/g, (m, urls, caption) => { const imgs = urls.split(',').map(u => `<img src="${u.trim()}" class="carousel-img shrink-0 w-[85%] md:w-[70%] h-64 md:h-96 object-cover snap-center rounded-2xl" />`).join(''); return `<figure class="carousel-wrapper reveal-item"><div class="carousel flex overflow-x-auto snap-x snap-mandatory gap-4 pb-4 hide-scrollbar">${imgs}</div><figcaption class="text-center italic opacity-70 mt-2 font-bold">${caption}</figcaption></figure>`; });
+            
+            // Figuras y Tablas Nativas
             processed = processed.replace(/\[FIG\s*\|\s*(.*?)\s*\|\s*(.*?)\s*\|\s*(.*?)\]/g, (m, url, caption, label) => { let num = globalRegistry.fig[label.trim()] || '?'; return `<figure id="${label.trim()}" class="reveal-item"><img src="${url.trim()}" onerror="this.src='data:image/svg+xml;charset=UTF-8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22100%25%22%20height%3D%22200%22%20fill%3D%22%23e2e8f0%22%3E%3Crect%20width%3D%22100%25%22%20height%3D%22100%25%22%2F%3E%3Ctext%20x%3D%2250%25%22%20y%3D%2250%25%22%20fill%3D%22%2394a3b8%22%20font-family%3D%22sans-serif%22%20font-size%3D%2216%22%20text-anchor%3D%22middle%22%3EImagen%20no%20disponible%3C%2Ftext%3E%3C%2Fsvg%3E'" alt="${caption.trim()}"><figcaption><strong>Figura ${num}:</strong> ${caption.trim()}</figcaption></figure>`; });
             processed = processed.replace(/\[TAB\s*\|\s*(.*?)\s*\|\s*(.*?)\]/g, (m, caption, label) => { let num = globalRegistry.tab[label.trim()] || '?'; return `<div id="${label.trim()}" class="reveal-item" style="text-align: center; font-size: 0.9em; opacity: 0.8; margin-bottom: 0.5rem;"><strong>Tabla ${num}:</strong> ${caption.trim()}</div>`; });
             processed = processed.replace(/\[REF\s*\|\s*(.*?)\]/g, (m, label) => { let l = label.trim(); if (globalRegistry.fig[l]) return `<a href="#${l}">Figura ${globalRegistry.fig[l]}</a>`; if (globalRegistry.tab[l]) return `<a href="#${l}">Tabla ${globalRegistry.tab[l]}</a>`; return `<span>[?]</span>`; });
@@ -1104,12 +1098,12 @@
                 let toc = "<ul class='toc-list'>"; 
                 chaptersDef.forEach(c => { 
                     if(c.id === "front" || c.id === "indices") return;
-                    toc += `<li class="font-bold flex flex-col"><div class="toc-entry-line"><span>${c.title}</span><span class="toc-leader"></span><span class="toc-page-num" data-target="cap_${c.id}">-</span></div>`; 
+                    toc += `<li class="flex flex-col"><div class="toc-entry-line font-bold"><span class="toc-title"><a href="#cap_${c.id}">${marked.parseInline(c.title)}</a></span><span class="toc-leader"></span><span class="toc-page-num" data-target="cap_${c.id}"></span></div>`; 
                     if(c.sections && c.sections.length > 0) { 
-                        toc += "<ul class='toc-sublist font-normal'>"; 
+                        toc += "<ul class='toc-sublist'>"; 
                         c.sections.forEach(s => { 
                             const slug = s.text.toLowerCase().replace(/[^\w]+/g, '-'); 
-                            toc += `<li><div class="toc-entry-line"><a href="#${slug}">${s.text}</a><span class="toc-leader"></span><span class="toc-page-num" data-target="${slug}">-</span></div></li>`; 
+                            toc += `<li><div class="toc-entry-line font-normal pl-2"><span class="toc-title"><a href="#${slug}">${marked.parseInline(s.text)}</a></span><span class="toc-leader"></span><span class="toc-page-num" data-target="${slug}"></span></div></li>`; 
                         }); 
                         toc += "</ul>"; 
                     } 
@@ -1117,15 +1111,15 @@
                 }); 
                 return toc + "</ul>"; 
             });
-            processed = processed.replace(/\[LISTA_FIGURAS\]/g, () => { if(listFigures.length === 0) return "<p class='italic opacity-50'>No hay figuras.</p>"; return "<ul class='toc-list'>" + listFigures.map(f => `<li><div class="toc-entry-line"><a href="#${f.label}"><strong>Figura ${f.num}:</strong> ${f.caption}</a><span class="toc-leader"></span><span class="toc-page-num" data-target="${f.label}">-</span></div></li>`).join('') + "</ul>"; });
-            processed = processed.replace(/\[LISTA_TABLAS\]/g, () => { if(listTables.length === 0) return "<p class='italic opacity-50'>No hay tablas.</p>"; return "<ul class='toc-list'>" + listTables.map(t => `<li><div class="toc-entry-line"><a href="#${t.label}"><strong>Tabla ${t.num}:</strong> ${t.caption}</a><span class="toc-leader"></span><span class="toc-page-num" data-target="${t.label}">-</span></div></li>`).join('') + "</ul>"; });
+            processed = processed.replace(/\[LISTA_FIGURAS\]/g, () => { if(listFigures.length === 0) return "<p class='italic opacity-50'>No hay figuras.</p>"; return "<ul class='toc-list'>" + listFigures.map(f => `<li><div class="toc-entry-line"><span class="toc-title"><a href="#${f.label}"><strong>Figura ${f.num}:</strong> ${f.caption}</a></span><span class="toc-leader"></span><span class="toc-page-num" data-target="${f.label}"></span></div></li>`).join('') + "</ul>"; });
+            processed = processed.replace(/\[LISTA_TABLAS\]/g, () => { if(listTables.length === 0) return "<p class='italic opacity-50'>No hay tablas.</p>"; return "<ul class='toc-list'>" + listTables.map(t => `<li><div class="toc-entry-line"><span class="toc-title"><a href="#${t.label}"><strong>Tabla ${t.num}:</strong> ${t.caption}</a></span><span class="toc-leader"></span><span class="toc-page-num" data-target="${t.label}"></span></div></li>`).join('') + "</ul>"; });
             processed = processed.replace(/\[BIBLIOGRAFIA\]/g, () => { if(referencesDB.length === 0) return "<p>No hay referencias.</p>"; let b = "<ol style='padding-left:1.5rem;'>"; referencesDB.forEach((r,i) => { b += `<li style="margin-bottom:0.5rem;">${r.au}, "${r.ti}," <em>${r.re}</em>, ${r.an}. ${r.doi ? `DOI: ${r.doi}`:''}</li>`; }); return b + "</ol>"; });
 
             // Glosario Inteligente
             Object.keys(glossaryDB).forEach(term => { const regex = new RegExp(`\\b(${term})\\b(?![^<]*>|[^<>]*<\/a>)`, 'gi'); processed = processed.replace(regex, `<span class="glossary-term">$1<span class="glossary-tooltip">${glossaryDB[term]}</span></span>`); });
             
             // Inyecta id invisible en títulos de capítulos para el scrollspy/paginación
-            if(!isGlobalWebMode) { processed = `<div id="cap_${chapterId}" style="display:block; height:1px;"></div>` + processed; }
+            if(!isGlobalWebMode) { processed = `<div id="cap_${chapterId}" style="display:block; height:1px; clear:both;"></div>` + processed; }
 
             return processed;
         }
@@ -1160,8 +1154,8 @@
                 } else { allBound = false; }
             });
             
-            // Si KaTeX o imágenes movieron el DOM, reintentar.
-            if(!allBound) setTimeout(() => bindTOCPageNumbers(container), 500);
+            // Si KaTeX o imágenes movieron el DOM, reintentar la paginación
+            if(!allBound) setTimeout(() => bindTOCPageNumbers(container), 800);
         }
 
         function renderToPages(text, containerId, modeClass) {
@@ -1185,7 +1179,8 @@
             const areas = container.querySelectorAll('.render-area, .a4-page');
             areas.forEach(p => p.style.cssText = `font-family:${projectConfig.font}; font-size:${projectConfig.fontSize}; line-height:${projectConfig.lineHeight}; text-align:${projectConfig.align};`);
             
-            setTimeout(() => { observeRevealElements(); bindTOCPageNumbers(container.parentElement); }, 500);
+            // Damos tiempo a KaTeX para renderizar antes de calcular páginas
+            setTimeout(() => { observeRevealElements(); bindTOCPageNumbers(container.parentElement); }, 600);
         }
 
         function updateUI() {
@@ -1211,7 +1206,7 @@
                 const modeClass = cElem ? (cElem.classList.contains('web-page') ? 'web-page' : 'a4-page shadow-md') : 'a4-page';
                 renderToPages(processedText, containerId, modeClass);
                 if(isAdmin) { trackCommitment(); window.app.saveToCloud(); updateAnalytics(); }
-            }, 600); // Slightly more delay to ensure typing isn't laggy
+            }, 600); 
         };
 
         window.app.insertList = (type) => { const ed = document.getElementById('editor-pane'); if(!ed) return; const p = type === 'bullet' ? "\n- " : (type === 'number' ? "\n1. " : (type === 'alpha' ? '\n<ol type="a">\n  <li>Ítem</li>\n</ol>\n' : '')); const s = ed.selectionStart, e = ed.selectionEnd, t = ed.value; ed.value = t.substring(0, s) + p + t.substring(e); ed.focus(); ed.setSelectionRange(s + p.length, s + p.length); window.app.handleInput(); };
@@ -1259,7 +1254,7 @@
             
             if(isWebMode) {
                 extractHeadersForSidebar(); const ftoc = document.getElementById('floating-toc-list'); let ftocHtml = '';
-                chaptersDef.forEach(chap => { if(chap.id === 'front' || chap.id === 'indices') return; const slug = chap.title.toLowerCase().replace(/[^\w]+/g, '-'); ftocHtml += `<li class="border-b border-slate-200 dark:border-slate-800 pb-2"><a href="#cap_${chap.id}" class="hover:text-quantum-500 transition-colors block py-1 font-bold">${chap.title.substring(0, 30)}...</a></li>`; }); ftoc.innerHTML = ftocHtml;
+                chaptersDef.forEach(chap => { if(chap.id === 'front' || chap.id === 'indices') return; const slug = chap.title.toLowerCase().replace(/[^\w]+/g, '-'); ftocHtml += `<li class="border-b border-slate-200 dark:border-slate-800 pb-2"><a href="#cap_${chap.id}" class="hover:text-quantum-500 transition-colors block py-1 font-bold">${marked.parseInline(chap.title.substring(0, 30))}...</a></li>`; }); ftoc.innerHTML = ftocHtml;
                 const totalWords = fullText.trim().split(/\s+/).length; document.getElementById('reading-time').textContent = Math.ceil(totalWords / 250); 
                 renderToPages(processed, 'global-render-content', 'web-page');
             } else {
@@ -1313,7 +1308,7 @@
             }, 800);
         };
 
-        // RESTAURACIÓN DEL GRAFO ORIGINAL DE LA TESIS (Árbol Exacto de "Tronco")
+        // GRAFO REAL QUE MAPEA ABSOLUTAMENTE TODO EL DOCUMENTO DINÁMICAMENTE
         window.app.renderGraphAndChart = () => {
             const ctxElem = document.getElementById('commitment-chart');
             if (ctxElem) {
@@ -1322,39 +1317,59 @@
                 commitmentChartInstance = new Chart(ctx, { type: 'line', data: { labels: labels, datasets: [{ label: 'Palabras', data: data, borderColor: '#3b82f6', backgroundColor: 'rgba(59,130,246,0.1)', fill: true, tension: 0.4, pointBackgroundColor: '#3b82f6', borderWidth: 3 }] }, options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } }, scales: { y: { beginAtZero: true, grid: { color: 'rgba(148,163,184,0.1)' } }, x: { grid: { display: false } } } } });
             }
 
-            // GRAFO EXPLICITO PEDIDO (EL TRONCO DE LA TESIS) ALTO IMPACTO VISUAL
-            let nodes = new vis.DataSet([
-                { id: 'idea_prin', label: 'IDEA PRINCIPAL:\nControl Multidimensional\nmediante 1 solo SLM', shape: 'box', color: {background:'#10b981', border:'#059669'}, font: {color:'white', bold:true, size:20}, shadow: {enabled: true, color: 'rgba(16,185,129,0.5)', size: 15} },
-                { id: 'fundamento', label: '(Fundamento)\nGrados de Libertad Fotónicos', shape: 'ellipse', color: '#6366f1', font: {color:'white'} },
-                { id: 'herramienta', label: '(Herramienta)\nModulador Espacial de Luz (SLM)', shape: 'ellipse', color: '#8b5cf6', font: {color:'white'} },
-                { id: 'ejecucion', label: '(Ejecución Experimental)\nHitos Conectados', shape: 'ellipse', color: '#f59e0b', font: {color:'white'} },
-                { id: 'f_qubits', label: 'Qubits de Polarización', shape: 'box', color: 'rgba(99,102,241,0.15)', font: {color: '#6366f1'} },
-                { id: 'f_qudits', label: 'Qudits Espaciales (Rendijas)', shape: 'box', color: 'rgba(99,102,241,0.15)', font: {color: '#6366f1'} },
-                { id: 'f_oam', label: 'Momento Angular Orbital (OAM)', shape: 'box', color: 'rgba(99,102,241,0.15)', font: {color: '#6366f1'} },
-                { id: 'h_caract', label: 'Caracterización\nMatrices Müller/Jones', shape: 'box', color: 'rgba(139,92,246,0.15)', font: {color: '#8b5cf6'} },
-                { id: 'h_flick', label: 'Mitigación de Flickering', shape: 'box', color: 'rgba(139,92,246,0.15)', font: {color: '#8b5cf6'} },
-                { id: 'e_h1', label: 'Hito 1: Divisor de Haz\nSimulación de "Estados Historia"', shape: 'box', color: 'rgba(245,158,11,0.2)', font: {color: '#b45309'} },
-                { id: 'e_h2', label: 'Hito 2: Generador de Vórtices\nHaces OAM (LG/Mathieu)', shape: 'box', color: 'rgba(245,158,11,0.2)', font: {color: '#b45309'} },
-                { id: 'e_h3', label: 'HITO 3 (Clímax):\nFusión Camino + OAM', shape: 'star', size: 30, color: {background:'#ef4444', border:'#dc2626'}, font: {color: 'white', size: 14}, shadow: {enabled: true, color: 'rgba(239,68,68,0.6)', size: 20} },
-                { id: 'e_h3_res', label: 'Resultado: Tomografía de\nAlta Dimensión (d × m)\ncon Fidelidades >95%.', shape: 'box', color: 'rgba(239,68,68,0.15)', font: {color: '#b91c1c'} }
-            ]);
+            let nodes = new vis.DataSet(); let edges = new vis.DataSet();
+            
+            // Raíz de la tesis
+            nodes.add({ id: 'root', label: projectConfig.name.substring(0,25)+'...', shape: 'hexagon', size: 40, color: { background: '#6366f1', border: '#4f46e5' }, font: {color:'white', bold:true, size: 16}, shadow: {enabled: true, color: 'rgba(99,102,241,0.6)', size: 20} });
 
-            let edges = new vis.DataSet([
-                {from: 'idea_prin', to: 'fundamento', width:2, color: {color: '#6366f1'} }, {from: 'idea_prin', to: 'herramienta', width:2, color: {color: '#8b5cf6'} }, {from: 'idea_prin', to: 'ejecucion', width:2, color: {color: '#f59e0b'} },
-                {from: 'fundamento', to: 'f_qubits'}, {from: 'fundamento', to: 'f_qudits'}, {from: 'fundamento', to: 'f_oam'},
-                {from: 'herramienta', to: 'h_caract'}, {from: 'herramienta', to: 'h_flick'},
-                {from: 'ejecucion', to: 'e_h1'}, {from: 'ejecucion', to: 'e_h2'}, {from: 'ejecucion', to: 'e_h3', width: 3, color: {color: '#ef4444'}}, {from: 'e_h3', to: 'e_h3_res', dashes: true, color: {color: '#ef4444'}}
-            ]);
+            chaptersDef.forEach((c, idx) => {
+                if(c.id === 'front' || c.id === 'indices') return;
+                
+                // Nodo Capítulo
+                nodes.add({ id: `c_${c.id}`, label: marked.parseInline(c.title.substring(0,20))+'...', shape: 'box', color: { background: '#14b8a6', border: '#0d9488' }, font: {color:'white', size: 14}, shadow: true });
+                edges.add({ from: 'root', to: `c_${c.id}`, length: 300, width: 3, color: { color: '#94a3b8', opacity: 0.7 } });
+                
+                const content = String(thesisContent[c.id] || "");
 
-            // Add dynamic chapters as sub-nodes to Idea Principal to blend both worlds
-            chaptersDef.forEach(c => { if(c.id!=='front' && c.id!=='indices') { nodes.add({ id: `c_${c.id}`, label: c.title.substring(0,18)+'...', shape: 'text', font: {color: '#14b8a6', size: 12} }); edges.add({ from: 'idea_prin', to: `c_${c.id}`, dashes: true, length: 300, color: {color: '#14b8a6', opacity:0.4} }); } });
+                // Secciones (H2)
+                let secMatches = [...content.matchAll(/^##\s+(.*)/gm)];
+                secMatches.forEach((m, i) => {
+                    let sId = `s_${c.id}_${i}`;
+                    nodes.add({ id: sId, label: marked.parseInline(m[1].substring(0,20))+'...', shape: 'dot', size: 12, color: '#8b5cf6', font: {color: (document.documentElement.classList.contains('dark')?'#e2e8f0':'#1e293b'), size: 10} });
+                    edges.add({ from: `c_${c.id}`, to: sId, length: 150, color: { opacity: 0.5 } });
+                });
+
+                // Ecuaciones Detectadas (Bloque de ecuaciones)
+                let eqMatches = [...content.matchAll(/\$\$/g)];
+                let numEqs = Math.floor(eqMatches.length / 2);
+                if(numEqs > 0) {
+                    nodes.add({ id: `eq_${c.id}`, label: `${numEqs} Ecuación(es)`, shape: 'diamond', size: 15, color: {background: '#f59e0b', border: '#b45309'}, font: {color: '#b45309', size: 11} });
+                    edges.add({ from: `c_${c.id}`, to: `eq_${c.id}`, length: 120, dashes: true, color: { color: '#f59e0b', opacity: 0.6 } });
+                }
+
+                // Imágenes Detectadas
+                const figs = [...content.matchAll(/\[FIG\s*\|\s*(.*?)\s*\|\s*(.*?)\s*\|\s*(.*?)\]/g)];
+                figs.forEach((f, i) => { 
+                    let fId = `f_${c.id}_${i}`; 
+                    nodes.add({ id: fId, label: 'Img: ' + f[3], shape: 'circularImage', image: f[1], size: 30, color: '#10b981', shadow: true }); 
+                    edges.add({ from: `c_${c.id}`, to: fId, length: 120, dashes: true, color: { color: '#10b981', opacity: 0.6 } }); 
+                });
+
+                // Palabras Clave (TF-IDF Básico por capítulo)
+                const stops = new Set(["este","esta","para","como","pero","donde","cuando","entre","sobre","desde","hacia","hasta","tiene","puede","hacer","todo","esto","para","como","capítulo","sección"]); 
+                const words = content.toLowerCase().match(/\b[a-záéíóúüñ]{6,}\b/g)||[]; const cFreq = {}; words.forEach(w => { if(!stops.has(w)) cFreq[w] = (cFreq[w]||0)+1; });
+                Object.entries(cFreq).sort((a,b)=>b[1]-a[1]).slice(0, 4).forEach(([w, count]) => { 
+                    if(!nodes.get(`w_${w}`)) { nodes.add({ id: `w_${w}`, label: w, group: 'term', shape: 'text', font: { color: document.documentElement.classList.contains('dark') ? '#f472b6' : '#db2777', size: 14, bold: true } }); } 
+                    edges.add({ from: `c_${c.id}`, to: `w_${w}`, value: count, length: 200, color: { color: '#db2777', opacity: 0.3 } }); 
+                });
+            });
 
             const graphContainer = document.getElementById('knowledge-graph');
             if(graphContainer) { 
                 if(networkInstance) networkInstance.destroy(); 
                 networkInstance = new vis.Network(graphContainer, { nodes: nodes, edges: edges }, { 
-                    layout: { hierarchical: { direction: 'UD', sortMethod: 'directed', nodeSpacing: 250, levelSeparation: 150 } },
-                    physics: { enabled: false }, interaction: { hover: true, tooltipDelay: 200, zoomView: true, navigationButtons: true }
+                    physics: { solver: 'forceAtlas2Based', forceAtlas2Based: { gravitationalConstant: -120, centralGravity: 0.01, springLength: 200, springConstant: 0.05, damping: 0.8 } },
+                    interaction: { hover: true, tooltipDelay: 200, zoomView: true, navigationButtons: true }
                 }); 
                 networkInstance.once('afterDrawing', () => { networkInstance.fit({animation: {duration: 1000}}); });
             }
@@ -1384,7 +1399,7 @@
         
         function updateConfigUI() { const mt = document.getElementById('app-main-title'); if(mt) mt.textContent = projectConfig.name; const au = document.getElementById('app-author-name'); if(au) au.textContent = projectConfig.author; }
         
-        window.app.saveToCloud = async () => { if (!isAdmin) return; const payload = { content: thesisContent, refs: referencesDB, structure: chaptersDef, config: projectConfig, notes: chapterNotes, commits: commitmentLog }; localStorage.setItem('nexus_writer_v14', JSON.stringify(payload)); if (isFirebaseActive) { try { await setDoc(docRef, payload); const dot = document.getElementById('cloud-dot'); if(dot) { dot.classList.replace('bg-emerald-500', 'bg-blue-500'); document.getElementById('cloud-text').textContent = "Sincronizado"; setTimeout(()=> { dot.classList.replace('bg-blue-500','bg-emerald-500'); document.getElementById('cloud-text').textContent = "Auto-Guardado"; },1500); } } catch (e) { window.app.forceLocalMode(); } } };
+        window.app.saveToCloud = async () => { if (!isAdmin) return; const payload = { content: thesisContent, refs: referencesDB, structure: chaptersDef, config: projectConfig, notes: chapterNotes, commits: commitmentLog }; localStorage.setItem('nexus_writer_v16', JSON.stringify(payload)); if (isFirebaseActive) { try { await setDoc(docRef, payload); const dot = document.getElementById('cloud-dot'); if(dot) { dot.classList.replace('bg-emerald-500', 'bg-blue-500'); document.getElementById('cloud-text').textContent = "Sincronizado"; setTimeout(()=> { dot.classList.replace('bg-blue-500','bg-emerald-500'); document.getElementById('cloud-text').textContent = "Auto-Guardado"; },1500); } } catch (e) { window.app.forceLocalMode(); } } };
         window.app.editCurrentChapterTitle = () => { const chapObj = chaptersDef.find(c => c.id === currentChap); window.app.showPrompt("Renombrar sección:", chapObj.title, (n) => { if(n && n.trim()!=="") { chapObj.title = n.trim(); renderSidebar(); window.app.saveToCloud(); updateUI(); } }); };
 
         window.app.switchMainTab = (id) => { document.querySelectorAll('.tab-content').forEach(e => e.classList.remove('active')); const t = document.getElementById(`tab-${id}`); if(t) t.classList.add('active'); if(id==='analytics') { updateAnalytics(); setTimeout(()=>window.app.renderGraphAndChart(), 400); } };
@@ -1402,7 +1417,7 @@
             md = md.replace(/\[PAGE_BREAK\]/g, '<br clear="all" style="page-break-before:always" />');
             container.innerHTML = DOMPurify.sanitize(marked.parse(md), {ADD_TAGS:['math', 'img', 'figure', 'figcaption', 'a', 'div', 'sup', 'br'], ADD_ATTR:['display', 'src', 'alt', 'width', 'height', 'id', 'style', 'href', 'class', 'clear']}); 
             renderMathInElement(container, katexConfig); 
-            const dynamicCSS = `@page WordSection1 { size: 8.5in 11.0in; margin: 2.54cm; mso-header: h1; } div.WordSection1 { page: WordSection1; } p.MsoHeader { margin: 0; font-size: 10pt; text-align: right; font-family: ${projectConfig.font}; } body { font-family:${projectConfig.font};font-size:${projectConfig.fontSize};line-height:${projectConfig.lineHeight};text-align:${projectConfig.align};counter-reset:equation; } p { text-indent: 1.27cm; margin: 0; line-height: ${projectConfig.lineHeight}; } h1 { font-size:24pt;font-weight:bold;text-align:center;text-indent:0; } h2 { font-size:18pt;font-weight:bold;text-indent:0; } h3 { font-size:14pt;font-weight:bold;text-indent:0; } img { max-width:100%; border-radius:8px; display:block; margin: 1.5rem auto; text-indent:0; } figure { text-align:center; margin: 2rem 0; text-indent:0; } figcaption { font-size:0.9em; color:#555; margin-top:0.5rem; text-indent:0; } table { width: 100%; border-collapse: collapse; margin: 1.5rem 0; text-indent:0; } th, td { border: 1px solid #000; padding: 0.5rem; text-align: left; } th { font-weight: bold; background-color: #f2f2f2; text-align: center; } .katex { font-family:'Cambria Math',serif;font-size:14pt;text-indent:0; } .katex-display { text-align:center;margin:1em 0;position:relative;text-indent:0; } .katex-display::after{counter-increment:equation;content:"(" counter(equation) ")";position:absolute;right:0;top:50%;transform:translateY(-50%);font-family:'Times New Roman',serif;font-size:11pt;} .page-break-visual { page-break-after: always; }`;
+            const dynamicCSS = `@page WordSection1 { size: 8.5in 11.0in; margin: 2.54cm; mso-header: h1; } div.WordSection1 { page: WordSection1; } p.MsoHeader { margin: 0; font-size: 10pt; text-align: right; font-family: ${projectConfig.font}; } body { font-family:${projectConfig.font};font-size:${projectConfig.fontSize};line-height:${projectConfig.lineHeight};text-align:${projectConfig.align};counter-reset:equation; } p { text-indent: 1.27cm; margin: 0; line-height: ${projectConfig.lineHeight}; } h1 { font-size:24pt;font-weight:bold;text-align:center;text-indent:0; } h2 { font-size:18pt;font-weight:bold;text-indent:0; } h3 { font-size:14pt;font-weight:bold;text-indent:0; } img { max-width:100%; border-radius:8px; display:block; margin: 1.5rem auto; text-indent:0; } figure { text-align:center; margin: 2rem 0; text-indent:0; } figcaption { font-size:0.9em; color:#555; margin-top:0.5rem; text-indent:0; } table { width: 100%; border-collapse: collapse; margin: 1.5rem 0; text-indent:0; } th, td { border: 1px solid #000; padding: 0.5rem; text-align: left; } th { font-weight: bold; background-color: #f2f2f2; text-align: center; } .katex { font-family:'Cambria Math',serif;font-size:14pt;text-indent:0; } .katex-display { text-align:center;margin:1em 0;position:relative;text-indent:0; } .latex-box { border: 1px solid #1e3a8a; border-radius: 4px; margin: 2rem 0; overflow: hidden; page-break-inside: avoid; } .latex-box-header { background-color: #1e3a8a; color: white; padding: 0.5rem 1rem; font-weight: bold; text-indent: 0; } .latex-box-body { padding: 1rem; text-indent: 0; } .page-break-visual { page-break-after: always; }`;
             const shortTitle = projectConfig.name.substring(0, 50).toUpperCase();
             const docContent = `<html xmlns:o='urn:schemas-microsoft-com:office:office' xmlns:w='urn:schemas-microsoft-com:office:word' xmlns='http://www.w3.org/TR/REC-html40'><head><meta charset='utf-8'><style>${dynamicCSS}</style></head><body><div class="WordSection1">${container.innerHTML}<div style="mso-element:header" id="h1"><p class="MsoHeader"><span style="float:left;">${shortTitle}</span> <span style="mso-field-code:' PAGE '"></span></p></div></div></body></html>`;
             const link = document.createElement("a"); link.href = URL.createObjectURL(new Blob(['\ufeff', docContent], { type: 'application/msword' })); link.download = `${(projectConfig.name||'Proyecto').replace(/\s+/g,'_')}.doc`; link.click();
