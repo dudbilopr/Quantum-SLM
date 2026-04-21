@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="es" class="dark">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -157,19 +157,18 @@
 </head>
 <body class="h-screen flex flex-col overflow-hidden select-none transition-colors duration-300">
 
-    <!-- 1. MODAL DE LOGIN (MEJORADO CON CORREO/PASS Y GOOGLE) -->
+    <!-- MODAL DE LOGIN -->
     <div id="login-overlay" class="fixed inset-0 z-[100] glass-panel flex items-center justify-center p-4 overflow-y-auto">
-        <div class="modal-glass text-center relative overflow-hidden fade-in max-h-[95vh] flex flex-col">
+        <div class="modal-glass text-center relative overflow-hidden fade-in max-h-[95vh] flex flex-col bg-white/90 dark:bg-slate-900/90 backdrop-blur-2xl">
             <div class="absolute -top-20 -right-20 w-48 h-48 bg-quantum-400 rounded-full mix-blend-multiply filter blur-3xl opacity-30 pointer-events-none"></div>
             
             <div class="bg-gradient-to-br from-white to-slate-100 dark:from-slate-800 dark:to-slate-900 w-20 h-20 rounded-3xl mx-auto flex items-center justify-center mb-4 shadow-xl border border-slate-200 dark:border-slate-700 shrink-0 z-10">
                 <i data-lucide="book-open" class="w-10 h-10 text-quantum-500"></i>
             </div>
-            <h2 class="text-3xl font-extrabold mb-2 tracking-tight text-slate-800 dark:text-white z-10">Nexus Book V11</h2>
+            <h2 class="text-3xl font-extrabold mb-2 tracking-tight text-slate-800 dark:text-white z-10">Nexus Book V12</h2>
             <p class="text-sm opacity-70 mb-6 font-medium z-10 text-slate-600 dark:text-slate-300">Entorno Doctoral, Analítica y Renderizado LaTeX</p>
             
             <div class="flex-1 overflow-y-auto px-2 pb-4 z-10 scroll-smooth">
-                
                 <!-- Google Login -->
                 <button onclick="window.app.loginAdminGoogle()" class="w-full bg-white dark:bg-slate-800 text-slate-900 dark:text-white hover:scale-[1.02] transition-transform font-bold py-3.5 px-4 rounded-xl flex items-center justify-center gap-3 mb-4 shadow-md border border-slate-200 dark:border-slate-700">
                     <svg class="w-5 h-5" viewBox="0 0 24 24"><path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/><path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/><path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z" fill="#FBBC05"/><path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/></svg>
@@ -183,7 +182,7 @@
                 <!-- Email/Password Login -->
                 <div class="space-y-3 mb-6">
                     <input type="email" id="login-email" placeholder="Correo Electrónico" class="input-glass">
-                    <input type="password" id="login-password" placeholder="Contraseña" class="input-glass">
+                    <input type="password" id="login-password" placeholder="Contraseña" class="input-glass" onkeypress="if(event.key === 'Enter') window.app.loginEmail()">
                     <div class="flex gap-2 mt-2">
                         <button onclick="window.app.loginEmail()" class="flex-1 bg-quantum-600 hover:bg-quantum-700 text-white font-bold py-3 rounded-xl transition-colors shadow">Iniciar Sesión</button>
                     </div>
@@ -198,7 +197,7 @@
                 </button>
 
                 <div class="flex gap-2">
-                    <input type="password" id="guest-password" placeholder="Clave de Lector" class="input-glass text-center flex-1">
+                    <input type="password" id="guest-password" placeholder="Clave de Lector" class="input-glass text-center flex-1" onkeypress="if(event.key === 'Enter') window.app.loginGuest()">
                     <button onclick="window.app.loginGuest()" class="bg-slate-300 dark:bg-slate-700 hover:bg-slate-400 dark:hover:bg-slate-600 text-slate-800 dark:text-white font-bold py-3 px-4 rounded-xl transition-colors" title="Solo Lectura">
                         <i data-lucide="eye" class="w-5 h-5"></i>
                     </button>
@@ -209,11 +208,11 @@
         </div>
     </div>
 
-    <!-- MODAL PERSONALIZADO PARA PROMPTS (Reemplaza prompt nativo) -->
+    <!-- MODAL PERSONALIZADO PARA PROMPTS -->
     <div id="custom-prompt-modal" class="fixed inset-0 z-[80] glass-panel hidden flex items-center justify-center p-4 fade-in">
-        <div class="modal-glass max-w-md border border-slate-200 dark:border-slate-700">
+        <div class="modal-glass max-w-md border border-slate-200 dark:border-slate-700 bg-white/90 dark:bg-slate-900/90 backdrop-blur-2xl shadow-2xl">
             <h2 id="prompt-title" class="text-xl font-bold mb-4 text-slate-800 dark:text-white"></h2>
-            <input type="text" id="prompt-input" class="input-glass mb-6" onkeypress="if(event.key === 'Enter') window.app.confirmPrompt()">
+            <input type="text" id="prompt-input" class="input-glass mb-6 w-full" onkeypress="if(event.key === 'Enter') window.app.confirmPrompt()">
             <div class="flex justify-end gap-3">
                 <button onclick="window.app.cancelPrompt()" class="px-5 py-2.5 rounded-xl text-sm font-semibold hover:bg-slate-200 dark:hover:bg-slate-800 transition-colors text-slate-700 dark:text-slate-300">Cancelar</button>
                 <button onclick="window.app.confirmPrompt()" class="btn-primary shadow-md">Aceptar</button>
@@ -221,9 +220,9 @@
         </div>
     </div>
 
-    <!-- MODAL PERSONALIZADO PARA ALERTAS (Reemplaza alert nativo) -->
+    <!-- MODAL PERSONALIZADO PARA ALERTAS -->
     <div id="custom-alert-modal" class="fixed inset-0 z-[80] glass-panel hidden flex items-center justify-center p-4 fade-in">
-        <div class="modal-glass max-w-sm text-center border border-slate-200 dark:border-slate-700">
+        <div class="modal-glass max-w-sm text-center border border-slate-200 dark:border-slate-700 bg-white/90 dark:bg-slate-900/90 backdrop-blur-2xl shadow-2xl">
             <div class="w-16 h-16 bg-amber-100 dark:bg-amber-900/50 rounded-full flex items-center justify-center mx-auto mb-4 text-amber-600 dark:text-amber-400">
                 <i data-lucide="alert-triangle" class="w-8 h-8"></i>
             </div>
@@ -234,23 +233,23 @@
 
     <!-- MODAL DE TUTORIAL -->
     <div id="tutorial-modal" class="fixed inset-0 z-[70] glass-panel hidden flex items-center justify-center fade-in p-4">
-        <div class="modal-glass">
+        <div class="modal-glass bg-white/90 dark:bg-slate-900/90">
             <button onclick="document.getElementById('tutorial-modal').classList.add('hidden')" class="absolute top-6 right-6 text-slate-400 hover:text-red-500 bg-slate-100 dark:bg-slate-800 p-2 rounded-full"><i data-lucide="x" class="w-5 h-5"></i></button>
             <div class="flex items-center gap-4 mb-6 border-b border-slate-200 dark:border-slate-700 pb-4">
                 <div class="w-12 h-12 bg-quantum-100 dark:bg-quantum-900/50 rounded-2xl flex items-center justify-center text-quantum-600 dark:text-quantum-400">
                     <i data-lucide="rocket" class="w-6 h-6"></i>
                 </div>
                 <div>
-                    <h2 class="text-2xl font-bold text-slate-800 dark:text-white">Bienvenido a Nexus V11</h2>
+                    <h2 class="text-2xl font-bold text-slate-800 dark:text-white">Bienvenido a Nexus V12</h2>
                     <p class="text-sm text-slate-500">Novedades y comandos rápidos</p>
                 </div>
             </div>
             
             <div class="space-y-4 text-sm text-slate-700 dark:text-slate-300">
-                <div class="flex gap-3"><i data-lucide="layers" class="w-5 h-5 text-quantum-500 shrink-0"></i><p><strong>6 Capítulos Precargados:</strong> He cargado la estructura oficial de tu tesis fotónica. Usa el botón `+` en la barra lateral para añadir más.</p></div>
-                <div class="flex gap-3"><i data-lucide="link-2" class="w-5 h-5 text-quantum-500 shrink-0"></i><p><strong>Comandos Mágicos de Índice:</strong> En el editor, usa <code>[INDICE_GENERAL]</code>, <code>[LISTA_FIGURAS]</code>, y <code>[BIBLIOGRAFIA]</code>. Se autogenerarán hipervínculos reales.</p></div>
-                <div class="flex gap-3"><i data-lucide="edit-3" class="w-5 h-5 text-quantum-500 shrink-0"></i><p><strong>LaTeX Nativo:</strong> Ahora puedes usar entornos como <code>\begin{aligned}...\end{aligned}</code> y comandos de Dirac (<code>\ket{\psi}</code>).</p></div>
-                <div class="flex gap-3"><i data-lucide="network" class="w-5 h-5 text-quantum-500 shrink-0"></i><p><strong>Grafo Reparado:</strong> El grafo topológico ahora usa íconos en lugar de imágenes de internet, evitando bloqueos. Funciona como Obsidian.</p></div>
+                <div class="flex gap-3"><i data-lucide="layers" class="w-5 h-5 text-quantum-500 shrink-0"></i><p><strong>Estructura Flexible:</strong> Añade capítulos, secciones o apéndices usando el botón `+`. Arrástralos para reordenarlos.</p></div>
+                <div class="flex gap-3"><i data-lucide="link-2" class="w-5 h-5 text-quantum-500 shrink-0"></i><p><strong>Comandos Mágicos:</strong> Usa <code>[INDICE_GENERAL]</code>, <code>[LISTA_FIGURAS]</code>, y <code>[BIBLIOGRAFIA]</code> en el editor.</p></div>
+                <div class="flex gap-3"><i data-lucide="edit-3" class="w-5 h-5 text-quantum-500 shrink-0"></i><p><strong>LaTeX Nativo:</strong> Puedes usar entornos como <code>\begin{aligned}...\end{aligned}</code> y macros como <code>\ket{\psi}</code>.</p></div>
+                <div class="flex gap-3"><i data-lucide="network" class="w-5 h-5 text-quantum-500 shrink-0"></i><p><strong>Grafo Seguro:</strong> El grafo topológico no colapsará con imágenes bloqueadas por CORS, funcionando como Obsidian.</p></div>
             </div>
             <div class="mt-8 text-center">
                 <button onclick="document.getElementById('tutorial-modal').classList.add('hidden')" class="btn-primary mx-auto">¡Empezar a escribir!</button>
@@ -260,7 +259,7 @@
 
     <!-- MODAL MULTIMEDIA -->
     <div id="media-modal" class="fixed inset-0 z-[60] glass-panel hidden flex items-center justify-center fade-in p-4">
-        <div class="modal-glass">
+        <div class="modal-glass bg-white/90 dark:bg-slate-900/90">
             <h2 id="media-modal-title" class="text-2xl font-bold mb-6 flex items-center gap-3 text-slate-800 dark:text-white"></h2>
             <div id="media-modal-body" class="space-y-4"></div>
             <div class="mt-8 flex justify-end gap-3">
@@ -272,7 +271,7 @@
 
     <!-- MODAL CONFIGURACIÓN CON PORTADA Y EXPORT/IMPORT JSON -->
     <div id="settings-modal" class="fixed inset-0 z-[60] glass-panel hidden flex items-center justify-center fade-in p-4">
-        <div class="modal-glass max-w-3xl max-h-[90vh] overflow-y-auto">
+        <div class="bg-white dark:bg-slate-900 p-8 rounded-3xl shadow-2xl border border-slate-200 dark:border-slate-700 max-w-3xl w-full max-h-[90vh] overflow-y-auto">
             <div class="flex justify-between items-center mb-6">
                 <h2 class="text-2xl font-bold flex items-center gap-3 text-slate-800 dark:text-white"><i data-lucide="settings" class="text-quantum-500"></i> Ajustes de Proyecto</h2>
                 <div class="flex gap-2">
@@ -286,19 +285,19 @@
             
             <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <!-- Metadatos Portada -->
-                <div class="space-y-3 bg-white/50 dark:bg-slate-800/50 p-5 rounded-2xl border border-slate-200 dark:border-slate-700">
+                <div class="space-y-3 bg-slate-50 dark:bg-slate-800/50 p-5 rounded-2xl border border-slate-200 dark:border-slate-700">
                     <h3 class="text-xs font-bold text-slate-500 uppercase tracking-widest flex items-center gap-2 mb-3"><i data-lucide="file-badge" class="w-4 h-4"></i> Datos de Portada</h3>
-                    <div><label class="text-[10px] font-bold uppercase opacity-70 ml-2">Título de Tesis</label><input type="text" id="config-proj-name" class="input-glass mt-1 p-2"></div>
+                    <div><label class="text-[10px] font-bold uppercase opacity-70 ml-2">Título del Proyecto</label><input type="text" id="config-proj-name" class="input-glass mt-1 p-2"></div>
                     <div><label class="text-[10px] font-bold uppercase opacity-70 ml-2">Autor</label><input type="text" id="config-proj-author" class="input-glass mt-1 p-2"></div>
                     <div><label class="text-[10px] font-bold uppercase opacity-70 ml-2">Director</label><input type="text" id="config-proj-director" class="input-glass mt-1 p-2"></div>
                     <div><label class="text-[10px] font-bold uppercase opacity-70 ml-2">Co-Director</label><input type="text" id="config-proj-codirector" class="input-glass mt-1 p-2"></div>
-                    <div><label class="text-[10px] font-bold uppercase opacity-70 ml-2">Consejero / Universidad</label><input type="text" id="config-proj-consejero" class="input-glass mt-1 p-2"></div>
+                    <div><label class="text-[10px] font-bold uppercase opacity-70 ml-2">Consejero / Institución</label><input type="text" id="config-proj-consejero" class="input-glass mt-1 p-2"></div>
                     <div><label class="text-[10px] font-bold uppercase opacity-70 ml-2">Fecha Presentación</label><input type="text" id="config-proj-date" class="input-glass mt-1 p-2"></div>
                 </div>
 
                 <div class="space-y-4">
                     <!-- Tipografía -->
-                    <div class="space-y-3 bg-white/50 dark:bg-slate-800/50 p-5 rounded-2xl border border-slate-200 dark:border-slate-700">
+                    <div class="space-y-3 bg-slate-50 dark:bg-slate-800/50 p-5 rounded-2xl border border-slate-200 dark:border-slate-700">
                         <h3 class="text-xs font-bold text-slate-500 uppercase tracking-widest flex items-center gap-2 mb-3"><i data-lucide="type" class="w-4 h-4"></i> Formato Académico</h3>
                         <div>
                             <label class="text-[10px] font-bold uppercase opacity-70 ml-2">Fuente Base</label>
@@ -337,7 +336,7 @@
                 <button onclick="document.getElementById('global-preview-modal').classList.add('hidden')" class="btn-icon bg-red-500/10 text-red-500 hover:bg-red-500/20 border-red-500/20"><i data-lucide="x" class="w-5 h-5"></i></button>
             </div>
         </header>
-        <div class="flex-1 overflow-y-auto p-4 md:p-8 relative" id="global-scroll-area">
+        <div class="flex-1 overflow-y-auto p-4 md:p-8 relative bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-transparent to-black/5 dark:to-white/5" id="global-scroll-area">
             <div class="fixed bottom-6 right-8 z-10 glass-panel rounded-full p-1.5 flex gap-1 shadow-2xl border border-white/40">
                 <button onclick="window.app.setPreviewMode('global-render-content', 'a4-page')" class="px-4 py-1.5 text-[10px] font-bold uppercase rounded-full hover:bg-slate-200 dark:hover:bg-slate-800 transition-colors text-slate-800 dark:text-slate-200">Páginas A4</button>
                 <button onclick="window.app.setPreviewMode('global-render-content', 'web-page')" class="px-4 py-1.5 text-[10px] font-bold uppercase rounded-full bg-quantum-500 text-white shadow-md transition-colors">Modo Web</button>
@@ -433,10 +432,10 @@
                             <div class="w-px h-5 bg-slate-300 dark:bg-slate-700 mx-1"></div>
                             
                             <!-- Alineación HTML -->
-                            <button onclick="window.app.insertFormat('<div style=\'text-align: left;\'>[NL]', '[NL]</div>')" class="btn-icon text-slate-700 dark:text-slate-300" title="Alinear Izquierda"><i data-lucide="align-left" class="w-4 h-4"></i></button>
-                            <button onclick="window.app.insertFormat('<div style=\'text-align: center;\'>[NL]', '[NL]</div>')" class="btn-icon text-slate-700 dark:text-slate-300" title="Centrar"><i data-lucide="align-center" class="w-4 h-4"></i></button>
-                            <button onclick="window.app.insertFormat('<div style=\'text-align: right;\'>[NL]', '[NL]</div>')" class="btn-icon text-slate-700 dark:text-slate-300" title="Alinear Derecha"><i data-lucide="align-right" class="w-4 h-4"></i></button>
-                            <button onclick="window.app.insertFormat('<div style=\'text-align: justify;\'>[NL]', '[NL]</div>')" class="btn-icon text-slate-700 dark:text-slate-300" title="Justificar"><i data-lucide="align-justify" class="w-4 h-4"></i></button>
+                            <button onclick="window.app.insertFormat('<div style=\'text-align: left;\'>\n', '\n</div>')" class="btn-icon text-slate-700 dark:text-slate-300" title="Alinear Izquierda"><i data-lucide="align-left" class="w-4 h-4"></i></button>
+                            <button onclick="window.app.insertFormat('<div style=\'text-align: center;\'>\n', '\n</div>')" class="btn-icon text-slate-700 dark:text-slate-300" title="Centrar"><i data-lucide="align-center" class="w-4 h-4"></i></button>
+                            <button onclick="window.app.insertFormat('<div style=\'text-align: right;\'>\n', '\n</div>')" class="btn-icon text-slate-700 dark:text-slate-300" title="Alinear Derecha"><i data-lucide="align-right" class="w-4 h-4"></i></button>
+                            <button onclick="window.app.insertFormat('<div style=\'text-align: justify;\'>\n', '\n</div>')" class="btn-icon text-slate-700 dark:text-slate-300" title="Justificar"><i data-lucide="align-justify" class="w-4 h-4"></i></button>
                             <div class="w-px h-5 bg-slate-300 dark:bg-slate-700 mx-1"></div>
                             
                             <!-- Listas Avanzadas -->
@@ -447,10 +446,10 @@
                             
                             <!-- Estructura & Matemáticas -->
                             <button onclick="window.app.insertFormat('$', '$')" class="btn-icon font-serif font-bold text-quantum-600 dark:text-quantum-400 bg-quantum-500/10" title="Ecuación Inline">$x$</button>
-                            <button onclick="window.app.insertFormat('[NL]$$[NL]', '[NL]$$[NL]')" class="btn-icon font-serif font-bold text-quantum-600 dark:text-quantum-400 bg-quantum-500/10" title="Ecuación Bloque Numerada">$$x$$</button>
-                            <button onclick="window.app.insertFormat('[NL]$$[NL]\\begin{aligned}[NL]  A &= B \\\\[NL]  C &= D[NL]\\end{aligned}[NL]$$[NL]', '')" class="btn-icon font-serif font-bold text-quantum-600 dark:text-quantum-400 bg-quantum-500/10" title="Ecuación Alineada">$\equiv$</button>
+                            <button onclick="window.app.insertFormat('\n$$\n', '\n$$\n')" class="btn-icon font-serif font-bold text-quantum-600 dark:text-quantum-400 bg-quantum-500/10" title="Ecuación Bloque Numerada">$$x$$</button>
+                            <button onclick="window.app.insertFormat('\n$$\n\\begin{aligned}\n  A &= B \\\\\n  C &= D\n\\end{aligned}\n$$\n', '')" class="btn-icon font-serif font-bold text-quantum-600 dark:text-quantum-400 bg-quantum-500/10" title="Ecuación Alineada">$\equiv$</button>
                             
-                            <button onclick="window.app.insertFormat('[NL][PAGE_BREAK][NL]', '')" class="btn-icon text-red-500 hover:bg-red-500/10" title="Salto de Página Real"><i data-lucide="scissors" class="w-4 h-4"></i></button>
+                            <button onclick="window.app.insertFormat('\n[PAGE_BREAK]\n', '')" class="btn-icon text-red-500 hover:bg-red-500/10" title="Salto de Página Real"><i data-lucide="scissors" class="w-4 h-4"></i></button>
                             <div class="w-px h-5 bg-slate-300 dark:bg-slate-700 mx-1"></div>
                             
                             <!-- Multimedia Magnética -->
@@ -603,8 +602,7 @@
             projectId: "my-research-journal-10",
             storageBucket: "my-research-journal-10.firebasestorage.app",
             messagingSenderId: "764072118900",
-            appId: "1:764072118900:web:f549390f552ee0ef91df21",
-            measurementId: "G-ERJYB5EFE5"
+            appId: "1:764072118900:web:f549390f552ee0ef91df21"
         };
 
         const app = initializeApp(firebaseConfig); const auth = getAuth(app); const db = getFirestore(app); const googleProvider = new GoogleAuthProvider();
@@ -636,13 +634,11 @@
 
         window.onload = () => {
             const tutModal = document.getElementById('tutorial-modal');
-            if(tutModal && !localStorage.getItem('nexus_v11_tut_fixed_v2')) { 
+            if(tutModal && !localStorage.getItem('nexus_v11_tut_fixed_v3')) { 
                 tutModal.classList.remove('hidden'); 
-                localStorage.setItem('nexus_v11_tut_fixed_v2', 'true'); 
+                localStorage.setItem('nexus_v11_tut_fixed_v3', 'true'); 
             }
             lucide.createIcons();
-            
-            // Intento seguro de Firebase Auth
             initFirebase();
         };
 
@@ -650,24 +646,45 @@
 
         // SISTEMA DE MODALES PERSONALIZADOS
         window.app.showAlert = (msg) => {
-            document.getElementById('alert-message').textContent = msg;
-            document.getElementById('custom-alert-modal').classList.remove('hidden');
-            lucide.createIcons();
+            const alertMsg = document.getElementById('alert-message');
+            const alertModal = document.getElementById('custom-alert-modal');
+            if(alertMsg && alertModal) {
+                alertMsg.textContent = msg;
+                alertModal.classList.remove('hidden');
+                lucide.createIcons();
+            } else {
+                alert(msg); // fallback
+            }
         };
 
         let promptCallback = null;
         window.app.showPrompt = (title, defaultValue, callback) => {
-            document.getElementById('prompt-title').textContent = title;
+            const pTitle = document.getElementById('prompt-title');
             const input = document.getElementById('prompt-input');
-            input.value = defaultValue || "";
-            promptCallback = callback;
-            document.getElementById('custom-prompt-modal').classList.remove('hidden');
-            setTimeout(() => input.focus(), 100);
+            const modal = document.getElementById('custom-prompt-modal');
+            
+            if(pTitle && input && modal) {
+                pTitle.textContent = title;
+                input.value = defaultValue || "";
+                promptCallback = callback;
+                modal.classList.remove('hidden');
+                setTimeout(() => input.focus(), 100);
+            } else {
+                let r = prompt(title, defaultValue); // fallback
+                if(r !== null) callback(r);
+            }
         };
 
-        window.app.cancelPrompt = () => { document.getElementById('custom-prompt-modal').classList.add('hidden'); promptCallback = null; };
+        window.app.cancelPrompt = () => { 
+            const modal = document.getElementById('custom-prompt-modal');
+            if(modal) modal.classList.add('hidden'); 
+            promptCallback = null; 
+        };
         window.app.confirmPrompt = () => { 
-            if(promptCallback) promptCallback(document.getElementById('prompt-input').value); 
+            if(promptCallback) {
+                const input = document.getElementById('prompt-input');
+                if(input) promptCallback(input.value); 
+            }
             window.app.cancelPrompt(); 
         };
 
@@ -675,14 +692,15 @@
             try { await signInWithPopup(auth, googleProvider); } 
             catch(e) { 
                 const err = document.getElementById('login-error-container');
-                if(err) { err.innerHTML = "<b>Aviso de Seguridad:</b> Las ventanas emergentes de Google pueden estar bloqueadas en este entorno. Para continuar trabajando, haz clic abajo en <b>'Entrar en Modo Local Seguro (Offline)'</b>. Todos tus datos se guardarán localmente en tu navegador sin problemas."; err.classList.remove('hidden'); }
+                if(err) { err.innerHTML = "<b>Aviso de Seguridad (COOP):</b> Las ventanas emergentes de Google están bloqueadas en este entorno para proteger tus datos. <br><br><b>Solución:</b> Usa el inicio de sesión por <b>Correo y Contraseña</b> arriba, o haz clic abajo en <b>'Entrar en Modo Local Seguro (Offline)'</b>. Podrás exportar tu trabajo en JSON sin perder nada."; err.classList.remove('hidden'); }
             } 
         };
 
         window.app.loginEmail = async () => {
-            const e = document.getElementById('login-email').value;
-            const p = document.getElementById('login-password').value;
-            try { await signInWithEmailAndPassword(auth, e, p); }
+            const e = document.getElementById('login-email');
+            const p = document.getElementById('login-password');
+            if(!e || !p) return;
+            try { await signInWithEmailAndPassword(auth, e.value, p.value); }
             catch(err) {
                 const errC = document.getElementById('login-error-container');
                 if(errC) { errC.innerHTML = "<b>Error:</b> Credenciales inválidas o usuario no registrado."; errC.classList.remove('hidden'); }
@@ -703,7 +721,8 @@
             const loginOverlay = document.getElementById('login-overlay'); if (loginOverlay) loginOverlay.classList.add('hidden'); 
             const appContainer = document.getElementById('app-container'); if (appContainer) appContainer.classList.remove('opacity-0');
             const badge = document.getElementById('user-role-badge'); if(badge) badge.textContent = isAdmin ? 'ADMINISTRADOR' : 'LECTOR';
-            const dot = document.getElementById('cloud-dot'); if(dot) { dot.classList.replace('bg-emerald-500', 'bg-amber-500'); document.getElementById('cloud-text').textContent = "Offline (Seguro)"; }
+            const dot = document.getElementById('cloud-dot'); if(dot) { dot.classList.replace('bg-emerald-500', 'bg-amber-500'); }
+            const txt = document.getElementById('cloud-text'); if(txt) txt.textContent = "Offline (Seguro)";
             loadFromLocal();
         };
 
@@ -723,7 +742,6 @@
                 });
             } catch (error) { 
                 console.warn("Firebase Canvas fallback.", error); 
-                // No mostrar error aquí, dejar que el usuario decida en el modal de login.
             }
         }
 
@@ -764,7 +782,7 @@
         }
 
         window.app.addChapter = () => {
-            window.app.showPrompt("Nombre del nuevo capítulo/sección:", "", (t) => {
+            window.app.showPrompt("Nombre del nuevo capítulo, sección o apéndice:", "", (t) => {
                 if(!t || t.trim() === "") return;
                 const id = 'cap_' + Date.now();
                 chaptersDef.push({ id: id, title: t.trim(), sections: [] });
@@ -795,14 +813,14 @@
             
             // Compatibilidad entre marked v4+ y versiones antiguas
             if (typeof tokenOrText === 'object') {
-                text = tokenOrText.text || '';
+                text = String(tokenOrText.text || '');
                 depth = tokenOrText.depth || 1;
             } else {
-                text = tokenOrText || '';
+                text = String(tokenOrText || '');
                 depth = level || 1;
             }
             
-            const slug = String(text).toLowerCase().replace(/[^\w]+/g, '-');
+            const slug = text.toLowerCase().replace(/[^\w]+/g, '-');
             return `<h${depth} id="${slug}">${text}</h${depth}>`;
         };
         marked.use({ renderer });
@@ -1049,9 +1067,8 @@
 
         window.app.insertFormat = (prefix, suffix) => { 
             const ed = document.getElementById('editor-pane'); if(!ed) return; 
-            // Reemplazo del tag especial [NL] por saltos de línea reales para evitar el error HTML
-            const p = prefix.replace(/\[NL\]/g, '\n');
-            const sfx = suffix.replace(/\[NL\]/g, '\n');
+            const p = prefix.replace(/\\n/g, '\n');
+            const sfx = suffix.replace(/\\n/g, '\n');
             const s = ed.selectionStart, e = ed.selectionEnd, t = ed.value; 
             ed.value = t.substring(0, s) + p + t.substring(s, e) + sfx + t.substring(e); 
             ed.focus(); ed.setSelectionRange(s + p.length, e + p.length); 
@@ -1093,7 +1110,7 @@
                     });
                 }
 
-                const content = thesisContent[c.id] || "";
+                const content = String(thesisContent[c.id] || "");
                 
                 // Figures as native Hexagons instead of fetching CORS images
                 const figs = [...content.matchAll(/\[FIG\s*\|\s*(.*?)\s*\|\s*(.*?)\s*\|\s*(.*?)\]/g)];
@@ -1123,7 +1140,11 @@
 
         function updateAnalytics() {
             let totalWords = 0; let totalMath = 0;
-            Object.values(thesisContent).forEach(t => { totalWords += t.trim().split(/\s+/).filter(w=>w).length; if(t.match(/\$\$/g)) totalMath += t.match(/\$\$/g).length / 2; });
+            Object.values(thesisContent).forEach(t => { 
+                const contentStr = String(t || "");
+                totalWords += contentStr.trim().split(/\s+/).filter(w=>w).length; 
+                if(contentStr.match(/\$\$/g)) totalMath += contentStr.match(/\$\$/g).length / 2; 
+            });
             const wc = document.getElementById('word-count'); if(wc) wc.textContent = totalWords; 
             const pc = document.getElementById('page-count'); if(pc) pc.textContent = Math.ceil(totalWords/300);
             if(document.getElementById('stat-words')) { document.getElementById('stat-words').textContent = totalWords; document.getElementById('stat-math').textContent = Math.floor(totalMath); }
@@ -1224,7 +1245,33 @@
             });
         }
         
-        window.app.saveToCloud = async () => { if (!isAdmin) return; const payload = { content: thesisContent, refs: referencesDB, structure: chaptersDef, config: projectConfig, notes: chapterNotes, commits: commitmentLog }; localStorage.setItem('nexus_writer_v11', JSON.stringify(payload)); };
+        window.app.saveToCloud = async () => { 
+            if (!isAdmin) return; 
+            const payload = { content: thesisContent, refs: referencesDB, structure: chaptersDef, config: projectConfig, notes: chapterNotes, commits: commitmentLog }; 
+            localStorage.setItem('nexus_writer_v12', JSON.stringify(payload)); 
+            
+            if (isFirebaseActive) { 
+                try { 
+                    await setDoc(docRef, payload); 
+                    const dot = document.getElementById('cloud-dot'); 
+                    if(dot) { 
+                        dot.classList.replace('bg-emerald-500', 'bg-blue-500'); 
+                        dot.classList.replace('bg-amber-500', 'bg-blue-500');
+                        document.getElementById('cloud-text').textContent = "Sincronizado";
+                        setTimeout(()=> {
+                            dot.classList.replace('bg-blue-500','bg-emerald-500');
+                            document.getElementById('cloud-text').textContent = "Auto-Guardado";
+                        },1500); 
+                    } 
+                } catch (e) { 
+                    console.error("Error nube. Datos guardados en Local.", e); 
+                    window.app.showAlert("No se pudo guardar en Firestore. Verifica las reglas de seguridad en la consola de Firebase. Mientras tanto, tu avance se ha guardado LOCALMENTE de forma segura.");
+                    setOfflineMode(); 
+                } 
+            } else {
+                setOfflineMode();
+            }
+        };
         
         window.app.editCurrentChapterTitle = () => { 
             const chapObj = chaptersDef.find(c => c.id === currentChap); 
