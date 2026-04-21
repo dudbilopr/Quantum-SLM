@@ -105,13 +105,14 @@
         /* REGLAS APA ESTRICTAS PARA PÁRRAFOS Y TÍTULOS */
         .render-area p { text-indent: 1.27cm; margin-bottom: 0 !important; line-height: inherit; }
         
+        /* Excepciones a la sangría APA */
         .render-area table p, .render-area figure p, .render-area .modern-tip p, .render-area .latex-box-body p,
         .cover-page p, .institutional-backcover p, .render-area li, .render-area h1, .render-area h2, .render-area h3, .web-hero p { text-indent: 0 !important; }
 
-        /* INCREMENTO DE CAPÍTULO PARA ECUACIONES */
-        .render-area h1 { font-size: 2.2em; font-weight: 800; margin-bottom: 1.5em; margin-top: 1.5em; text-align: center; color: inherit; counter-increment: chapter_eq; counter-reset: equation; }
-        .render-area h2 { font-size: 1.6em; font-weight: 700; margin-top: 2em; margin-bottom: 1em; color: inherit; }
-        .render-area h3 { font-size: 1.3em; font-weight: 600; font-style: italic; margin-top: 1.5em; margin-bottom: 0.8em; color: inherit; }
+        /* INCREMENTO DE CAPÍTULO PARA ECUACIONES Y MEJORA DE TÍTULOS */
+        .render-area h1 { font-size: 2.4em; font-weight: 900; margin-bottom: 1.2em; margin-top: 1.5em; text-align: center; color: inherit; counter-increment: chapter_eq; counter-reset: equation; line-height: 1.3; letter-spacing: -0.5px;}
+        .render-area h2 { font-size: 1.8em; font-weight: 800; margin-top: 2em; margin-bottom: 1em; color: inherit; border-bottom: 2px solid rgba(20,184,166,0.4); padding-bottom: 0.4em; letter-spacing: -0.3px; }
+        .render-area h3 { font-size: 1.4em; font-weight: 700; font-style: italic; margin-top: 1.5em; margin-bottom: 0.8em; color: inherit; }
         
         /* Estilos Web Mode */
         .web-page h1 { font-family: 'Inter', sans-serif; font-size: 3.8em; font-weight: 900; margin-bottom: 1em; text-align: center; background: linear-gradient(to right, #0ea5e9, #8b5cf6, #14b8a6, #0ea5e9); background-size: 200% auto; -webkit-background-clip: text; -webkit-text-fill-color: transparent; letter-spacing: -1.5px; animation: gradient-x 8s linear infinite; }
@@ -1074,12 +1075,12 @@
 
             if(chapterId === "front") {
                 const portada = isGlobalWebMode ? 
-`<div class="web-hero reveal-item"><div class="author-badge mb-4">Investigación Doctoral</div><h1>${projectConfig.name}</h1><h2>${projectConfig.author}</h2><p class="mt-4 font-mono font-bold">${projectConfig.date}</p></div>` :
-`<div class="cover-page"><div class="header-inst"><p>Universidad de Buenos Aires</p><p>Facultad de Ciencias Exactas y Naturales</p><p>Departamento de Física</p></div><div class="title-space"><h1>${projectConfig.name}</h1></div><div class="author-space"><h2>${projectConfig.author}</h2></div></div><div class="page-break-visual" style="page-break-after: always;"></div><div class="cover-page institutional-backcover"><div class="title-space-sm"><h1>${projectConfig.name}</h1><h2>${projectConfig.author.replace('Mg. ', '')}</h2><p class="thesis-purpose">Tesis presentada para optar al título de Doctor de la Universidad de Buenos Aires<br>en el área Ciencias Físicas</p></div><div class="committee-info"><p><strong>Directora:</strong> ${projectConfig.director}<br>Departamento de Física<br>Facultad de Ciencias Exactas y Naturales<br>Universidad de Buenos Aires</p><p><strong>Codirectora:</strong> ${projectConfig.codirector}<br>Departamento de Física<br>Facultad de Ciencias Exactas<br>Instituto de Física de La Plata, Universidad de la Plata</p><p><strong>Consejero:</strong> ${projectConfig.consejero}<br>Departamento de Física<br>Facultad de Ciencias Exactas y Naturales<br>Universidad de Buenos Aires</p></div><div class="research-info"><p><strong>Línea de Investigación:</strong> Óptica Cuántica</p><p><strong>Grupo de Investigación:</strong> Laboratorio de Óptica y Fotónica (LOFT)</p></div><div class="footer-inst"><p>Universidad de Buenos Aires</p><p>Facultad de Ciencias Exactas y Naturales</p><p>Departamento de Física</p><p>${projectConfig.date.replace('\\n', '<br>')}</p></div></div><div class="page-break-visual" style="page-break-after: always;"></div>`;
+`<div class="web-hero reveal-item"><div class="author-badge mb-4">Investigación Doctoral</div><h1>${projectConfig.name}</h1><h2>${projectConfig.author}</h2><p class="mt-4 font-mono font-bold">${projectConfig.date}</p></div>\n\n` :
+`<div class="cover-page"><div class="header-inst"><p>Universidad de Buenos Aires</p><p>Facultad de Ciencias Exactas y Naturales</p><p>Departamento de Física</p></div><div class="title-space"><h1>${projectConfig.name}</h1></div><div class="author-space"><h2>${projectConfig.author}</h2></div></div><div class="page-break-visual" style="page-break-after: always;"></div>\n\n<div class="cover-page institutional-backcover"><div class="title-space-sm"><h1>${projectConfig.name}</h1><h2>${projectConfig.author.replace('Mg. ', '')}</h2><p class="thesis-purpose">Tesis presentada para optar al título de Doctor de la Universidad de Buenos Aires<br>en el área Ciencias Físicas</p></div><div class="committee-info"><p><strong>Directora:</strong> ${projectConfig.director}<br>Departamento de Física<br>Facultad de Ciencias Exactas y Naturales<br>Universidad de Buenos Aires</p><p><strong>Codirectora:</strong> ${projectConfig.codirector}<br>Departamento de Física<br>Facultad de Ciencias Exactas<br>Instituto de Física de La Plata, Universidad de la Plata</p><p><strong>Consejero:</strong> ${projectConfig.consejero}<br>Departamento de Física<br>Facultad de Ciencias Exactas y Naturales<br>Universidad de Buenos Aires</p></div><div class="research-info"><p><strong>Línea de Investigación:</strong> Óptica Cuántica</p><p><strong>Grupo de Investigación:</strong> Laboratorio de Óptica y Fotónica (LOFT)</p></div><div class="footer-inst"><p>Universidad de Buenos Aires</p><p>Facultad de Ciencias Exactas y Naturales</p><p>Departamento de Física</p><p>${projectConfig.date.replace('\\n', '<br>')}</p></div></div><div class="page-break-visual" style="page-break-after: always;"></div>\n\n`;
                 processed = portada + processed;
             }
 
-            processed = processed.replace(/\[PAGE_BREAK\]/g, '<div class="page-break-visual" style="page-break-after: always;"></div>');
+            processed = processed.replace(/\[PAGE_BREAK\]/g, '<div class="page-break-visual" style="page-break-after: always;"></div>\n\n');
 
             // COMPONENTES AVANZADOS (Cajas LaTeX, Tips, Carrusel)
             processed = processed.replace(/\[CAJA\s*\|\s*(.*?)\]([\s\S]*?)\[\/CAJA\]/gi, `<div class="latex-box reveal-item"><div class="latex-box-header">$1</div><div class="latex-box-body">$2</div></div>`);
@@ -1118,8 +1119,8 @@
             // Glosario Inteligente
             Object.keys(glossaryDB).forEach(term => { const regex = new RegExp(`\\b(${term})\\b(?![^<]*>|[^<>]*<\/a>)`, 'gi'); processed = processed.replace(regex, `<span class="glossary-term">$1<span class="glossary-tooltip">${glossaryDB[term]}</span></span>`); });
             
-            // Inyecta id invisible en títulos de capítulos para el scrollspy/paginación
-            if(!isGlobalWebMode) { processed = `<div id="cap_${chapterId}" style="display:block; height:1px; clear:both;"></div>` + processed; }
+            // Inyecta id invisible en títulos de capítulos con dobles saltos de línea para proteger el renderizado Markdown
+            if(!isGlobalWebMode) { processed = `<div id="cap_${chapterId}" style="display:block; height:1px; clear:both;"></div>\n\n` + processed; }
 
             return processed;
         }
@@ -1248,7 +1249,7 @@
             const modal = document.getElementById('global-preview-modal'); const c = document.getElementById('global-render-content'); if(!modal || !c) return; 
             modal.classList.remove('hidden'); buildGlobalRegistry(); 
             
-            let fullText = ""; chaptersDef.forEach(chap => { fullText += `<div id="cap_${chap.id}"></div>\n` + (thesisContent[chap.id] || "") + "\n\n[PAGE_BREAK]\n\n"; }); 
+            let fullText = ""; chaptersDef.forEach(chap => { fullText += `<div id="cap_${chap.id}"></div>\n\n` + (thesisContent[chap.id] || "") + "\n\n[PAGE_BREAK]\n\n"; }); 
             const isWebMode = document.getElementById('global-render-wrapper').classList.contains('web-page-mode-wrapper');
             let processed = preprocessText(fullText, "global", isWebMode);
             
