@@ -114,18 +114,18 @@
         .dark .btn-icon:hover { background: rgba(30, 41, 59, 0.8); color: #f8fafc; border-color: rgba(255, 255, 255, 0.1); }
 
         /* ================================================================= */
-        /* MODOS DE VISUALIZACIÓN: A4 Y LIBRO WEB ULTRA-MODERNO              */
+        /* MODOS DE VISUALIZACIÓN: FORMATO APA 7MA EDICIÓN Y MODO WEB        */
         /* ================================================================= */
 
         .page-container { counter-reset: equation figure table; display: flex; flex-direction: column; align-items: center; padding: 2rem 1rem; gap: 3rem; width: 100%; overflow-x: hidden; }
         
+        /* TAMAÑO CARTA Y MÁRGENES APA (2.54cm) */
         .a4-page {
-            width: 100%; max-width: 210mm; min-height: 297mm; padding: 10%; 
-            background: white; color: black; text-align: justify;
-            box-shadow: 0 20px 40px rgba(0,0,0,0.15); border-radius: 8px;
+            width: 100%; max-width: 21.59cm; min-height: 27.94cm; padding: 2.54cm; 
+            background: white; color: black; text-align: left; /* APA defaults to left */
+            box-shadow: 0 20px 40px rgba(0,0,0,0.15); border-radius: 4px;
             position: relative; flex-shrink: 0; margin: 0 auto;
         }
-        @media (min-width: 768px) { .a4-page { padding: 25mm; } }
         .dark .a4-page { box-shadow: 0 20px 50px rgba(0,0,0,0.9); }
         
         /* MODO LIBRO WEB (DESLUMBRANTE) */
@@ -134,20 +134,33 @@
             width: 100%; max-width: 1000px; padding: 5% 8%;
             background: rgba(255, 255, 255, 0.7); backdrop-filter: blur(30px) saturate(180%);
             border-radius: 2rem; border: 1px solid rgba(255,255,255,0.6);
-            color: #1e293b; text-align: justify; box-shadow: 0 30px 60px rgba(0,0,0,0.08), inset 0 0 0 1px rgba(255,255,255,0.5);
+            color: #1e293b; text-align: left; box-shadow: 0 30px 60px rgba(0,0,0,0.08), inset 0 0 0 1px rgba(255,255,255,0.5);
             position: relative; flex-shrink: 0; margin: 2rem auto; font-size: 1.05em; line-height: 1.8;
         }
         .dark .web-page { background: rgba(15,23,42,0.65); border-color: rgba(255,255,255,0.1); color: #f1f5f9; box-shadow: 0 30px 60px rgba(0,0,0,0.6), inset 0 0 0 1px rgba(255,255,255,0.05); }
 
+        /* REGLAS APA ESTRICTAS PARA PÁRRAFOS Y TÍTULOS */
+        .render-area p { 
+            text-indent: 1.27cm; /* Sangría de 0.5 pulgadas APA */
+            margin-bottom: 0 !important; /* Sin espacio adicional entre párrafos en APA */
+            line-height: inherit; 
+        }
+        
+        /* Excepciones a la sangría APA */
+        .render-area table p, .render-area figure p, .render-area .modern-tip p, 
+        .cover-page p, .institutional-backcover p, .render-area li, .render-area h1, .render-area h2, .render-area h3 { 
+            text-indent: 0 !important; 
+        }
+
+        .render-area h1 { font-size: 2.2em; font-weight: 800; margin-bottom: 1.5em; margin-top: 1.5em; text-align: center; color: inherit; }
+        .render-area h2 { font-size: 1.6em; font-weight: 700; margin-top: 2em; margin-bottom: 1em; color: inherit; }
+        .render-area h3 { font-size: 1.3em; font-weight: 600; font-style: italic; margin-top: 1.5em; margin-bottom: 0.8em; color: inherit; }
+        
         /* Estilos Internos Deslumbrantes para Web Mode */
         .web-page h1 { font-family: 'Inter', sans-serif; font-size: 3.2em; font-weight: 800; margin-bottom: 1em; text-align: center; background: linear-gradient(135deg, #14b8a6, #8b5cf6); -webkit-background-clip: text; -webkit-text-fill-color: transparent; letter-spacing: -1px; }
-        .web-page h2 { font-family: 'Inter', sans-serif; font-size: 1.8em; font-weight: 700; margin-top: 2em; margin-bottom: 1em; border-bottom: 2px solid rgba(20,184,166,0.3); padding-bottom: 0.3em; color: inherit; }
-        .web-page h3 { font-family: 'Inter', sans-serif; font-size: 1.3em; font-weight: 600; margin-top: 1.5em; margin-bottom: 0.8em; color: #14b8a6; }
-        
-        .a4-page h1 { font-size: 2.2em; font-weight: 800; margin-bottom: 1.5em; text-align: center; color: inherit; }
-        .a4-page h2 { font-size: 1.6em; font-weight: 700; margin-top: 2em; margin-bottom: 1em; border-bottom: 2px solid rgba(20,184,166,0.3); padding-bottom: 0.3em; }
+        .web-page h2 { font-family: 'Inter', sans-serif; border-bottom: 2px solid rgba(20,184,166,0.3); padding-bottom: 0.3em; }
+        .web-page h3 { font-family: 'Inter', sans-serif; color: #14b8a6; font-style: normal; }
 
-        .render-area p { margin-bottom: 1.2em; line-height: inherit; }
         .render-area ul { list-style-type: disc; padding-left: 2.5rem; margin-bottom: 1.2em; }
         .render-area ol { list-style-type: decimal; padding-left: 2.5rem; margin-bottom: 1.2em; }
         
@@ -181,9 +194,9 @@
         /* Tips UI */
         .modern-tip { background: linear-gradient(135deg, rgba(20,184,166,0.08), rgba(139,92,246,0.08)); border-left: 4px solid #14b8a6; padding: 1.5rem; border-radius: 0 1rem 1rem 0; margin: 2rem 0; display: flex; gap: 1rem; align-items: flex-start; box-shadow: 0 10px 30px rgba(0,0,0,0.03); border: 1px solid rgba(255,255,255,0.1); border-left-width: 4px; }
         .modern-tip-icon { background: #14b8a6; color: white; padding: 0.5rem; border-radius: 0.75rem; flex-shrink: 0; box-shadow: 0 4px 10px rgba(20,184,166,0.3); }
-        .modern-tip-content h4 { margin: 0 0 0.5rem 0; font-family: 'Inter', sans-serif; font-size: 1.1rem; color: #0f172a; font-weight: 700; }
+        .modern-tip-content h4 { margin: 0 0 0.5rem 0; font-family: 'Inter', sans-serif; font-size: 1.1rem; color: #0f172a; font-weight: 700; text-indent: 0; }
         .dark .modern-tip-content h4 { color: #f8fafc; }
-        .modern-tip-content p { margin: 0 !important; font-size: 0.95em; opacity: 0.9; }
+        .modern-tip-content p { margin: 0 !important; font-size: 0.95em; opacity: 0.9; text-indent: 0; }
 
         /* Carrusel Moderno */
         .carousel-wrapper { width: 100%; margin: 3rem 0; position: relative; }
@@ -202,10 +215,8 @@
         .reveal-item { opacity: 0; transform: translateY(20px); transition: opacity 0.8s cubic-bezier(0.4, 0, 0.2, 1), transform 0.8s cubic-bezier(0.4, 0, 0.2, 1); will-change: opacity, transform; }
         .reveal-item.is-visible { opacity: 1; transform: translateY(0); }
 
-        /* Cabeceras de Página en A4 */
-        .page-header { position: absolute; top: 15mm; left: 30mm; right: 30mm; border-bottom: 1px solid rgba(0,0,0,0.1); font-size: 0.75rem; color: #64748b; text-align: left; display: flex; justify-content: space-between; padding-bottom: 5px; font-family: 'Inter', sans-serif; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; opacity: 0.8; }
-        .page-footer { position: absolute; bottom: 15mm; left: 30mm; right: 30mm; border-top: 1px solid rgba(0,0,0,0.1); font-size: 0.8rem; color: #64748b; text-align: center; padding-top: 5px; font-family: 'Inter', sans-serif; font-weight: bold; }
-        .dark .page-header, .dark .page-footer { border-color: rgba(255,255,255,0.1); }
+        /* CABECERA APA 7 (Running Head y Paginación en parte superior) */
+        .page-header { position: absolute; top: 1.27cm; left: 2.54cm; right: 2.54cm; font-size: 0.9em; color: inherit; text-align: left; display: flex; justify-content: space-between; font-family: inherit; text-transform: uppercase; }
 
         /* ================================================================= */
         /* UTILIDADES APP Y SIDEBARS                                         */
@@ -242,7 +253,10 @@
         
         .page-break-visual { width: 100%; border-bottom: 2px dashed #94a3b8; margin: 3rem 0; position: relative; text-align: center; opacity: 0.6; }
         .page-break-visual::after { content: "✂ SALTO DE PÁGINA ✂"; background: var(--app-bg); padding: 0 15px; color: #64748b; font-size: 11px; position: relative; top: -8px; font-weight: bold; letter-spacing: 2px; border-radius: 10px; }
-        .a4-page .page-break-visual { display: none; } 
+        
+        /* Ocultar texto de salto de página en modo WEB */
+        .web-page .page-break-visual, .web-page-wrapper .page-break-visual { display: none !important; }
+        .a4-page .page-break-visual { display: none !important; } 
 
         .sidebar-submenu { max-height: 0; overflow: hidden; transition: max-height 0.3s ease-out; }
         .sidebar-submenu.open { max-height: 500px; }
@@ -267,140 +281,185 @@
 
     <!-- MODAL DE LOGIN -->
     <div id="login-overlay" class="fixed inset-0 z-[100] glass-panel flex items-center justify-center p-4 overflow-y-auto">
-        <div class="modal-glass text-center relative overflow-hidden fade-in max-h-[95vh] flex flex-col">
+        <div class="modal-glass text-center relative overflow-hidden fade-in max-h-[95vh] flex flex-col bg-white/90 dark:bg-slate-900/90 backdrop-blur-2xl">
             <div class="absolute -top-20 -right-20 w-48 h-48 bg-quantum-400 rounded-full mix-blend-multiply filter blur-3xl opacity-30 pointer-events-none"></div>
             
-            <div class="bg-gradient-to-br from-white to-slate-100 dark:from-slate-800 dark:to-slate-900 w-20 h-20 rounded-3xl mx-auto flex items-center justify-center mb-6 shadow-xl border border-slate-200 dark:border-slate-700 shrink-0 z-10">
+            <div class="bg-gradient-to-br from-white to-slate-100 dark:from-slate-800 dark:to-slate-900 w-20 h-20 rounded-3xl mx-auto flex items-center justify-center mb-4 shadow-xl border border-slate-200 dark:border-slate-700 shrink-0 z-10">
                 <i data-lucide="book-open" class="w-10 h-10 text-quantum-500"></i>
             </div>
             <h2 class="text-3xl font-extrabold mb-2 tracking-tight text-slate-800 dark:text-white z-10">Nexus Book V12</h2>
-            <p class="text-sm opacity-70 mb-8 font-medium z-10 text-slate-600 dark:text-slate-300">Entorno Doctoral, Analítica y Renderizado LaTeX</p>
+            <p class="text-sm opacity-70 mb-6 font-medium z-10 text-slate-600 dark:text-slate-300">Entorno Doctoral, Analítica y Renderizado LaTeX</p>
             
             <div class="flex-1 overflow-y-auto px-2 pb-4 z-10 scroll-smooth">
+                <!-- Google Login -->
                 <button onclick="window.app.loginAdminGoogle()" class="w-full bg-white dark:bg-slate-800 text-slate-900 dark:text-white hover:scale-[1.02] transition-transform font-bold py-3.5 px-4 rounded-xl flex items-center justify-center gap-3 mb-4 shadow-md border border-slate-200 dark:border-slate-700">
                     <svg class="w-5 h-5" viewBox="0 0 24 24"><path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/><path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/><path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z" fill="#FBBC05"/><path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/></svg>
                     Ingresar con Google
                 </button>
 
-                <div class="flex items-center gap-4 my-6 opacity-50">
+                <div class="flex items-center gap-4 my-4 opacity-50">
                     <div class="h-px bg-current flex-1"></div><span class="text-[10px] uppercase tracking-widest font-bold">O con Correo</span><div class="h-px bg-current flex-1"></div>
                 </div>
 
-                <div class="space-y-4 mb-6">
+                <!-- Email/Password Login -->
+                <div class="space-y-3 mb-6">
                     <input type="email" id="login-email" placeholder="Correo Electrónico" class="input-glass">
                     <input type="password" id="login-password" placeholder="Contraseña" class="input-glass" onkeypress="if(event.key === 'Enter') window.app.loginEmail()">
-                    <div class="flex gap-2 pt-2">
-                        <button onclick="window.app.loginEmail()" class="flex-1 btn-primary">Iniciar Sesión</button>
+                    <div class="flex gap-2 mt-2">
+                        <button onclick="window.app.loginEmail()" class="flex-1 bg-quantum-600 hover:bg-quantum-700 text-white font-bold py-3 rounded-xl transition-colors shadow">Iniciar Sesión</button>
                     </div>
                 </div>
 
-                <div class="flex items-center gap-4 my-6 opacity-50">
-                    <div class="h-px bg-current flex-1"></div><span class="text-[10px] uppercase tracking-widest font-bold">Offline / Invitados</span><div class="h-px bg-current flex-1"></div>
+                <div class="flex items-center gap-4 my-4 opacity-50">
+                    <div class="h-px bg-current flex-1"></div><span class="text-[10px] uppercase tracking-widest font-bold">Modo Offline / Invitados</span><div class="h-px bg-current flex-1"></div>
                 </div>
 
-                <button onclick="window.app.forceLocalMode()" class="w-full bg-white/50 dark:bg-slate-900/50 border border-slate-300 dark:border-slate-700 text-slate-800 dark:text-slate-200 font-bold py-3.5 px-4 rounded-xl transition-colors hover:bg-white dark:hover:bg-slate-800 shadow-sm flex justify-center items-center gap-2 mb-4">
+                <button onclick="window.app.forceLocalMode()" class="w-full bg-white/50 dark:bg-slate-900/50 border border-slate-300 dark:border-slate-700 text-slate-800 dark:text-slate-200 font-bold py-3.5 px-4 rounded-xl transition-colors hover:bg-white dark:hover:bg-slate-800 shadow-sm flex justify-center items-center gap-2 mb-3">
                     <i data-lucide="hard-drive" class="w-4 h-4 text-quantum-600"></i> Entrar en Modo Local Seguro (Offline)
                 </button>
 
                 <div class="flex gap-2">
-                    <input type="password" id="guest-password" placeholder="Clave de Lector" class="input-glass flex-1 text-center" onkeypress="if(event.key === 'Enter') window.app.loginGuest()">
-                    <button onclick="window.app.loginGuest()" class="btn-icon bg-slate-200 dark:bg-slate-800 border-none" title="Solo Lectura">
+                    <input type="password" id="guest-password" placeholder="Clave de Lector" class="input-glass text-center flex-1" onkeypress="if(event.key === 'Enter') window.app.loginGuest()">
+                    <button onclick="window.app.loginGuest()" class="bg-slate-300 dark:bg-slate-700 hover:bg-slate-400 dark:hover:bg-slate-600 text-slate-800 dark:text-white font-bold py-3 px-4 rounded-xl transition-colors" title="Solo Lectura">
                         <i data-lucide="eye" class="w-5 h-5"></i>
                     </button>
                 </div>
 
-                <div id="login-error-container" class="hidden mt-4 text-red-600 dark:text-red-400 text-xs font-medium bg-red-100 dark:bg-red-900/30 p-4 rounded-xl border border-red-200 dark:border-red-800/50 text-left"></div>
+                <div id="login-error-container" class="hidden mt-4 text-red-600 dark:text-red-400 text-xs font-medium bg-red-100 dark:bg-red-900/30 p-3 rounded-xl border border-red-200 dark:border-red-800/50 text-left"></div>
             </div>
         </div>
     </div>
 
-    <!-- MODALES VARIOS (PROMPTS, ALERTAS, TUTORIAL) -->
+    <!-- MODAL PERSONALIZADO PARA PROMPTS -->
     <div id="custom-prompt-modal" class="fixed inset-0 z-[80] glass-panel hidden flex items-center justify-center p-4 fade-in">
-        <div class="modal-glass max-w-md">
-            <h2 id="prompt-title" class="text-xl font-bold mb-6 text-slate-800 dark:text-white tracking-tight"></h2>
-            <input type="text" id="prompt-input" class="input-glass mb-8" onkeypress="if(event.key === 'Enter') window.app.confirmPrompt()">
+        <div class="modal-glass max-w-md border border-slate-200 dark:border-slate-700 bg-white/90 dark:bg-slate-900/90 backdrop-blur-2xl shadow-2xl">
+            <h2 id="prompt-title" class="text-xl font-bold mb-4 text-slate-800 dark:text-white"></h2>
+            <input type="text" id="prompt-input" class="input-glass mb-6 w-full" onkeypress="if(event.key === 'Enter') window.app.confirmPrompt()">
             <div class="flex justify-end gap-3">
-                <button onclick="window.app.cancelPrompt()" class="px-6 py-2.5 rounded-[1rem] text-sm font-bold hover:bg-slate-200 dark:hover:bg-slate-800 transition-colors text-slate-700 dark:text-slate-300">Cancelar</button>
-                <button onclick="window.app.confirmPrompt()" class="btn-primary">Aceptar</button>
+                <button onclick="window.app.cancelPrompt()" class="px-5 py-2.5 rounded-xl text-sm font-semibold hover:bg-slate-200 dark:hover:bg-slate-800 transition-colors text-slate-700 dark:text-slate-300">Cancelar</button>
+                <button onclick="window.app.confirmPrompt()" class="btn-primary shadow-md">Aceptar</button>
             </div>
         </div>
     </div>
 
+    <!-- MODAL PERSONALIZADO PARA ALERTAS -->
     <div id="custom-alert-modal" class="fixed inset-0 z-[80] glass-panel hidden flex items-center justify-center p-4 fade-in">
-        <div class="modal-glass max-w-sm text-center">
-            <div class="w-16 h-16 bg-amber-100 dark:bg-amber-900/50 rounded-full flex items-center justify-center mx-auto mb-6 text-amber-600 dark:text-amber-400">
+        <div class="modal-glass max-w-sm text-center border border-slate-200 dark:border-slate-700 bg-white/90 dark:bg-slate-900/90 backdrop-blur-2xl shadow-2xl">
+            <div class="w-16 h-16 bg-amber-100 dark:bg-amber-900/50 rounded-full flex items-center justify-center mx-auto mb-4 text-amber-600 dark:text-amber-400">
                 <i data-lucide="alert-triangle" class="w-8 h-8"></i>
             </div>
-            <h2 id="alert-message" class="text-lg font-bold mb-8 text-slate-800 dark:text-white leading-relaxed"></h2>
-            <button onclick="document.getElementById('custom-alert-modal').classList.add('hidden')" class="btn-primary mx-auto">Entendido</button>
+            <h2 id="alert-message" class="text-lg font-bold mb-6 text-slate-800 dark:text-white"></h2>
+            <button onclick="document.getElementById('custom-alert-modal').classList.add('hidden')" class="btn-primary mx-auto shadow-md">Entendido</button>
+        </div>
+    </div>
+
+    <!-- MODAL DE TUTORIAL -->
+    <div id="tutorial-modal" class="fixed inset-0 z-[70] glass-panel hidden flex items-center justify-center fade-in p-4">
+        <div class="modal-glass bg-white/90 dark:bg-slate-900/90">
+            <button onclick="document.getElementById('tutorial-modal').classList.add('hidden')" class="absolute top-6 right-6 text-slate-400 hover:text-red-500 bg-slate-100 dark:bg-slate-800 p-2 rounded-full"><i data-lucide="x" class="w-5 h-5"></i></button>
+            <div class="flex items-center gap-4 mb-6 border-b border-slate-200 dark:border-slate-700 pb-4">
+                <div class="w-12 h-12 bg-quantum-100 dark:bg-quantum-900/50 rounded-2xl flex items-center justify-center text-quantum-600 dark:text-quantum-400">
+                    <i data-lucide="rocket" class="w-6 h-6"></i>
+                </div>
+                <div>
+                    <h2 class="text-2xl font-bold text-slate-800 dark:text-white">Bienvenido a Nexus V12</h2>
+                    <p class="text-sm text-slate-500">Novedades y comandos rápidos</p>
+                </div>
+            </div>
+            
+            <div class="space-y-4 text-sm text-slate-700 dark:text-slate-300">
+                <div class="flex gap-3"><i data-lucide="layers" class="w-5 h-5 text-quantum-500 shrink-0"></i><p><strong>Estructura Flexible:</strong> Añade capítulos, secciones o apéndices usando el botón `+`. Arrástralos para reordenarlos.</p></div>
+                <div class="flex gap-3"><i data-lucide="link-2" class="w-5 h-5 text-quantum-500 shrink-0"></i><p><strong>Comandos Mágicos:</strong> Usa <code>[INDICE_GENERAL]</code>, <code>[LISTA_FIGURAS]</code>, y <code>[BIBLIOGRAFIA]</code> en el editor.</p></div>
+                <div class="flex gap-3"><i data-lucide="edit-3" class="w-5 h-5 text-quantum-500 shrink-0"></i><p><strong>LaTeX Nativo:</strong> Puedes usar entornos como <code>\begin{aligned}...\end{aligned}</code> y macros como <code>\ket{\psi}</code>.</p></div>
+                <div class="flex gap-3"><i data-lucide="network" class="w-5 h-5 text-quantum-500 shrink-0"></i><p><strong>Grafo Seguro:</strong> El grafo topológico no colapsará con imágenes bloqueadas por CORS, funcionando como Obsidian.</p></div>
+            </div>
+            <div class="mt-8 text-center">
+                <button onclick="document.getElementById('tutorial-modal').classList.add('hidden')" class="btn-primary mx-auto">¡Empezar a escribir!</button>
+            </div>
         </div>
     </div>
 
     <!-- MODAL MULTIMEDIA -->
     <div id="media-modal" class="fixed inset-0 z-[60] glass-panel hidden flex items-center justify-center fade-in p-4">
-        <div class="modal-glass">
-            <h2 id="media-modal-title" class="text-2xl font-bold mb-8 flex items-center gap-3 text-slate-800 dark:text-white tracking-tight"></h2>
-            <div id="media-modal-body" class="space-y-5"></div>
-            <div class="mt-10 flex justify-end gap-3">
-                <button onclick="document.getElementById('media-modal').classList.add('hidden')" class="px-6 py-2.5 rounded-[1rem] text-sm font-bold hover:bg-slate-200 dark:hover:bg-slate-800 transition-colors text-slate-700 dark:text-slate-300">Cancelar</button>
+        <div class="modal-glass bg-white/90 dark:bg-slate-900/90">
+            <h2 id="media-modal-title" class="text-2xl font-bold mb-6 flex items-center gap-3 text-slate-800 dark:text-white"></h2>
+            <div id="media-modal-body" class="space-y-4"></div>
+            <div class="mt-8 flex justify-end gap-3">
+                <button onclick="document.getElementById('media-modal').classList.add('hidden')" class="px-5 py-2.5 rounded-xl text-sm font-semibold hover:bg-slate-200 dark:hover:bg-slate-800 transition-colors text-slate-700 dark:text-slate-300">Cancelar</button>
                 <button id="media-modal-btn" class="btn-primary">Insertar</button>
             </div>
         </div>
     </div>
 
-    <!-- MODAL CONFIGURACIÓN -->
+    <!-- MODAL CONFIGURACIÓN CON PORTADA Y EXPORT/IMPORT JSON -->
     <div id="settings-modal" class="fixed inset-0 z-[60] glass-panel hidden flex items-center justify-center fade-in p-4">
-        <div class="modal-glass max-w-4xl w-full max-h-[90vh] overflow-y-auto p-8">
-            <div class="flex justify-between items-center mb-8 border-b border-slate-200 dark:border-slate-700 pb-6">
-                <h2 class="text-2xl font-bold flex items-center gap-3 text-slate-800 dark:text-white tracking-tight"><div class="p-2 bg-quantum-500/10 rounded-xl"><i data-lucide="settings" class="text-quantum-500"></i></div> Ajustes de Proyecto</h2>
+        <div class="bg-white dark:bg-slate-900 p-8 rounded-3xl shadow-2xl border border-slate-200 dark:border-slate-700 max-w-3xl w-full max-h-[90vh] overflow-y-auto">
+            <div class="flex justify-between items-center mb-6">
+                <h2 class="text-2xl font-bold flex items-center gap-3 text-slate-800 dark:text-white"><i data-lucide="settings" class="text-quantum-500"></i> Ajustes de Proyecto</h2>
                 <div class="flex gap-2">
-                    <button onclick="window.app.exportJSON()" class="px-4 py-2 bg-emerald-100 text-emerald-700 dark:bg-emerald-900/50 dark:text-emerald-400 rounded-xl text-xs font-bold flex items-center gap-2 hover:bg-emerald-200 transition-colors border border-emerald-200 dark:border-emerald-800"><i data-lucide="download" class="w-4 h-4"></i> Backup JSON</button>
-                    <label class="px-4 py-2 bg-blue-100 text-blue-700 dark:bg-blue-900/50 dark:text-blue-400 rounded-xl text-xs font-bold flex items-center gap-2 hover:bg-blue-200 transition-colors border border-blue-200 dark:border-blue-800 cursor-pointer">
-                        <i data-lucide="upload" class="w-4 h-4"></i> Cargar JSON
+                    <button onclick="window.app.exportJSON()" class="px-3 py-1.5 bg-emerald-100 text-emerald-700 dark:bg-emerald-900/50 dark:text-emerald-400 rounded-lg text-xs font-bold flex items-center gap-2 hover:bg-emerald-200 transition-colors border border-emerald-200 dark:border-emerald-800"><i data-lucide="download" class="w-3 h-3"></i> Backup JSON</button>
+                    <label class="px-3 py-1.5 bg-blue-100 text-blue-700 dark:bg-blue-900/50 dark:text-blue-400 rounded-lg text-xs font-bold flex items-center gap-2 hover:bg-blue-200 transition-colors border border-blue-200 dark:border-blue-800 cursor-pointer">
+                        <i data-lucide="upload" class="w-3 h-3"></i> Cargar JSON
                         <input type="file" id="import-json-file" accept=".json" class="hidden" onchange="window.app.importJSON(event)">
                     </label>
                 </div>
             </div>
             
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <!-- Metadatos Portada -->
-                <div class="space-y-4 bg-slate-50/50 dark:bg-slate-800/30 p-6 rounded-[1.5rem] border border-slate-200 dark:border-slate-700/50">
-                    <h3 class="text-xs font-bold text-slate-500 uppercase tracking-widest flex items-center gap-2 mb-4"><i data-lucide="file-badge" class="w-4 h-4"></i> Datos de Portada</h3>
-                    <div><label class="text-[10px] font-bold uppercase opacity-70 ml-2">Título del Proyecto</label><input type="text" id="config-proj-name" class="input-glass mt-2"></div>
-                    <div><label class="text-[10px] font-bold uppercase opacity-70 ml-2">Autor</label><input type="text" id="config-proj-author" class="input-glass mt-2"></div>
-                    <div><label class="text-[10px] font-bold uppercase opacity-70 ml-2">Director</label><input type="text" id="config-proj-director" class="input-glass mt-2"></div>
-                    <div><label class="text-[10px] font-bold uppercase opacity-70 ml-2">Co-Director</label><input type="text" id="config-proj-codirector" class="input-glass mt-2"></div>
-                    <div><label class="text-[10px] font-bold uppercase opacity-70 ml-2">Consejero / Institución</label><input type="text" id="config-proj-consejero" class="input-glass mt-2"></div>
-                    <div><label class="text-[10px] font-bold uppercase opacity-70 ml-2">Fecha Presentación</label><input type="text" id="config-proj-date" class="input-glass mt-2"></div>
+                <div class="space-y-3 bg-slate-50 dark:bg-slate-800/50 p-5 rounded-2xl border border-slate-200 dark:border-slate-700">
+                    <h3 class="text-xs font-bold text-slate-500 uppercase tracking-widest flex items-center gap-2 mb-3"><i data-lucide="file-badge" class="w-4 h-4"></i> Datos de Portada</h3>
+                    <div><label class="text-[10px] font-bold uppercase opacity-70 ml-2">Título del Proyecto</label><input type="text" id="config-proj-name" class="input-glass mt-1 p-2"></div>
+                    <div><label class="text-[10px] font-bold uppercase opacity-70 ml-2">Autor</label><input type="text" id="config-proj-author" class="input-glass mt-1 p-2"></div>
+                    <div><label class="text-[10px] font-bold uppercase opacity-70 ml-2">Director</label><input type="text" id="config-proj-director" class="input-glass mt-1 p-2"></div>
+                    <div><label class="text-[10px] font-bold uppercase opacity-70 ml-2">Co-Director</label><input type="text" id="config-proj-codirector" class="input-glass mt-1 p-2"></div>
+                    <div><label class="text-[10px] font-bold uppercase opacity-70 ml-2">Consejero / Institución</label><input type="text" id="config-proj-consejero" class="input-glass mt-1 p-2"></div>
+                    <div><label class="text-[10px] font-bold uppercase opacity-70 ml-2">Fecha Presentación</label><input type="text" id="config-proj-date" class="input-glass mt-1 p-2"></div>
                 </div>
 
-                <div class="space-y-6">
-                    <!-- Tipografía -->
-                    <div class="space-y-4 bg-slate-50/50 dark:bg-slate-800/30 p-6 rounded-[1.5rem] border border-slate-200 dark:border-slate-700/50">
-                        <h3 class="text-xs font-bold text-slate-500 uppercase tracking-widest flex items-center gap-2 mb-4"><i data-lucide="type" class="w-4 h-4"></i> Formato Académico</h3>
+                <div class="space-y-4">
+                    <!-- Tipografía APA 7 -->
+                    <div class="space-y-3 bg-slate-50 dark:bg-slate-800/50 p-5 rounded-2xl border border-slate-200 dark:border-slate-700">
+                        <h3 class="text-xs font-bold text-slate-500 uppercase tracking-widest flex items-center gap-2 mb-3"><i data-lucide="type" class="w-4 h-4"></i> Formato Académico (Normas APA 7)</h3>
                         <div>
                             <label class="text-[10px] font-bold uppercase opacity-70 ml-2">Fuente Base</label>
-                            <select id="config-font" class="input-glass mt-2 cursor-pointer"><option value="'Times New Roman', Times, serif">Times New Roman</option><option value="Arial, sans-serif">Arial</option><option value="'Lora', serif">Lora / Book</option></select>
+                            <select id="config-font" class="input-glass mt-1 p-2 cursor-pointer">
+                                <option value="'Times New Roman', Times, serif">Times New Roman</option>
+                                <option value="Arial, sans-serif">Arial</option>
+                                <option value="Georgia, serif">Georgia</option>
+                                <option value="Calibri, sans-serif">Calibri</option>
+                                <option value="'Lucida Sans Unicode', sans-serif">Lucida Sans Unicode</option>
+                            </select>
                         </div>
                         <div class="grid grid-cols-2 gap-4">
-                            <div><label class="text-[10px] font-bold uppercase opacity-70 ml-2">Tamaño</label><select id="config-size" class="input-glass mt-2 cursor-pointer"><option value="11pt">11pt</option><option value="12pt">12pt</option><option value="14pt">14pt</option></select></div>
-                            <div><label class="text-[10px] font-bold uppercase opacity-70 ml-2">Interlineado</label><select id="config-lineheight" class="input-glass mt-2 cursor-pointer"><option value="1.15">1.15</option><option value="1.5">1.5</option><option value="2.0">2.0</option></select></div>
+                            <div>
+                                <label class="text-[10px] font-bold uppercase opacity-70 ml-2">Tamaño</label>
+                                <select id="config-size" class="input-glass mt-1 p-2 cursor-pointer"><option value="10pt">10pt</option><option value="11pt">11pt</option><option value="12pt">12pt</option></select>
+                            </div>
+                            <div>
+                                <label class="text-[10px] font-bold uppercase opacity-70 ml-2">Interlineado</label>
+                                <select id="config-lineheight" class="input-glass mt-1 p-2 cursor-pointer"><option value="1.5">1.5</option><option value="2.0">2.0 (Doble APA)</option></select>
+                            </div>
+                        </div>
+                        <div>
+                            <label class="text-[10px] font-bold uppercase opacity-70 ml-2">Alineación</label>
+                            <select id="config-align" class="input-glass mt-1 p-2 cursor-pointer"><option value="left">Izquierda (Estricto APA)</option><option value="justify">Justificado</option></select>
                         </div>
                     </div>
                     
                     <!-- Configuración IA -->
-                    <div class="space-y-4 bg-purple-50/50 dark:bg-purple-900/10 p-6 rounded-[1.5rem] border border-purple-200 dark:border-purple-800/30">
-                        <h3 class="text-xs font-bold text-purple-600 dark:text-purple-400 uppercase tracking-widest flex items-center gap-2 mb-4"><i data-lucide="key" class="w-4 h-4"></i> Motor IA Gemini</h3>
+                    <div class="space-y-3 bg-purple-50/50 dark:bg-purple-900/10 p-5 rounded-2xl border border-purple-200 dark:border-purple-800/30">
+                        <h3 class="text-xs font-bold text-purple-600 dark:text-purple-400 uppercase tracking-widest flex items-center gap-2 mb-3"><i data-lucide="key" class="w-4 h-4"></i> Motor IA Gemini</h3>
                         <div>
                             <label class="text-[10px] font-bold uppercase opacity-70 ml-2 text-purple-700 dark:text-purple-300">API Key de Google Gemini</label>
-                            <input type="password" id="config-gemini-key" placeholder="AIzaSy..." class="input-glass mt-2 border-purple-200 dark:border-purple-800 focus:border-purple-500">
+                            <input type="password" id="config-gemini-key" placeholder="AIzaSy..." class="input-glass mt-1 p-2 border-purple-200 dark:border-purple-800">
                         </div>
                     </div>
                 </div>
             </div>
             
-            <div class="mt-10 flex justify-end gap-4 border-t border-slate-200 dark:border-slate-700 pt-6">
-                <button onclick="document.getElementById('settings-modal').classList.add('hidden')" class="px-6 py-2.5 rounded-[1rem] text-sm font-bold opacity-70 hover:opacity-100 hover:bg-slate-100 dark:hover:bg-slate-800 transition-all text-slate-800 dark:text-slate-200">Cerrar</button>
+            <div class="mt-8 flex justify-end gap-3">
+                <button onclick="document.getElementById('settings-modal').classList.add('hidden')" class="px-5 py-2.5 rounded-xl text-sm font-semibold opacity-70 hover:opacity-100 hover:bg-slate-100 dark:hover:bg-slate-800 transition-all text-slate-800 dark:text-slate-200">Cerrar</button>
                 <button onclick="window.app.saveSettings()" class="btn-primary">Guardar Configuración</button>
             </div>
         </div>
@@ -417,7 +476,7 @@
         </header>
         <div class="flex-1 overflow-y-auto p-4 md:p-8 relative bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-transparent to-black/5 dark:to-white/5 scroll-smooth" id="global-scroll-area">
             <div class="fixed bottom-6 right-8 z-[150] glass-panel rounded-full p-1.5 flex gap-1 shadow-2xl border border-white/40">
-                <button onclick="window.app.setPreviewMode('global-render-content', 'a4-page')" class="px-5 py-2 text-[10px] font-bold uppercase rounded-full hover:bg-slate-200 dark:hover:bg-slate-800 transition-colors text-slate-800 dark:text-slate-200">A4</button>
+                <button onclick="window.app.setPreviewMode('global-render-content', 'a4-page')" class="px-5 py-2 text-[10px] font-bold uppercase rounded-full hover:bg-slate-200 dark:hover:bg-slate-800 transition-colors text-slate-800 dark:text-slate-200">Carta / APA</button>
                 <button onclick="window.app.setPreviewMode('global-render-content', 'web-page')" class="px-5 py-2 text-[10px] font-bold uppercase rounded-full bg-quantum-500 text-white shadow-md transition-colors flex items-center gap-1"><i data-lucide="sparkles" class="w-3 h-3"></i> Libro Web</button>
             </div>
             <!-- Contenedor Wrapper para centrar y animar -->
@@ -628,7 +687,6 @@
                                         <i data-lucide="share-2" class="w-4 h-4 text-quantum-500"></i> Grafo de Conocimiento
                                     </h3>
                                 </div>
-                                <!-- Ajustado a absolute inset-0 para que llene todo el contenedor mágicamente -->
                                 <div id="knowledge-graph" class="absolute inset-0 w-full h-full bg-slate-50 dark:bg-obsidian-950/50"></div>
                             </div>
                             
@@ -664,50 +722,19 @@
                                 <i data-lucide="scan-search" class="w-4 h-4"></i> Evaluación Experta
                             </button>
                         </div>
-                                <div class="glass-panel rounded-3xl p-6 flex flex-col justify-center text-center shadow-lg border-quantum-500/30">
-                                    <p class="text-xs uppercase font-bold tracking-widest opacity-60 mb-1 text-slate-800 dark:text-white">Fórmulas (LaTeX)</p>
-                                    <p class="text-4xl font-mono font-bold text-quantum-500" id="stat-math">0</p>
-                                </div>
-                            </div>
-                            
-                            <div class="glass-panel rounded-3xl p-6 shadow-lg md:col-span-2 border-blue-500/30 flex flex-col">
-                                <h3 class="text-sm font-bold uppercase tracking-widest opacity-60 mb-2 flex items-center gap-2 text-slate-800 dark:text-white"><i data-lucide="activity" class="w-4 h-4"></i> Historial de Escritura</h3>
-                                <div class="flex-1 relative w-full h-full min-h-[150px]">
-                                    <canvas id="commitment-chart"></canvas>
+                        <div id="chat-container" class="flex-1 overflow-y-auto p-6 space-y-6 scroll-smooth bg-slate-50/50 dark:bg-[#020617]/50">
+                            <div class="flex gap-4">
+                                <div class="w-8 h-8 rounded-full bg-purple-500 flex items-center justify-center shrink-0 text-white shadow-lg"><i data-lucide="bot" class="w-4 h-4"></i></div>
+                                <div class="glass-panel p-4 rounded-2xl rounded-tl-none shadow-sm max-w-2xl text-sm border-purple-500/30 text-slate-800 dark:text-slate-200">
+                                    <strong>¡Hola Mg. Dudbil!</strong> Soy tu tutor. Configura tu API Key en los ajustes y consúltame sobre tu redacción o conceptos de óptica y fotónica.
                                 </div>
                             </div>
                         </div>
-
-                        <div class="glass-panel rounded-3xl p-6 shadow-lg min-h-[600px] flex flex-col">
-                            <h3 class="text-sm font-bold uppercase tracking-widest opacity-60 mb-4 text-center flex items-center justify-center gap-2 text-slate-800 dark:text-white">
-                                <i data-lucide="share-2" class="w-4 h-4 text-quantum-500"></i> Conexión Topológica (Estilo Obsidian)
-                            </h3>
-                            <div id="knowledge-graph" class="flex-1 bg-white/60 dark:bg-slate-900/60 rounded-2xl border border-slate-200 dark:border-slate-700 shadow-inner"></div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- 3. TUTOR IA TAB -->
-                <div id="tab-tutor" class="tab-content h-full flex flex-col admin-only max-w-4xl mx-auto glass-panel border-x border-slate-200 dark:border-slate-700 shadow-2xl">
-                    <div class="p-6 border-b border-slate-200 dark:border-slate-700 shrink-0 text-center bg-white/60 dark:bg-slate-900/60">
-                        <div class="w-16 h-16 bg-purple-500/20 rounded-full flex items-center justify-center mx-auto mb-3 border border-purple-500/50 shadow-[0_0_15px_rgba(168,85,247,0.4)]">
-                            <i data-lucide="bot" class="w-8 h-8 text-purple-500"></i>
-                        </div>
-                        <h2 class="font-bold text-xl text-slate-800 dark:text-white">Tutor Gemini Cuántico</h2>
-                        <p class="text-xs opacity-60 text-slate-700 dark:text-slate-300">IA Contextual para corrección de estilo, matemáticas y estructura.</p>
-                    </div>
-                    <div id="chat-container" class="flex-1 overflow-y-auto p-6 space-y-6 scroll-smooth bg-slate-50/50 dark:bg-[#020617]/50">
-                        <div class="flex gap-4">
-                            <div class="w-8 h-8 rounded-full bg-purple-500 flex items-center justify-center shrink-0 text-white shadow-lg"><i data-lucide="bot" class="w-4 h-4"></i></div>
-                            <div class="glass-panel p-4 rounded-2xl rounded-tl-none shadow-sm max-w-2xl text-sm border-purple-500/30 text-slate-800 dark:text-slate-200">
-                                <strong>¡Hola Mg. Dudbil!</strong> Soy tu tutor. Configura tu API Key en los ajustes y consúltame sobre tu redacción o conceptos de óptica y fotónica.
+                        <div class="p-4 shrink-0 bg-white/80 dark:bg-slate-900/80 border-t border-slate-200 dark:border-slate-700 backdrop-blur-md">
+                            <div class="relative flex items-center max-w-3xl mx-auto">
+                                <input type="text" id="chat-input" class="w-full bg-slate-100 dark:bg-slate-950 border border-slate-300 dark:border-slate-700 rounded-full pl-6 pr-16 py-4 text-sm focus:border-purple-500 outline-none text-slate-800 dark:text-slate-200 shadow-inner" placeholder="Escribe un comando para el tutor..." onkeypress="if(event.key === 'Enter') window.app.sendChatMessage()">
+                                <button onclick="window.app.sendChatMessage()" class="absolute right-2 p-3 bg-purple-600 hover:bg-purple-700 text-white rounded-full transition-transform active:scale-95 shadow-md border-none"><i data-lucide="send" class="w-5 h-5"></i></button>
                             </div>
-                        </div>
-                    </div>
-                    <div class="p-4 shrink-0 bg-white/80 dark:bg-slate-900/80 border-t border-slate-200 dark:border-slate-700 backdrop-blur-md">
-                        <div class="relative flex items-center max-w-3xl mx-auto">
-                            <input type="text" id="chat-input" class="w-full bg-slate-100 dark:bg-slate-950 border border-slate-300 dark:border-slate-700 rounded-full pl-6 pr-16 py-4 text-sm focus:border-purple-500 outline-none text-slate-800 dark:text-slate-200 shadow-inner" placeholder="Escribe un comando para el tutor..." onkeypress="if(event.key === 'Enter') window.app.sendChatMessage()">
-                            <button onclick="window.app.sendChatMessage()" class="absolute right-2 p-3 bg-purple-600 hover:bg-purple-700 text-white rounded-full transition-transform active:scale-95 shadow-md border-none"><i data-lucide="send" class="w-5 h-5"></i></button>
                         </div>
                     </div>
                 </div>
@@ -715,12 +742,18 @@
                 <!-- 4. REFERENCIAS TAB -->
                 <div id="tab-references" class="tab-content h-full p-6 lg:p-10 overflow-y-auto select-text admin-only bg-transparent">
                     <div class="max-w-5xl mx-auto fade-in">
-                        <div class="flex justify-between items-center mb-8">
+                        <div class="flex flex-col md:flex-row justify-between items-start md:items-center mb-8 gap-4">
                             <h2 class="text-3xl font-extrabold flex items-center gap-3 text-slate-800 dark:text-white"><i data-lucide="bookmark" class="w-8 h-8 text-blue-500"></i> Gestor Bibliográfico BibTeX</h2>
-                            <button onclick="window.app.exportBibtex()" class="btn-primary text-sm py-2 px-4 bg-gradient-to-r from-blue-600 to-indigo-600"><i data-lucide="download" class="w-4 h-4"></i> Exportar BibTeX (.bib)</button>
+                            <div class="flex gap-2">
+                                <label class="btn-primary text-sm py-2 px-4 cursor-pointer bg-slate-600 hover:bg-slate-500 border border-slate-700 shadow-lg text-white">
+                                    <i data-lucide="upload" class="w-4 h-4"></i> Importar .bib
+                                    <input type="file" id="import-bib-file" accept=".bib" class="hidden" onchange="window.app.importBibtex(event)">
+                                </label>
+                                <button onclick="window.app.exportBibtex()" class="btn-primary text-sm py-2 px-4 bg-gradient-to-r from-blue-600 to-indigo-600"><i data-lucide="download" class="w-4 h-4"></i> Exportar BibTeX (.bib)</button>
+                            </div>
                         </div>
                         
-                        <div class="glass-panel p-8 rounded-3xl shadow-lg mb-8 border-blue-500/20">
+                        <div class="glass-panel p-8 rounded-3xl shadow-lg mb-8 border-t-4 border-t-blue-500">
                             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-4 mb-6">
                                 <div class="lg:col-span-2"><label class="text-[10px] font-bold uppercase opacity-70 ml-2">Autores</label><input type="text" id="ref-autores" placeholder="Ej: Aspect, A. et al." class="input-glass mt-1"></div>
                                 <div class="lg:col-span-2"><label class="text-[10px] font-bold uppercase opacity-70 ml-2">Título del Paper</label><input type="text" id="ref-titulo" class="input-glass mt-1"></div>
@@ -728,7 +761,7 @@
                                 <div class="lg:col-span-3"><label class="text-[10px] font-bold uppercase opacity-60 ml-2">Revista/Libro</label><input type="text" id="ref-revista" placeholder="Physical Review Letters" class="input-glass mt-1"></div>
                                 <div class="lg:col-span-2"><label class="text-[10px] font-bold uppercase opacity-60 ml-2">DOI o URL (Opcional)</label><input type="text" id="ref-doi" placeholder="10.1103/..." class="input-glass mt-1"></div>
                             </div>
-                            <button onclick="window.app.addReference()" class="btn-primary w-full justify-center bg-gradient-to-r from-blue-500 to-blue-400"><i data-lucide="plus" class="w-4 h-4"></i> Guardar Referencia</button>
+                            <button onclick="window.app.addReference()" class="btn-primary w-full justify-center bg-gradient-to-r from-blue-500 to-blue-400"><i data-lucide="plus" class="w-4 h-4"></i> Guardar Referencia Manual</button>
                         </div>
                         <div id="ref-list" class="space-y-3 font-serif text-sm opacity-90 text-slate-800 dark:text-slate-200"></div>
                     </div>
@@ -773,6 +806,7 @@
         
         let activeMediaAction = null; 
 
+        // Configuración APA Predeterminada
         let projectConfig = { 
             name: "My Research Journal", 
             author: "Mg. Dudbil", 
@@ -780,10 +814,10 @@
             codirector: "Dra. L. Rebón", 
             consejero: "Universidad de Buenos Aires", 
             date: "Abril 2026", 
-            font: "'Times New Roman', serif", 
-            fontSize: "12pt", 
-            lineHeight: "1.5", 
-            align: "justify",
+            font: "'Times New Roman', Times, serif", // APA Font
+            fontSize: "12pt", // APA Size
+            lineHeight: "2.0", // APA Double Spacing
+            align: "left", // APA Alignment
             geminiKey: "" 
         };
         
@@ -1011,7 +1045,7 @@
 
             if(chapterId === "front") {
                 const portada = `
-<div style="text-align: center; margin-bottom: 4rem; padding-top: 2rem;">
+<div style="text-align: center; margin-bottom: 4rem; padding-top: 2rem;" class="cover-page">
     <h1 style="font-size: 2.8em; margin-bottom: 1.5em; font-weight: 800; color: inherit; line-height:1.2;">${projectConfig.name}</h1>
     <h2 style="font-size: 1.8em; margin-bottom: 3em; font-weight: 600;">${projectConfig.author}</h2>
     <div style="font-size: 1.2em; line-height: 2.0; margin-bottom: 4em;">
@@ -1093,7 +1127,7 @@
                 container.appendChild(wrapper);
             }
 
-            // Aplicar Estilos Globales
+            // Aplicar Estilos Globales APA
             const areas = container.querySelectorAll('.render-area, .a4-page');
             areas.forEach(p => p.style.cssText = `font-family:${projectConfig.font}; font-size:${projectConfig.fontSize}; line-height:${projectConfig.lineHeight}; text-align:${projectConfig.align};`);
             
@@ -1221,14 +1255,14 @@
             } else {
                 renderToPages(processed, 'global-render-content', 'a4-page render-area shadow-2xl');
                 
-                // Add Headers/Footers to A4 Pages
+                // Add Headers/Footers to A4 Pages (APA Style)
                 const pages = c.querySelectorAll('.a4-page');
+                const shortTitle = projectConfig.name.substring(0, 50).toUpperCase();
                 pages.forEach((p, idx) => {
+                    // Skip numbering on the title page itself according to some variants, but standard APA 7 numbers all pages.
                     const header = document.createElement('div'); header.className = 'page-header';
-                    header.innerHTML = `<span>${projectConfig.name.substring(0, 40)}...</span><span>${projectConfig.author}</span>`;
-                    const footer = document.createElement('div'); footer.className = 'page-footer';
-                    footer.innerHTML = `Pág. ${idx + 1}`;
-                    p.appendChild(header); p.appendChild(footer);
+                    header.innerHTML = `<span>${shortTitle}</span><span>${idx + 1}</span>`;
+                    p.appendChild(header);
                 });
             }
         };
@@ -1375,14 +1409,36 @@
         window.app.importJSON = (e) => { const file = e.target.files[0]; if(!file) return; const reader = new FileReader(); reader.onload = (ev) => { try { const data = JSON.parse(ev.target.result); thesisContent = data.content || {}; referencesDB = data.refs || []; chaptersDef = data.structure || []; projectConfig = data.config || {}; chapterNotes = data.notes || {}; commitmentLog = data.commits || []; window.app.saveToCloud(); location.reload(); } catch(err) { window.app.showAlert("Archivo JSON inválido."); } }; reader.readAsText(file); };
 
         window.app.saveSettings = () => { 
-            const n = document.getElementById('config-proj-name'); if(n) projectConfig.name = n.value; const a = document.getElementById('config-proj-author'); if(a) projectConfig.author = a.value; const d = document.getElementById('config-proj-director'); if(d) projectConfig.director = d.value; const cd = document.getElementById('config-proj-codirector'); if(cd) projectConfig.codirector = cd.value; const ce = document.getElementById('config-proj-consejero'); if(ce) projectConfig.consejero = ce.value; const fd = document.getElementById('config-proj-date'); if(fd) projectConfig.date = fd.value; const gk = document.getElementById('config-gemini-key'); if(gk) projectConfig.geminiKey = gk.value;
-            const f = document.getElementById('config-font'); if(f) projectConfig.font = f.value; const s = document.getElementById('config-size'); if(s) projectConfig.fontSize = s.value; const l = document.getElementById('config-lineheight'); if(l) projectConfig.lineHeight = l.value; 
+            const n = document.getElementById('config-proj-name'); if(n) projectConfig.name = n.value; 
+            const a = document.getElementById('config-proj-author'); if(a) projectConfig.author = a.value; 
+            const d = document.getElementById('config-proj-director'); if(d) projectConfig.director = d.value; 
+            const cd = document.getElementById('config-proj-codirector'); if(cd) projectConfig.codirector = cd.value; 
+            const ce = document.getElementById('config-proj-consejero'); if(ce) projectConfig.consejero = ce.value; 
+            const fd = document.getElementById('config-proj-date'); if(fd) projectConfig.date = fd.value; 
+            const gk = document.getElementById('config-gemini-key'); if(gk) projectConfig.geminiKey = gk.value;
+            
+            const f = document.getElementById('config-font'); if(f) projectConfig.font = f.value; 
+            const s = document.getElementById('config-size'); if(s) projectConfig.fontSize = s.value; 
+            const l = document.getElementById('config-lineheight'); if(l) projectConfig.lineHeight = l.value; 
+            const al = document.getElementById('config-align'); if(al) projectConfig.align = al.value;
+            
             document.getElementById('settings-modal').classList.add('hidden'); updateConfigUI(); window.app.saveToCloud(); window.app.handleInput(); 
         };
         
         window.app.openSettings = () => { 
-            const n = document.getElementById('config-proj-name'); if(n) n.value = projectConfig.name || "My Research Journal"; const a = document.getElementById('config-proj-author'); if(a) a.value = projectConfig.author || ""; const d = document.getElementById('config-proj-director'); if(d) d.value = projectConfig.director || ""; const cd = document.getElementById('config-proj-codirector'); if(cd) cd.value = projectConfig.codirector || ""; const ce = document.getElementById('config-proj-consejero'); if(ce) ce.value = projectConfig.consejero || ""; const fd = document.getElementById('config-proj-date'); if(fd) fd.value = projectConfig.date || ""; const gk = document.getElementById('config-gemini-key'); if(gk) gk.value = projectConfig.geminiKey || "";
-            const f = document.getElementById('config-font'); if(f) f.value = projectConfig.font || "'Times New Roman', Times, serif"; const s = document.getElementById('config-size'); if(s) s.value = projectConfig.fontSize || "12pt"; const l = document.getElementById('config-lineheight'); if(l) l.value = projectConfig.lineHeight || "1.5"; 
+            const n = document.getElementById('config-proj-name'); if(n) n.value = projectConfig.name || "My Research Journal"; 
+            const a = document.getElementById('config-proj-author'); if(a) a.value = projectConfig.author || ""; 
+            const d = document.getElementById('config-proj-director'); if(d) d.value = projectConfig.director || ""; 
+            const cd = document.getElementById('config-proj-codirector'); if(cd) cd.value = projectConfig.codirector || ""; 
+            const ce = document.getElementById('config-proj-consejero'); if(ce) ce.value = projectConfig.consejero || ""; 
+            const fd = document.getElementById('config-proj-date'); if(fd) fd.value = projectConfig.date || ""; 
+            const gk = document.getElementById('config-gemini-key'); if(gk) gk.value = projectConfig.geminiKey || "";
+            
+            const f = document.getElementById('config-font'); if(f) f.value = projectConfig.font || "'Times New Roman', Times, serif"; 
+            const s = document.getElementById('config-size'); if(s) s.value = projectConfig.fontSize || "12pt"; 
+            const l = document.getElementById('config-lineheight'); if(l) l.value = projectConfig.lineHeight || "2.0"; 
+            const al = document.getElementById('config-align'); if(al) al.value = projectConfig.align || "left";
+            
             document.getElementById('settings-modal').classList.remove('hidden'); 
         };
         
@@ -1449,18 +1505,24 @@
             md = md.replace(/\[PAGE_BREAK\]/g, '<br clear="all" style="page-break-before:always" />');
             container.innerHTML = DOMPurify.sanitize(marked.parse(md), {ADD_TAGS:['math', 'img', 'figure', 'figcaption', 'a', 'div', 'sup', 'br'], ADD_ATTR:['display', 'src', 'alt', 'width', 'height', 'id', 'style', 'href', 'class', 'clear']}); 
             renderMathInElement(container, katexConfig); 
+            
+            // Inyectamos las normas APA estricto en el Header para que MS Word reconozca la numeración a la derecha
             const dynamicCSS = `
-                @page WordSection1 { size: 21cm 29.7cm; margin: 2.5cm 2.5cm 2.5cm 2.5cm; mso-footer: f1; mso-footer-margin: 1.25cm; }
+                @page WordSection1 { size: 8.5in 11.0in; margin: 2.54cm; mso-header: h1; }
                 div.WordSection1 { page: WordSection1; }
-                p.MsoFooter { margin: 0; font-size: 10pt; text-align: center; font-family: ${projectConfig.font}; }
+                p.MsoHeader { margin: 0; font-size: 10pt; text-align: right; font-family: ${projectConfig.font}; }
                 body { font-family:${projectConfig.font};font-size:${projectConfig.fontSize};line-height:${projectConfig.lineHeight};text-align:${projectConfig.align};counter-reset:equation; }
-                h1 { font-size:24pt;font-weight:bold;text-align:center; } h2 { font-size:18pt;font-weight:bold; } h3 { font-size:14pt;font-weight:bold; }
-                img { max-width:100%; border-radius:8px; display:block; margin: 1.5rem auto; } figure { text-align:center; margin: 2rem 0; } figcaption { font-size:0.9em; color:#555; margin-top:0.5rem; }
-                table { width: 100%; border-collapse: collapse; margin: 1.5rem 0; } th, td { border: 1px solid #000; padding: 0.5rem; text-align: left; } th { font-weight: bold; background-color: #f2f2f2; text-align: center; }
-                .katex { font-family:'Cambria Math',serif;font-size:14pt; } .katex-display { text-align:center;margin:1em 0;position:relative; } .katex-display::after{counter-increment:equation;content:"(" counter(equation) ")";position:absolute;right:0;top:50%;transform:translateY(-50%);font-family:'Times New Roman',serif;font-size:11pt;}
+                p { text-indent: 1.27cm; margin: 0; line-height: ${projectConfig.lineHeight}; }
+                h1 { font-size:24pt;font-weight:bold;text-align:center;text-indent:0; } h2 { font-size:18pt;font-weight:bold;text-indent:0; } h3 { font-size:14pt;font-weight:bold;text-indent:0; }
+                img { max-width:100%; border-radius:8px; display:block; margin: 1.5rem auto; text-indent:0; } figure { text-align:center; margin: 2rem 0; text-indent:0; } figcaption { font-size:0.9em; color:#555; margin-top:0.5rem; text-indent:0; }
+                table { width: 100%; border-collapse: collapse; margin: 1.5rem 0; text-indent:0; } th, td { border: 1px solid #000; padding: 0.5rem; text-align: left; } th { font-weight: bold; background-color: #f2f2f2; text-align: center; }
+                .katex { font-family:'Cambria Math',serif;font-size:14pt;text-indent:0; } .katex-display { text-align:center;margin:1em 0;position:relative;text-indent:0; } .katex-display::after{counter-increment:equation;content:"(" counter(equation) ")";position:absolute;right:0;top:50%;transform:translateY(-50%);font-family:'Times New Roman',serif;font-size:11pt;}
                 .page-break-visual { page-break-after: always; }
             `;
-            const docContent = `<html xmlns:o='urn:schemas-microsoft-com:office:office' xmlns:w='urn:schemas-microsoft-com:office:word' xmlns='http://www.w3.org/TR/REC-html40'><head><meta charset='utf-8'><style>${dynamicCSS}</style></head><body><div class="WordSection1">${container.innerHTML}<div style="mso-element:footer" id="f1"><p class="MsoFooter"><span style="mso-field-code:' PAGE '"></span></p></div></div></body></html>`;
+            
+            const shortTitle = projectConfig.name.substring(0, 50).toUpperCase();
+
+            const docContent = `<html xmlns:o='urn:schemas-microsoft-com:office:office' xmlns:w='urn:schemas-microsoft-com:office:word' xmlns='http://www.w3.org/TR/REC-html40'><head><meta charset='utf-8'><style>${dynamicCSS}</style></head><body><div class="WordSection1">${container.innerHTML}<div style="mso-element:header" id="h1"><p class="MsoHeader"><span style="float:left;">${shortTitle}</span> <span style="mso-field-code:' PAGE '"></span></p></div></div></body></html>`;
             const link = document.createElement("a"); link.href = URL.createObjectURL(new Blob(['\ufeff', docContent], { type: 'application/msword' })); link.download = `${(projectConfig.name||'Proyecto').replace(/\s+/g,'_')}.doc`; link.click();
         };
 
