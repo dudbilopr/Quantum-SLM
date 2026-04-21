@@ -74,24 +74,26 @@
         .btn-primary { @apply bg-gradient-to-r from-quantum-600 to-quantum-500 hover:from-quantum-500 hover:to-quantum-400 text-white font-bold py-2.5 px-6 rounded-xl shadow-lg hover:shadow-quantum-500/30 transition-all flex items-center gap-2 border border-quantum-400/30; }
         .input-glass { @apply w-full bg-white/70 dark:bg-slate-900/70 border border-slate-300 dark:border-slate-700 rounded-xl px-4 py-3 text-sm outline-none focus:ring-2 focus:ring-quantum-500/50 transition-all backdrop-blur-md text-slate-800 dark:text-slate-100; }
 
-        /* FORMATO A4 Y PAGINACIÓN */
-        .page-container { counter-reset: equation figure table; display: flex; flex-direction: column; align-items: center; padding: 2rem 0; gap: 2rem; }
+        /* FORMATO A4 Y PAGINACIÓN RESPONSIVA */
+        .page-container { counter-reset: equation figure table; display: flex; flex-direction: column; align-items: center; padding: 2rem 1rem; gap: 3rem; width: 100%; overflow-x: hidden; }
         
         .a4-page {
-            width: 210mm; min-height: 297mm; padding: 25mm; 
+            width: 100%; max-width: 210mm; min-height: 297mm; padding: 10%; 
             background: white; color: black; text-align: justify;
-            box-shadow: 0 15px 35px rgba(0,0,0,0.1); border-radius: 6px;
-            position: relative; flex-shrink: 0;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.15); border-radius: 8px;
+            position: relative; flex-shrink: 0; margin: 0 auto;
         }
-        .dark .a4-page { box-shadow: 0 15px 40px rgba(0,0,0,0.9); }
+        @media (min-width: 768px) { .a4-page { padding: 25mm; } }
+        .dark .a4-page { box-shadow: 0 20px 50px rgba(0,0,0,0.9); }
         
         .web-page {
-            width: 100%; max-width: 900px; padding: 3rem;
+            width: 100%; max-width: 900px; padding: 5%;
             background: rgba(255,255,255,0.85); backdrop-filter: blur(20px);
             border-radius: 2rem; border: 1px solid rgba(255,255,255,0.6);
             color: #1e293b; text-align: justify; box-shadow: 0 10px 40px rgba(0,0,0,0.08);
-            position: relative; flex-shrink: 0;
+            position: relative; flex-shrink: 0; margin: 0 auto;
         }
+        @media (min-width: 768px) { .web-page { padding: 3rem; } }
         .dark .web-page { background: rgba(15,23,42,0.8); border-color: rgba(255,255,255,0.1); color: #f8fafc; box-shadow: 0 10px 40px rgba(0,0,0,0.5); }
 
         /* ESTILOS DE TEXTO INTERNO */
@@ -207,6 +209,29 @@
         </div>
     </div>
 
+    <!-- MODAL PERSONALIZADO PARA PROMPTS (Reemplaza prompt nativo) -->
+    <div id="custom-prompt-modal" class="fixed inset-0 z-[80] glass-panel hidden flex items-center justify-center p-4 fade-in">
+        <div class="modal-glass max-w-md border border-slate-200 dark:border-slate-700">
+            <h2 id="prompt-title" class="text-xl font-bold mb-4 text-slate-800 dark:text-white"></h2>
+            <input type="text" id="prompt-input" class="input-glass mb-6" onkeypress="if(event.key === 'Enter') window.app.confirmPrompt()">
+            <div class="flex justify-end gap-3">
+                <button onclick="window.app.cancelPrompt()" class="px-5 py-2.5 rounded-xl text-sm font-semibold hover:bg-slate-200 dark:hover:bg-slate-800 transition-colors text-slate-700 dark:text-slate-300">Cancelar</button>
+                <button onclick="window.app.confirmPrompt()" class="btn-primary shadow-md">Aceptar</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL PERSONALIZADO PARA ALERTAS (Reemplaza alert nativo) -->
+    <div id="custom-alert-modal" class="fixed inset-0 z-[80] glass-panel hidden flex items-center justify-center p-4 fade-in">
+        <div class="modal-glass max-w-sm text-center border border-slate-200 dark:border-slate-700">
+            <div class="w-16 h-16 bg-amber-100 dark:bg-amber-900/50 rounded-full flex items-center justify-center mx-auto mb-4 text-amber-600 dark:text-amber-400">
+                <i data-lucide="alert-triangle" class="w-8 h-8"></i>
+            </div>
+            <h2 id="alert-message" class="text-lg font-bold mb-6 text-slate-800 dark:text-white"></h2>
+            <button onclick="document.getElementById('custom-alert-modal').classList.add('hidden')" class="btn-primary mx-auto shadow-md">Entendido</button>
+        </div>
+    </div>
+
     <!-- MODAL DE TUTORIAL -->
     <div id="tutorial-modal" class="fixed inset-0 z-[70] glass-panel hidden flex items-center justify-center fade-in p-4">
         <div class="modal-glass">
@@ -297,7 +322,7 @@
             </div>
             
             <div class="mt-8 flex justify-end gap-3">
-                <button onclick="document.getElementById('settings-modal').classList.add('hidden')" class="px-5 py-2.5 rounded-xl text-sm font-semibold opacity-70 hover:bg-slate-200 dark:hover:bg-slate-800 transition-all text-slate-800 dark:text-slate-200">Cerrar</button>
+                <button onclick="document.getElementById('settings-modal').classList.add('hidden')" class="px-5 py-2.5 rounded-xl text-sm font-semibold opacity-70 hover:opacity-100 hover:bg-slate-100 dark:hover:bg-slate-800 transition-all text-slate-800 dark:text-slate-200">Cerrar</button>
                 <button onclick="window.app.saveSettings()" class="btn-primary">Guardar Configuración</button>
             </div>
         </div>
@@ -394,7 +419,7 @@
             <!-- Contenedor Pestañas -->
             <div class="flex-1 overflow-hidden relative">
                 
-                <!-- 1. EDITOR & RENDER -->
+                <!-- 1. EDITOR & RENDER (Split Glass View) -->
                 <div id="tab-editor" class="tab-content active h-full flex flex-col lg:flex-row w-full select-text">
                     
                     <!-- Editor -->
@@ -407,36 +432,47 @@
                             <button onclick="window.app.insertFormat('*', '*')" class="btn-icon text-slate-700 dark:text-slate-300" title="Cursiva"><i data-lucide="italic" class="w-4 h-4"></i></button>
                             <div class="w-px h-5 bg-slate-300 dark:bg-slate-700 mx-1"></div>
                             
-                            <!-- Alineación -->
-                            <button onclick="window.app.insertFormat('<div style=\'text-align: left;\'>\n', '\n</div>')" class="btn-icon text-slate-700 dark:text-slate-300" title="Alinear Izquierda"><i data-lucide="align-left" class="w-4 h-4"></i></button>
-                            <button onclick="window.app.insertFormat('<div style=\'text-align: center;\'>\n', '\n</div>')" class="btn-icon text-slate-700 dark:text-slate-300" title="Centrar"><i data-lucide="align-center" class="w-4 h-4"></i></button>
-                            <button onclick="window.app.insertFormat('<div style=\'text-align: right;\'>\n', '\n</div>')" class="btn-icon text-slate-700 dark:text-slate-300" title="Alinear Derecha"><i data-lucide="align-right" class="w-4 h-4"></i></button>
-                            <button onclick="window.app.insertFormat('<div style=\'text-align: justify;\'>\n', '\n</div>')" class="btn-icon text-slate-700 dark:text-slate-300" title="Justificar"><i data-lucide="align-justify" class="w-4 h-4"></i></button>
+                            <!-- Alineación HTML -->
+                            <button onclick="window.app.insertFormat('<div style=\'text-align: left;\'>[NL]', '[NL]</div>')" class="btn-icon text-slate-700 dark:text-slate-300" title="Alinear Izquierda"><i data-lucide="align-left" class="w-4 h-4"></i></button>
+                            <button onclick="window.app.insertFormat('<div style=\'text-align: center;\'>[NL]', '[NL]</div>')" class="btn-icon text-slate-700 dark:text-slate-300" title="Centrar"><i data-lucide="align-center" class="w-4 h-4"></i></button>
+                            <button onclick="window.app.insertFormat('<div style=\'text-align: right;\'>[NL]', '[NL]</div>')" class="btn-icon text-slate-700 dark:text-slate-300" title="Alinear Derecha"><i data-lucide="align-right" class="w-4 h-4"></i></button>
+                            <button onclick="window.app.insertFormat('<div style=\'text-align: justify;\'>[NL]', '[NL]</div>')" class="btn-icon text-slate-700 dark:text-slate-300" title="Justificar"><i data-lucide="align-justify" class="w-4 h-4"></i></button>
                             <div class="w-px h-5 bg-slate-300 dark:bg-slate-700 mx-1"></div>
                             
-                            <!-- Listas -->
+                            <!-- Listas Avanzadas -->
                             <button onclick="window.app.insertList('bullet')" class="btn-icon text-slate-700 dark:text-slate-300" title="Viñetas"><i data-lucide="list" class="w-4 h-4"></i></button>
                             <button onclick="window.app.insertList('number')" class="btn-icon text-slate-700 dark:text-slate-300" title="Números"><i data-lucide="list-ordered" class="w-4 h-4"></i></button>
+                            <button onclick="window.app.insertList('alpha')" class="btn-icon text-slate-700 dark:text-slate-300" title="Letras (a, b, c)"><span class="text-[10px] font-bold font-serif">a.</span></button>
                             <div class="w-px h-5 bg-slate-300 dark:bg-slate-700 mx-1"></div>
                             
-                            <!-- LaTeX -->
+                            <!-- Estructura & Matemáticas -->
                             <button onclick="window.app.insertFormat('$', '$')" class="btn-icon font-serif font-bold text-quantum-600 dark:text-quantum-400 bg-quantum-500/10" title="Ecuación Inline">$x$</button>
-                            <button onclick="window.app.insertFormat('\n$$\n', '\n$$\n')" class="btn-icon font-serif font-bold text-quantum-600 dark:text-quantum-400 bg-quantum-500/10" title="Ecuación Numerada">$$x$$</button>
-                            <button onclick="window.app.insertFormat('\n$$\n\\begin{aligned}\n  A &= B \\\\\n  C &= D\n\\end{aligned}\n$$\n', '')" class="btn-icon font-serif font-bold text-quantum-600 dark:text-quantum-400 bg-quantum-500/10" title="Ecuación Alineada">$\equiv$</button>
+                            <button onclick="window.app.insertFormat('[NL]$$[NL]', '[NL]$$[NL]')" class="btn-icon font-serif font-bold text-quantum-600 dark:text-quantum-400 bg-quantum-500/10" title="Ecuación Bloque Numerada">$$x$$</button>
+                            <button onclick="window.app.insertFormat('[NL]$$[NL]\\begin{aligned}[NL]  A &= B \\\\[NL]  C &= D[NL]\\end{aligned}[NL]$$[NL]', '')" class="btn-icon font-serif font-bold text-quantum-600 dark:text-quantum-400 bg-quantum-500/10" title="Ecuación Alineada">$\equiv$</button>
                             
-                            <button onclick="window.app.insertFormat('\n[PAGE_BREAK]\n', '')" class="btn-icon text-red-500 hover:bg-red-500/10" title="Salto de Página"><i data-lucide="scissors" class="w-4 h-4"></i></button>
+                            <button onclick="window.app.insertFormat('[NL][PAGE_BREAK][NL]', '')" class="btn-icon text-red-500 hover:bg-red-500/10" title="Salto de Página Real"><i data-lucide="scissors" class="w-4 h-4"></i></button>
                             <div class="w-px h-5 bg-slate-300 dark:bg-slate-700 mx-1"></div>
                             
-                            <!-- Multimedia -->
+                            <!-- Multimedia Magnética -->
                             <button onclick="window.app.openMediaModal('image')" class="btn-icon text-emerald-600 dark:text-emerald-400 hover:bg-emerald-500/10" title="Figura Numerada"><i data-lucide="image" class="w-4 h-4"></i></button>
                             <button onclick="window.app.openMediaModal('table')" class="btn-icon text-amber-600 dark:text-amber-400 hover:bg-amber-500/10" title="Tabla Numerada"><i data-lucide="table" class="w-4 h-4"></i></button>
                             <button onclick="window.app.openMediaModal('crossref')" class="btn-icon text-blue-600 dark:text-blue-400 hover:bg-blue-500/10" title="Referencia Cruzada"><i data-lucide="link-2" class="w-4 h-4"></i></button>
-                            <button onclick="window.app.openMediaModal('citation')" class="btn-icon text-indigo-600 dark:text-indigo-400 hover:bg-indigo-500/10" title="Cita"><i data-lucide="bookmark" class="w-4 h-4"></i></button>
-                            <button onclick="window.app.openMediaModal('iframe')" class="btn-icon text-purple-600 dark:text-purple-400 hover:bg-purple-500/10" title="Iframe"><i data-lucide="monitor-play" class="w-4 h-4"></i></button>
+                            <button onclick="window.app.openMediaModal('citation')" class="btn-icon text-indigo-600 dark:text-indigo-400 hover:bg-indigo-500/10" title="Cita Bibliográfica"><i data-lucide="bookmark" class="w-4 h-4"></i></button>
+                            <button onclick="window.app.openMediaModal('iframe')" class="btn-icon text-purple-600 dark:text-purple-400 hover:bg-purple-500/10" title="Simulador Iframe"><i data-lucide="monitor-play" class="w-4 h-4"></i></button>
                         </div>
                         
+                        <!-- Páneles de Texto -->
                         <div class="flex-1 flex overflow-hidden">
-                            <textarea id="editor-pane" class="flex-1 w-full bg-transparent p-6 text-[0.95rem] text-slate-800 dark:text-slate-200 focus:ring-0" placeholder="Redacta tu tesis.&#10;&#10;Comandos Especiales:&#10;[INDICE_GENERAL]&#10;[LISTA_FIGURAS]&#10;[LISTA_TABLAS]&#10;[BIBLIOGRAFIA]&#10;[PAGE_BREAK]" oninput="window.app.handleInput()"></textarea>
+                            <textarea id="editor-pane" class="flex-1 w-full bg-transparent p-6 text-[0.95rem] text-slate-800 dark:text-slate-200 focus:ring-0" placeholder="Redacta tu tesis. Comandos de Índice Automático:\n\n[INDICE_GENERAL]\n[LISTA_FIGURAS]\n[LISTA_TABLAS]\n[BIBLIOGRAFIA]\n[PAGE_BREAK]" oninput="window.app.handleInput()"></textarea>
+                            
+                            <!-- Notes Panel (Sliding) -->
+                            <div id="notes-panel" class="notes-panel bg-amber-50/50 dark:bg-amber-900/10 flex flex-col">
+                                <div class="h-10 border-b border-amber-200 dark:border-amber-900/50 flex items-center justify-between px-4 bg-amber-100/50 dark:bg-amber-900/20">
+                                    <span class="text-xs font-bold text-amber-700 dark:text-amber-500 uppercase tracking-widest"><i data-lucide="sticky-note" class="w-3 h-3 inline mr-1"></i> Correcciones</span>
+                                    <button onclick="window.app.toggleNotesPanel()" class="text-amber-600 hover:text-red-500"><i data-lucide="x" class="w-4 h-4"></i></button>
+                                </div>
+                                <textarea id="notes-pane" class="flex-1 w-full bg-transparent p-4 text-amber-900 dark:text-amber-200 placeholder-amber-700/50 dark:placeholder-amber-500/50" placeholder="Anota aquí recordatorios de revisión o correcciones pendientes..." oninput="window.app.saveNotes()"></textarea>
+                            </div>
                         </div>
                     </div>
 
@@ -495,7 +531,7 @@
                             <i data-lucide="bot" class="w-8 h-8 text-purple-500"></i>
                         </div>
                         <h2 class="font-bold text-xl text-slate-800 dark:text-white">Tutor Gemini Cuántico</h2>
-                        <p class="text-xs opacity-60 text-slate-700 dark:text-slate-300">Asistente IA para corrección de estilo, matemáticas y estructura.</p>
+                        <p class="text-xs opacity-60 text-slate-700 dark:text-slate-300">IA Contextual para corrección de estilo, matemáticas y estructura.</p>
                     </div>
                     <div id="chat-container" class="flex-1 overflow-y-auto p-6 space-y-6 scroll-smooth bg-slate-50/50 dark:bg-[#020617]/50">
                         <div class="flex gap-4">
@@ -554,26 +590,39 @@
     <!-- Contenedor Oculto Exportación -->
     <div id="hidden-export-container" style="display:none;"></div>
 
-    <!-- === LÓGICA JAVASCRIPT === -->
+    <!-- === LÓGICA JAVASCRIPT PRINCIPAL === -->
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
         import { getAuth, signInWithPopup, GoogleAuthProvider, signInWithEmailAndPassword, signInAnonymously, onAuthStateChanged, signOut, signInWithCustomToken } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
         import { getFirestore, doc, setDoc, getDoc } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
 
+        // CREDENCIALES ACTUALIZADAS: My Research Journal
         const firebaseConfig = {
-            apiKey: "AIzaSyCI0c7KgnEAn-sV_CrHs0Er1LXL13CvQSA",
-            authDomain: "laboratorio-de-coulomb.firebaseapp.com",
-            databaseURL: "https://laboratorio-de-coulomb-default-rtdb.firebaseio.com",
-            projectId: "laboratorio-de-coulomb",
-            storageBucket: "laboratorio-de-coulomb.firebasestorage.app",
-            messagingSenderId: "525944850850",
-            appId: "1:525944850850:web:eca9c0b79809358e8d8afb"
+            apiKey: "AIzaSyAsbIACRcyk1HSKb-aTjk61ZVGaF6tRhsg",
+            authDomain: "my-research-journal-10.firebaseapp.com",
+            projectId: "my-research-journal-10",
+            storageBucket: "my-research-journal-10.firebasestorage.app",
+            messagingSenderId: "764072118900",
+            appId: "1:764072118900:web:f549390f552ee0ef91df21",
+            measurementId: "G-ERJYB5EFE5"
         };
 
         const app = initializeApp(firebaseConfig); const auth = getAuth(app); const db = getFirestore(app); const googleProvider = new GoogleAuthProvider();
         
+        let activeMediaAction = null; 
+
         let projectConfig = { 
-            name: "Tesis Doctoral en Física", author: "Mg. Dudbil", director: "Dra. S. Ledesma", codirector: "Dra. L. Rebón", consejero: "Universidad de Buenos Aires", date: "Abril 2026", font: "'Times New Roman', serif", fontSize: "12pt", lineHeight: "1.5", align: "justify", geminiKey: "" 
+            name: "My Research Journal", 
+            author: "Mg. Dudbil", 
+            director: "Dra. S. Ledesma", 
+            codirector: "Dra. L. Rebón", 
+            consejero: "Universidad de Buenos Aires", 
+            date: "Abril 2026", 
+            font: "'Times New Roman', serif", 
+            fontSize: "12pt", 
+            lineHeight: "1.5", 
+            align: "justify",
+            geminiKey: "" 
         };
         
         let isAdmin = true; let isFirebaseActive = false;
@@ -587,9 +636,9 @@
 
         window.onload = () => {
             const tutModal = document.getElementById('tutorial-modal');
-            if(tutModal && !localStorage.getItem('nexus_v11_tut')) { 
+            if(tutModal && !localStorage.getItem('nexus_v11_tut_fixed_v2')) { 
                 tutModal.classList.remove('hidden'); 
-                localStorage.setItem('nexus_v11_tut', 'true'); 
+                localStorage.setItem('nexus_v11_tut_fixed_v2', 'true'); 
             }
             lucide.createIcons();
             
@@ -599,31 +648,34 @@
 
         window.app = window.app || {};
 
-        async function initFirebase() {
-            try {
-                if (typeof __initial_auth_token !== 'undefined' && __initial_auth_token) { await signInWithCustomToken(auth, __initial_auth_token); }
-                
-                onAuthStateChanged(auth, (user) => {
-                    if (user) {
-                        isFirebaseActive = true; isAdmin = (user.email === ADMIN_EMAIL || user.email === 'test@test.com'); // Allow local test
-                        document.body.classList.toggle('reader-mode', !isAdmin);
-                        const roleBadge = document.getElementById('user-role-badge'); if (roleBadge) roleBadge.textContent = isAdmin ? 'ADMINISTRADOR' : 'LECTOR';
-                        const overlay = document.getElementById('login-overlay'); if(overlay) overlay.classList.add('hidden'); 
-                        const appCont = document.getElementById('app-container'); if(appCont) appCont.classList.remove('opacity-0');
-                        loadFromCloud();
-                    }
-                });
-            } catch (error) { 
-                console.warn("Firebase Canvas fallback.", error); 
-                // No mostrar error aquí, dejar que el usuario decida en el modal de login.
-            }
-        }
+        // SISTEMA DE MODALES PERSONALIZADOS
+        window.app.showAlert = (msg) => {
+            document.getElementById('alert-message').textContent = msg;
+            document.getElementById('custom-alert-modal').classList.remove('hidden');
+            lucide.createIcons();
+        };
+
+        let promptCallback = null;
+        window.app.showPrompt = (title, defaultValue, callback) => {
+            document.getElementById('prompt-title').textContent = title;
+            const input = document.getElementById('prompt-input');
+            input.value = defaultValue || "";
+            promptCallback = callback;
+            document.getElementById('custom-prompt-modal').classList.remove('hidden');
+            setTimeout(() => input.focus(), 100);
+        };
+
+        window.app.cancelPrompt = () => { document.getElementById('custom-prompt-modal').classList.add('hidden'); promptCallback = null; };
+        window.app.confirmPrompt = () => { 
+            if(promptCallback) promptCallback(document.getElementById('prompt-input').value); 
+            window.app.cancelPrompt(); 
+        };
 
         window.app.loginAdminGoogle = async () => { 
             try { await signInWithPopup(auth, googleProvider); } 
             catch(e) { 
                 const err = document.getElementById('login-error-container');
-                if(err) { err.innerHTML = "<b>Error Google Auth:</b> Las ventanas emergentes están bloqueadas en este entorno. Por favor, usa 'Modo Local' o abre el archivo en una pestaña limpia."; err.classList.remove('hidden'); }
+                if(err) { err.innerHTML = "<b>Aviso de Seguridad:</b> Las ventanas emergentes de Google pueden estar bloqueadas en este entorno. Para continuar trabajando, haz clic abajo en <b>'Entrar en Modo Local Seguro (Offline)'</b>. Todos tus datos se guardarán localmente en tu navegador sin problemas."; err.classList.remove('hidden'); }
             } 
         };
 
@@ -651,11 +703,31 @@
             const loginOverlay = document.getElementById('login-overlay'); if (loginOverlay) loginOverlay.classList.add('hidden'); 
             const appContainer = document.getElementById('app-container'); if (appContainer) appContainer.classList.remove('opacity-0');
             const badge = document.getElementById('user-role-badge'); if(badge) badge.textContent = isAdmin ? 'ADMINISTRADOR' : 'LECTOR';
-            const dot = document.getElementById('cloud-dot'); if(dot) { dot.classList.replace('bg-emerald-500', 'bg-amber-500'); document.getElementById('cloud-text').textContent = "Modo Local"; }
+            const dot = document.getElementById('cloud-dot'); if(dot) { dot.classList.replace('bg-emerald-500', 'bg-amber-500'); document.getElementById('cloud-text').textContent = "Offline (Seguro)"; }
             loadFromLocal();
         };
 
-        const docRef = doc(db, 'artifacts', 'tesis-dudbil', 'public', 'data', 'manuscript', 'dudbil_doc');
+        async function initFirebase() {
+            try {
+                if (typeof __initial_auth_token !== 'undefined' && __initial_auth_token) { await signInWithCustomToken(auth, __initial_auth_token); }
+                
+                onAuthStateChanged(auth, (user) => {
+                    if (user) {
+                        isFirebaseActive = true; isAdmin = (user.email === ADMIN_EMAIL || user.email === 'test@test.com'); // Allow local test
+                        document.body.classList.toggle('reader-mode', !isAdmin);
+                        const roleBadge = document.getElementById('user-role-badge'); if (roleBadge) roleBadge.textContent = isAdmin ? 'ADMINISTRADOR' : 'LECTOR';
+                        const overlay = document.getElementById('login-overlay'); if(overlay) overlay.classList.add('hidden'); 
+                        const appCont = document.getElementById('app-container'); if(appCont) appCont.classList.remove('opacity-0');
+                        loadFromCloud();
+                    }
+                });
+            } catch (error) { 
+                console.warn("Firebase Canvas fallback.", error); 
+                // No mostrar error aquí, dejar que el usuario decida en el modal de login.
+            }
+        }
+
+        const docRef = doc(db, 'artifacts', 'my-research-journal-10', 'public', 'data', 'manuscript', 'dudbil_doc');
 
         async function loadFromCloud() {
             try {
@@ -684,61 +756,52 @@
             chaptersDef = [ 
                 { id: "front", title: "Portada y Agradecimientos", sections: [] }, 
                 { id: "indices", title: "Índices Generales", sections: [] }, 
-                { id: "cap1", title: "Capítulo 1: Introducción General", sections: [] }, 
-                { id: "cap2", title: "Capítulo 2: Fundamentos Teóricos", sections: [] },
-                { id: "cap3", title: "Capítulo 3: Espacio + Polarización", sections: [] },
-                { id: "cap4", title: "Capítulo 4: Dominando el OAM", sections: [] },
-                { id: "cap5", title: "Capítulo 5: Fusión Multidimensional", sections: [] },
-                { id: "cap6", title: "Conclusiones y Bibliografía", sections: [] }
+                { id: "cap1", title: "Capítulo 1: Introducción", sections: [] }
             ];
-
-            referencesDB = [
-                {au: "A. Zeilinger", ti: "Quantum entanglement of high dimensionality", re: "Nature Physics", an: "2020", doi: "10.1038/nphys"},
-                {au: "M. Padgett", ti: "Orbital angular momentum of light", re: "Physics Today", an: "2015", doi: "10.1063/PT.3.2000"}
-            ];
-
-            thesisContent["front"] = `Agradezco a mis directores, a la Universidad de Buenos Aires y a mis colegas por el apoyo brindado en el desarrollo de este trabajo.
-
-[PAGE_BREAK]`;
+            thesisContent["front"] = `El inicio de una gran investigación.\n\n[PAGE_BREAK]`;
             thesisContent["indices"] = `# Índice de Contenidos\n\n[INDICE_GENERAL]\n\n[PAGE_BREAK]\n\n## Lista de Figuras\n[LISTA_FIGURAS]\n\n[PAGE_BREAK]\n\n## Lista de Tablas\n[LISTA_TABLAS]\n`;
-            
-            thesisContent["cap1"] = `# Capítulo 1: Introducción General\n\nLa información cuántica requiere de alta dimensionalidad. En este capítulo exploraremos la transición de Qubits a Qudits.\n\n## 1.1 El límite de la Polarización\n\nLa polarización es un estado de dos niveles, un qubit:\n\n$$\n\\ket{\\psi} = \\alpha \\ket{H} + \\beta \\ket{V}\n$$\n\nDonde el producto interno cumple $\\braket{H}{V} = 0$.\n\n## 1.2 La solución: Momento Angular Orbital\n\nEl momento angular orbital (OAM) permite codificar información en un alfabeto infinito [CITA|2].\n\n$$\n\\begin{aligned}\n  E(r, \\phi, z) &= E_0(r,z) e^{i \\ell \\phi} \\\\\n  \\ell &= 0, \\pm 1, \\pm 2, \\dots\n\\end{aligned}\n$$\n`;
-
-            thesisContent["cap2"] = `# Capítulo 2: Fundamentos Teóricos\n\n## 2.1 Uso de SLM\n\nUn Modulador Espacial de Luz (SLM) permite controlar el frente de onda. Su modulación en fase pura viene dada por:\n\n$$\nt(x) = \\exp\\left[ i \\left( \\Phi_0 \\mod_{2\\pi}\\left(\\frac{2\\pi x}{d}\\right) \\right) \\right]\n$$\n\n[FIG | https://upload.wikimedia.org/wikipedia/commons/thumb/c/ca/Mach-Zehnder_interferometer.svg/500px-Mach-Zehnder_interferometer.svg.png | Interferómetro de Mach-Zehnder. | fig:setup]\n\nComo se observa en la [REF | fig:setup], la fase se modula dinámicamente.\n`;
-
-            thesisContent["cap3"] = `# Capítulo 3: Correlación Espacio y Polarización\n\nResultados publicados en Physical Review A (2019).\n`;
-            thesisContent["cap4"] = `# Capítulo 4: Generación de Haces OAM\n\nResultados publicados en Applied Optics (2017).\n`;
-            thesisContent["cap5"] = `# Capítulo 5: Fusión Multidimensional\n\nResultados de Optics Letters (2020).\n\n[TAB | Resultados de Pureza y Fidelidad | tab:resultados]\n| Estado | Pureza | Fidelidad |\n|---|---|---|\n| L=1 | 0.98 | 0.96 |\n| L=2 | 0.95 | 0.94 |\n\nLa [REF | tab:resultados] muestra la viabilidad de la técnica.\n`;
-
-            thesisContent["cap6"] = `# Conclusiones\n\nSe ha demostrado que la modulación holográfica es superior a las técnicas clásicas [CITA|1].\n\n[PAGE_BREAK]\n\n# Referencias Bibliográficas\n\n[BIBLIOGRAFIA]\n`;
-
-            window.app.saveToCloud();
+            thesisContent["cap1"] = `# Capítulo 1: Introducción\n\nContexto de la investigación...`;
         }
 
         window.app.addChapter = () => {
-            const t = prompt("Nombre del nuevo capítulo:");
-            if(!t || t.trim() === "") return;
-            const id = 'cap_' + Date.now();
-            chaptersDef.push({ id: id, title: t.trim(), sections: [] });
-            thesisContent[id] = `# ${t.trim()}\n\nEscribe aquí...`;
-            window.app.saveToCloud(); renderSidebar(); selectChapter(id);
+            window.app.showPrompt("Nombre del nuevo capítulo/sección:", "", (t) => {
+                if(!t || t.trim() === "") return;
+                const id = 'cap_' + Date.now();
+                chaptersDef.push({ id: id, title: t.trim(), sections: [] });
+                thesisContent[id] = `# ${t.trim()}\n\nEscribe aquí...`;
+                window.app.saveToCloud(); renderSidebar(); selectChapter(id);
+            });
         };
 
         window.app.deleteCurrentChapter = () => {
-            if(chaptersDef.length <= 1) return alert("No puedes borrar el último capítulo.");
+            if(chaptersDef.length <= 1) return window.app.showAlert("No puedes borrar el último capítulo.");
             const chapObj = chaptersDef.find(c=>c.id===currentChap);
-            if(chapObj && confirm(`¿Eliminar permanentemente "${chapObj.title}"?`)) {
-                chaptersDef = chaptersDef.filter(c => c.id !== currentChap);
-                delete thesisContent[currentChap];
-                window.app.saveToCloud(); selectChapter(chaptersDef[0].id);
+            if(chapObj) {
+                window.app.showPrompt(`Para confirmar, escribe "ELIMINAR" para borrar "${chapObj.title}":`, "", (val) => {
+                    if (val === "ELIMINAR") {
+                        chaptersDef = chaptersDef.filter(c => c.id !== currentChap);
+                        delete thesisContent[currentChap];
+                        window.app.saveToCloud(); selectChapter(chaptersDef[0].id);
+                    }
+                });
             }
         };
 
-        // --- MARKED RENDERER FIX (Safe slugs) ---
+        // --- MARKED RENDERER FIX (Evita el TypeError toLowerCase en todas las versiones de marked) ---
         const renderer = new marked.Renderer();
         renderer.heading = function (tokenOrText, level, raw) {
-            const text = typeof tokenOrText === 'string' ? tokenOrText : (tokenOrText.text || '');
-            const depth = typeof tokenOrText === 'string' ? level : (tokenOrText.depth || 1);
+            let text = "";
+            let depth = 1;
+            
+            // Compatibilidad entre marked v4+ y versiones antiguas
+            if (typeof tokenOrText === 'object') {
+                text = tokenOrText.text || '';
+                depth = tokenOrText.depth || 1;
+            } else {
+                text = tokenOrText || '';
+                depth = level || 1;
+            }
+            
             const slug = String(text).toLowerCase().replace(/[^\w]+/g, '-');
             return `<h${depth} id="${slug}">${text}</h${depth}>`;
         };
@@ -856,7 +919,7 @@
 
             processed = processed.replace(/\[FIG\s*\|\s*(.*?)\s*\|\s*(.*?)\s*\|\s*(.*?)\]/g, (m, url, caption, label) => {
                 let num = globalRegistry.fig[label.trim()] || '?';
-                // Fallback de imagen para no colapsar si la URL no carga
+                // Fallback de imagen
                 return `<figure id="${label.trim()}"><img src="${url.trim()}" onerror="this.src='data:image/svg+xml;charset=UTF-8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22100%25%22%20height%3D%22200%22%20fill%3D%22%23e2e8f0%22%3E%3Crect%20width%3D%22100%25%22%20height%3D%22100%25%22%2F%3E%3Ctext%20x%3D%2250%25%22%20y%3D%2250%25%22%20fill%3D%22%2394a3b8%22%20font-family%3D%22sans-serif%22%20font-size%3D%2216%22%20text-anchor%3D%22middle%22%3EImagen%20no%20disponible%3C%2Ftext%3E%3C%2Fsvg%3E'" alt="${caption.trim()}"><figcaption><strong>Figura ${num}:</strong> ${caption.trim()}</figcaption></figure>`;
             });
             processed = processed.replace(/\[TAB\s*\|\s*(.*?)\s*\|\s*(.*?)\]/g, (m, caption, label) => {
@@ -975,10 +1038,9 @@
             }, 400);
         };
 
-        // INSERCIÓN DE LISTAS Y TEXTO (Safe split parsing)
         window.app.insertList = (type) => {
             const ed = document.getElementById('editor-pane'); if(!ed) return;
-            const p = type === 'bullet' ? "\n- " : (type === 'number' ? "\n1. " : '\n<ol type="a">\n  <li>Ítem</li>\n</ol>\n');
+            const p = type === 'bullet' ? "\n- " : (type === 'number' ? "\n1. " : (type === 'alpha' ? '\n<ol type="a">\n  <li>Ítem</li>\n</ol>\n' : ''));
             const s = ed.selectionStart, e = ed.selectionEnd, t = ed.value;
             ed.value = t.substring(0, s) + p + t.substring(e);
             ed.focus(); ed.setSelectionRange(s + p.length, s + p.length);
@@ -987,8 +1049,9 @@
 
         window.app.insertFormat = (prefix, suffix) => { 
             const ed = document.getElementById('editor-pane'); if(!ed) return; 
-            const p = prefix.replace(/\\n/g, '\n');
-            const sfx = suffix.replace(/\\n/g, '\n');
+            // Reemplazo del tag especial [NL] por saltos de línea reales para evitar el error HTML
+            const p = prefix.replace(/\[NL\]/g, '\n');
+            const sfx = suffix.replace(/\[NL\]/g, '\n');
             const s = ed.selectionStart, e = ed.selectionEnd, t = ed.value; 
             ed.value = t.substring(0, s) + p + t.substring(s, e) + sfx + t.substring(e); 
             ed.focus(); ed.setSelectionRange(s + p.length, e + p.length); 
@@ -1000,6 +1063,9 @@
             let log = commitmentLog.find(l => l.date === today); if(log) { log.words = totalWords; } else { commitmentLog.push({ date: today, words: totalWords }); }
             if(commitmentLog.length > 14) commitmentLog.shift();
         }
+
+        window.app.toggleNotesPanel = () => { const np = document.getElementById('notes-panel'); if(np) np.classList.toggle('open'); };
+        window.app.saveNotes = () => { const np = document.getElementById('notes-pane'); if(np) chapterNotes[currentChap] = np.value; window.app.saveToCloud(); };
 
         // --- MOTOR DE GRAFOS (Con íconos nativos en lugar de imágenes de internet para evitar CORS) ---
         window.app.renderGraphAndChart = () => {
@@ -1107,7 +1173,7 @@
                     const data = JSON.parse(ev.target.result);
                     thesisContent = data.content || {}; referencesDB = data.refs || []; chaptersDef = data.structure || []; projectConfig = data.config || {}; chapterNotes = data.notes || {}; commitmentLog = data.commits || [];
                     window.app.saveToCloud(); location.reload();
-                } catch(err) { alert("Archivo JSON inválido."); }
+                } catch(err) { window.app.showAlert("Archivo JSON inválido."); }
             }; reader.readAsText(file);
         };
 
@@ -1129,7 +1195,7 @@
         };
         
         window.app.openSettings = () => { 
-            const n = document.getElementById('config-proj-name'); if(n) n.value = projectConfig.name || ""; 
+            const n = document.getElementById('config-proj-name'); if(n) n.value = projectConfig.name || "My Research Journal"; 
             const a = document.getElementById('config-proj-author'); if(a) a.value = projectConfig.author || ""; 
             const d = document.getElementById('config-proj-director'); if(d) d.value = projectConfig.director || ""; 
             const cd = document.getElementById('config-proj-codirector'); if(cd) cd.value = projectConfig.codirector || ""; 
@@ -1159,7 +1225,17 @@
         }
         
         window.app.saveToCloud = async () => { if (!isAdmin) return; const payload = { content: thesisContent, refs: referencesDB, structure: chaptersDef, config: projectConfig, notes: chapterNotes, commits: commitmentLog }; localStorage.setItem('nexus_writer_v11', JSON.stringify(payload)); };
-        window.app.editCurrentChapterTitle = () => { const chapObj = chaptersDef.find(c => c.id === currentChap); const n = prompt("Renombrar:", chapObj.title); if(n && n.trim()!=="") { chapObj.title = n.trim(); renderSidebar(); window.app.saveToCloud(); updateUI(); } };
+        
+        window.app.editCurrentChapterTitle = () => { 
+            const chapObj = chaptersDef.find(c => c.id === currentChap); 
+            window.app.showPrompt("Renombrar sección:", chapObj.title, (n) => {
+                if(n && n.trim()!=="") { 
+                    chapObj.title = n.trim(); 
+                    renderSidebar(); window.app.saveToCloud(); updateUI(); 
+                }
+            });
+        };
+        
         window.app.setPreviewMode = (id, c) => { 
             const containerId = id === 'render-pane' ? 'render-pane-container' : 'global-render-content';
             const container = document.getElementById(containerId); 
