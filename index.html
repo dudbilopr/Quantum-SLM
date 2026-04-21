@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Quantum Nexus Book | Dudbil PhD</title>
+    <title>Quantum Nexus Book | Mg. Dudbil</title>
     
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
@@ -20,7 +20,7 @@
         }
     </script>
     
-    <!-- KaTeX (LaTeX) -->
+    <!-- KaTeX (LaTeX Verdadero) -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.css">
     <script src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/contrib/auto-render.min.js"></script>
@@ -37,13 +37,14 @@
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&family=Lora:ital,wght@0,400;0,700;1,400&display=swap');
 
-        :root { --app-bg: #f1f5f9; --app-text: #0f172a; }
+        :root { --app-bg: #e2e8f0; --app-text: #0f172a; }
         .dark { --app-bg: #020617; --app-text: #f8fafc; }
         
         body { 
             font-family: 'Inter', system-ui, sans-serif; 
-            background: radial-gradient(circle at top right, rgba(20,184,166,0.1), transparent 50%), 
-                        radial-gradient(circle at bottom left, rgba(56,189,248,0.1), transparent 40%), var(--app-bg);
+            background: radial-gradient(circle at top right, rgba(20,184,166,0.2), transparent 40%), 
+                        radial-gradient(circle at bottom left, rgba(56,189,248,0.2), transparent 40%), var(--app-bg);
+            background-attachment: fixed;
             color: var(--app-text);
             transition: background-color 0.4s ease, color 0.4s ease;
         }
@@ -53,56 +54,64 @@
         ::-webkit-scrollbar-thumb { background: rgba(148, 163, 184, 0.5); border-radius: 4px; }
         ::-webkit-scrollbar-thumb:hover { background: rgba(148, 163, 184, 0.8); }
 
-        /* GLASSMORFISMO Y COMPONENTES */
-        .glass-panel { background: rgba(255, 255, 255, 0.7); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); border: 1px solid rgba(255, 255, 255, 0.5); }
-        .dark .glass-panel { background: rgba(15, 23, 42, 0.7); border: 1px solid rgba(255, 255, 255, 0.08); }
-        .modal-glass { @apply glass-panel rounded-3xl shadow-2xl p-8 max-w-xl w-full transform transition-all; }
-        .btn-icon { @apply p-2.5 rounded-xl transition-all duration-200 flex items-center justify-center cursor-pointer; }
-        .btn-icon:hover { background: rgba(148, 163, 184, 0.2); transform: translateY(-1px); }
+        /* GLASSMORFISMO TRANSPARENTE PROFESIONAL */
+        .glass-panel { 
+            background: rgba(255, 255, 255, 0.5); 
+            backdrop-filter: blur(24px) saturate(150%); 
+            -webkit-backdrop-filter: blur(24px) saturate(150%); 
+            border: 1px solid rgba(255, 255, 255, 0.6); 
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.05);
+        }
+        .dark .glass-panel { 
+            background: rgba(15, 23, 42, 0.6); 
+            border: 1px solid rgba(255, 255, 255, 0.1); 
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.5);
+        }
+        
+        .modal-glass { @apply glass-panel rounded-3xl p-8 max-w-xl w-full transform transition-all; }
+        .btn-icon { @apply p-2 rounded-xl transition-all duration-200 flex items-center justify-center cursor-pointer bg-white/30 dark:bg-black/20 hover:bg-white/60 dark:hover:bg-black/40 border border-white/40 dark:border-white/10; }
         .btn-icon:active { transform: translateY(1px); }
-        .btn-primary { @apply bg-gradient-to-r from-quantum-600 to-quantum-500 hover:from-quantum-500 hover:to-quantum-400 text-white font-bold py-2.5 px-6 rounded-xl shadow-lg hover:shadow-quantum-500/30 transition-all flex items-center gap-2; }
-        .input-glass { @apply w-full bg-white/60 dark:bg-slate-900/60 border border-slate-200 dark:border-slate-700 rounded-xl px-4 py-3 text-sm outline-none focus:ring-2 focus:ring-quantum-500/50 transition-all backdrop-blur-sm; }
+        .btn-primary { @apply bg-gradient-to-r from-quantum-600 to-quantum-500 hover:from-quantum-500 hover:to-quantum-400 text-white font-bold py-2.5 px-6 rounded-xl shadow-lg hover:shadow-quantum-500/30 transition-all flex items-center gap-2 border border-quantum-400/30; }
+        .input-glass { @apply w-full bg-white/70 dark:bg-slate-900/70 border border-slate-300 dark:border-slate-700 rounded-xl px-4 py-3 text-sm outline-none focus:ring-2 focus:ring-quantum-500/50 transition-all backdrop-blur-md text-slate-800 dark:text-slate-100; }
 
         /* FORMATO A4 Y PAGINACIÓN */
-        #render-container, #global-render-content { counter-reset: equation; } 
+        .page-container { counter-reset: equation figure table; display: flex; flex-direction: column; align-items: center; padding: 2rem 0; gap: 2rem; }
         
         .a4-page {
-            width: 210mm; min-height: 297mm; padding: 25mm; margin: 2rem auto;
+            width: 210mm; min-height: 297mm; padding: 25mm; 
             background: white; color: black; text-align: justify;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.1); border-radius: 4px;
-            position: relative;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.1); border-radius: 6px;
+            position: relative; flex-shrink: 0;
         }
-        .dark .a4-page { box-shadow: 0 10px 40px rgba(0,0,0,0.8); }
+        .dark .a4-page { box-shadow: 0 15px 40px rgba(0,0,0,0.9); }
         
-        /* FORMATO WEB (DIDÁCTICO) */
         .web-page {
-            width: 100%; max-width: 850px; margin: 2rem auto; padding: 3rem;
-            background: rgba(255,255,255,0.6); backdrop-filter: blur(16px);
-            border-radius: 2rem; border: 1px solid rgba(255,255,255,0.4);
-            color: inherit; text-align: justify; box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+            width: 100%; max-width: 900px; padding: 3rem;
+            background: rgba(255,255,255,0.85); backdrop-filter: blur(20px);
+            border-radius: 2rem; border: 1px solid rgba(255,255,255,0.6);
+            color: #1e293b; text-align: justify; box-shadow: 0 10px 40px rgba(0,0,0,0.08);
+            position: relative; flex-shrink: 0;
         }
-        .dark .web-page { background: rgba(15,23,42,0.6); border-color: rgba(255,255,255,0.08); box-shadow: 0 10px 30px rgba(0,0,0,0.3); }
+        .dark .web-page { background: rgba(15,23,42,0.8); border-color: rgba(255,255,255,0.1); color: #f8fafc; box-shadow: 0 10px 40px rgba(0,0,0,0.5); }
 
-        /* ESTILOS DE TEXTO INTERNO (Mejorados para listas y alineaciones) */
-        .render-area h1 { font-size: 2.2em; font-weight: 800; margin-bottom: 1.5em; text-align: center; color: #0f172a; }
-        .dark .render-area h1 { color: #f8fafc; }
+        /* ESTILOS DE TEXTO INTERNO */
+        .render-area h1 { font-size: 2.2em; font-weight: 800; margin-bottom: 1.5em; text-align: center; color: inherit; }
         .render-area h2 { font-size: 1.6em; font-weight: 700; margin-top: 2em; margin-bottom: 1em; border-bottom: 2px solid rgba(20,184,166,0.3); padding-bottom: 0.3em; }
-        .render-area h3 { font-size: 1.3em; font-weight: 600; margin-top: 1.5em; margin-bottom: 0.8em; color: #334155; }
-        .dark .render-area h3 { color: #cbd5e1; }
+        .render-area h3 { font-size: 1.3em; font-weight: 600; margin-top: 1.5em; margin-bottom: 0.8em; color: inherit; opacity: 0.9; }
         .render-area p { margin-bottom: 1.2em; line-height: inherit; }
         
-        /* Listas mejoradas */
         .render-area ul { list-style-type: disc; padding-left: 2.5rem; margin-bottom: 1.2em; }
         .render-area ol { list-style-type: decimal; padding-left: 2.5rem; margin-bottom: 1.2em; }
         .render-area li { margin-bottom: 0.4em; }
         
-        .render-area img { max-width: 100%; height: auto; border-radius: 12px; margin: 2rem auto; box-shadow: 0 8px 20px rgba(0,0,0,0.15); display: block; }
-        .render-area iframe { width: 100%; min-height: 450px; margin: 2rem 0; border: 1px solid rgba(148,163,184,0.3); border-radius: 16px; background: #fff; box-shadow: 0 10px 25px rgba(0,0,0,0.1); }
+        .render-area img { max-width: 100%; height: auto; border-radius: 8px; margin: 2rem auto; box-shadow: 0 8px 20px rgba(0,0,0,0.15); display: block; }
+        .render-area iframe { width: 100%; min-height: 450px; margin: 2rem 0; border: 1px solid rgba(148,163,184,0.3); border-radius: 12px; background: #fff; box-shadow: 0 10px 25px rgba(0,0,0,0.1); }
 
         .render-area table { width: 100%; border-collapse: collapse; margin: 2rem 0; font-size: 0.95em; box-shadow: 0 4px 6px rgba(0,0,0,0.05); }
         .render-area th, .render-area td { border: 1px solid rgba(148,163,184,0.4); padding: 1rem; text-align: left; }
         .render-area th { background-color: rgba(20,184,166,0.1); font-weight: bold; text-align: center; }
 
+        /* Numeración Automática LaTeX y Figuras */
         .render-area .katex-display { margin: 2em 0; overflow-x: auto; overflow-y: hidden; position: relative; padding-right: 4rem; }
         .render-area .katex-display::after {
             counter-increment: equation; content: "(" counter(equation) ")";
@@ -110,18 +119,16 @@
             font-family: 'Times New Roman', serif; font-size: 11pt; font-weight: bold; opacity: 0.8; color: #14b8a6;
         }
 
-        /* ENLACES E ÍNDICES */
-        .render-area a { color: #0ea5e9; text-decoration: none; font-weight: 500; transition: color 0.2s; }
+        .render-area a { color: #0ea5e9; text-decoration: none; font-weight: 600; transition: color 0.2s; }
         .render-area a:hover { color: #0284c7; text-decoration: underline; }
+
         .toc-list { list-style: none !important; padding-left: 0 !important; }
         .toc-list li { margin-bottom: 0.5rem; border-bottom: 1px dashed rgba(148,163,184,0.3); padding-bottom: 0.2rem; }
         .toc-sublist { list-style: none !important; padding-left: 1.5rem !important; margin-top: 0.5rem; border-left: 2px solid rgba(20,184,166,0.3); }
         .toc-sublist li { border-bottom: none; }
 
-        /* EDITOR */
-        #editor-pane { font-family: 'JetBrains Mono', monospace; resize: none; outline: none; line-height: 1.6; font-size: 0.95rem; }
+        #editor-pane { font-family: 'JetBrains Mono', monospace; resize: none; outline: none; line-height: 1.7; font-size: 0.95rem; }
         
-        /* TABS & ANIMATIONS */
         .tab-content { display: none; opacity: 0; transition: opacity 0.3s; }
         .tab-content.active { display: flex; opacity: 1; }
         .fade-in { animation: fadeIn 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
@@ -131,51 +138,97 @@
         .draggable-item:active { cursor: grabbing; }
         .draggable-item.dragging { opacity: 0.5; background: rgba(148,163,184,0.2); }
 
-        /* MODO ENFOQUE */
         .sidebar, .toolbar { transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.3s ease; }
         body.focus-mode .sidebar { transform: translateX(-100%); width: 0 !important; opacity: 0; overflow: hidden; border: none; }
         body.focus-mode .toolbar { transform: translateY(-100%); height: 0 !important; opacity: 0; overflow: hidden; }
         body.reader-mode .admin-only { display: none !important; }
         body.reader-mode #editor-container { display: none !important; }
-        body.reader-mode #render-container { width: 100% !important; border: none !important; }
+        body.reader-mode #render-wrapper { width: 100% !important; border: none !important; }
         
         .page-break-visual { width: 100%; border-bottom: 2px dashed #94a3b8; margin: 3rem 0; position: relative; text-align: center; opacity: 0.6; }
-        .page-break-visual::after { content: "✂ SALTO DE PÁGINA ✂"; background: var(--app-bg); padding: 0 15px; color: #64748b; font-size: 11px; position: relative; top: -8px; font-weight: bold; letter-spacing: 2px; }
-        .a4-page .page-break-visual { display: none; } /* En A4 real no mostramos la tijera, hace el salto nativo CSS si es necesario */
+        .page-break-visual::after { content: "✂ SALTO DE PÁGINA ✂"; background: var(--app-bg); padding: 0 15px; color: #64748b; font-size: 11px; position: relative; top: -8px; font-weight: bold; letter-spacing: 2px; border-radius: 10px; }
+        .a4-page .page-break-visual { display: none; } 
 
-        /* Submenús en Sidebar */
         .sidebar-submenu { max-height: 0; overflow: hidden; transition: max-height 0.3s ease-out; }
         .sidebar-submenu.open { max-height: 500px; }
     </style>
 </head>
-<body class="h-screen flex flex-col overflow-hidden select-none">
+<body class="h-screen flex flex-col overflow-hidden select-none transition-colors duration-300">
 
-    <!-- MODAL DE LOGIN -->
-    <div id="login-overlay" class="fixed inset-0 z-[100] glass-panel flex items-center justify-center overflow-y-auto p-4">
-        <div class="modal-glass text-center relative overflow-hidden fade-in max-h-[90vh] flex flex-col">
-            <div class="absolute -top-20 -right-20 w-48 h-48 bg-quantum-400 rounded-full mix-blend-multiply filter blur-3xl opacity-30 animate-float"></div>
+    <!-- 1. MODAL DE LOGIN (MEJORADO CON CORREO/PASS Y GOOGLE) -->
+    <div id="login-overlay" class="fixed inset-0 z-[100] glass-panel flex items-center justify-center p-4 overflow-y-auto">
+        <div class="modal-glass text-center relative overflow-hidden fade-in max-h-[95vh] flex flex-col">
+            <div class="absolute -top-20 -right-20 w-48 h-48 bg-quantum-400 rounded-full mix-blend-multiply filter blur-3xl opacity-30 pointer-events-none"></div>
             
-            <div class="bg-gradient-to-br from-white to-slate-100 dark:from-slate-800 dark:to-slate-900 w-20 h-20 rounded-3xl mx-auto flex items-center justify-center mb-4 shadow-xl border border-slate-200 dark:border-slate-700 shrink-0">
+            <div class="bg-gradient-to-br from-white to-slate-100 dark:from-slate-800 dark:to-slate-900 w-20 h-20 rounded-3xl mx-auto flex items-center justify-center mb-4 shadow-xl border border-slate-200 dark:border-slate-700 shrink-0 z-10">
                 <i data-lucide="book-open" class="w-10 h-10 text-quantum-500"></i>
             </div>
-            <h2 class="text-3xl font-extrabold mb-2 tracking-tight text-slate-800 dark:text-white">Nexus Book V10</h2>
-            <p class="text-sm opacity-60 mb-8 font-medium">Plataforma Integral de Tesis Doctoral</p>
+            <h2 class="text-3xl font-extrabold mb-2 tracking-tight text-slate-800 dark:text-white z-10">Nexus Book V11</h2>
+            <p class="text-sm opacity-70 mb-6 font-medium z-10 text-slate-600 dark:text-slate-300">Entorno Doctoral, Analítica y Renderizado LaTeX</p>
             
-            <div class="flex-1 overflow-y-auto px-2 pb-4">
-                <button onclick="window.app.loginAdmin()" class="w-full bg-white dark:bg-slate-800 text-slate-900 dark:text-white hover:scale-[1.02] transition-transform font-bold py-3.5 px-4 rounded-xl flex items-center justify-center gap-3 mb-6 shadow-lg border border-slate-200 dark:border-slate-700">
+            <div class="flex-1 overflow-y-auto px-2 pb-4 z-10 scroll-smooth">
+                
+                <!-- Google Login -->
+                <button onclick="window.app.loginAdminGoogle()" class="w-full bg-white dark:bg-slate-800 text-slate-900 dark:text-white hover:scale-[1.02] transition-transform font-bold py-3.5 px-4 rounded-xl flex items-center justify-center gap-3 mb-4 shadow-md border border-slate-200 dark:border-slate-700">
                     <svg class="w-5 h-5" viewBox="0 0 24 24"><path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/><path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/><path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z" fill="#FBBC05"/><path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/></svg>
-                    Acceso Investigador (Admin)
+                    Ingresar con Google
                 </button>
 
-                <div class="flex items-center gap-4 my-6 opacity-40">
-                    <div class="h-px bg-current flex-1"></div><span class="text-xs uppercase tracking-widest font-bold">Modo Offline / Invitados</span><div class="h-px bg-current flex-1"></div>
+                <div class="flex items-center gap-4 my-4 opacity-50">
+                    <div class="h-px bg-current flex-1"></div><span class="text-[10px] uppercase tracking-widest font-bold">O con Correo</span><div class="h-px bg-current flex-1"></div>
                 </div>
 
-                <button onclick="window.app.forceLocalMode()" class="w-full bg-slate-100 dark:bg-slate-900 border border-slate-300 dark:border-slate-700 text-slate-700 dark:text-slate-300 font-bold py-3.5 px-4 rounded-xl transition-colors hover:bg-slate-200 dark:hover:bg-slate-800 shadow-sm flex justify-center items-center gap-2">
-                    <i data-lucide="hard-drive" class="w-4 h-4"></i> Entrar en Modo Local Seguro
+                <!-- Email/Password Login -->
+                <div class="space-y-3 mb-6">
+                    <input type="email" id="login-email" placeholder="Correo Electrónico" class="input-glass">
+                    <input type="password" id="login-password" placeholder="Contraseña" class="input-glass">
+                    <div class="flex gap-2 mt-2">
+                        <button onclick="window.app.loginEmail()" class="flex-1 bg-quantum-600 hover:bg-quantum-700 text-white font-bold py-3 rounded-xl transition-colors shadow">Iniciar Sesión</button>
+                    </div>
+                </div>
+
+                <div class="flex items-center gap-4 my-4 opacity-50">
+                    <div class="h-px bg-current flex-1"></div><span class="text-[10px] uppercase tracking-widest font-bold">Modo Offline / Invitados</span><div class="h-px bg-current flex-1"></div>
+                </div>
+
+                <button onclick="window.app.forceLocalMode()" class="w-full bg-white/50 dark:bg-slate-900/50 border border-slate-300 dark:border-slate-700 text-slate-800 dark:text-slate-200 font-bold py-3.5 px-4 rounded-xl transition-colors hover:bg-white dark:hover:bg-slate-800 shadow-sm flex justify-center items-center gap-2 mb-3">
+                    <i data-lucide="hard-drive" class="w-4 h-4 text-quantum-600"></i> Entrar en Modo Local Seguro (Offline)
                 </button>
 
-                <div id="login-error-container" class="hidden mt-4 text-red-600 dark:text-red-400 text-xs font-medium bg-red-100 dark:bg-red-900/30 p-3 rounded-xl border border-red-200 dark:border-red-800/50"></div>
+                <div class="flex gap-2">
+                    <input type="password" id="guest-password" placeholder="Clave de Lector" class="input-glass text-center flex-1">
+                    <button onclick="window.app.loginGuest()" class="bg-slate-300 dark:bg-slate-700 hover:bg-slate-400 dark:hover:bg-slate-600 text-slate-800 dark:text-white font-bold py-3 px-4 rounded-xl transition-colors" title="Solo Lectura">
+                        <i data-lucide="eye" class="w-5 h-5"></i>
+                    </button>
+                </div>
+
+                <div id="login-error-container" class="hidden mt-4 text-red-600 dark:text-red-400 text-xs font-medium bg-red-100 dark:bg-red-900/30 p-3 rounded-xl border border-red-200 dark:border-red-800/50 text-left"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL DE TUTORIAL -->
+    <div id="tutorial-modal" class="fixed inset-0 z-[70] glass-panel hidden flex items-center justify-center fade-in p-4">
+        <div class="modal-glass">
+            <button onclick="document.getElementById('tutorial-modal').classList.add('hidden')" class="absolute top-6 right-6 text-slate-400 hover:text-red-500 bg-slate-100 dark:bg-slate-800 p-2 rounded-full"><i data-lucide="x" class="w-5 h-5"></i></button>
+            <div class="flex items-center gap-4 mb-6 border-b border-slate-200 dark:border-slate-700 pb-4">
+                <div class="w-12 h-12 bg-quantum-100 dark:bg-quantum-900/50 rounded-2xl flex items-center justify-center text-quantum-600 dark:text-quantum-400">
+                    <i data-lucide="rocket" class="w-6 h-6"></i>
+                </div>
+                <div>
+                    <h2 class="text-2xl font-bold text-slate-800 dark:text-white">Bienvenido a Nexus V11</h2>
+                    <p class="text-sm text-slate-500">Novedades y comandos rápidos</p>
+                </div>
+            </div>
+            
+            <div class="space-y-4 text-sm text-slate-700 dark:text-slate-300">
+                <div class="flex gap-3"><i data-lucide="layers" class="w-5 h-5 text-quantum-500 shrink-0"></i><p><strong>6 Capítulos Precargados:</strong> He cargado la estructura oficial de tu tesis fotónica. Usa el botón `+` en la barra lateral para añadir más.</p></div>
+                <div class="flex gap-3"><i data-lucide="link-2" class="w-5 h-5 text-quantum-500 shrink-0"></i><p><strong>Comandos Mágicos de Índice:</strong> En el editor, usa <code>[INDICE_GENERAL]</code>, <code>[LISTA_FIGURAS]</code>, y <code>[BIBLIOGRAFIA]</code>. Se autogenerarán hipervínculos reales.</p></div>
+                <div class="flex gap-3"><i data-lucide="edit-3" class="w-5 h-5 text-quantum-500 shrink-0"></i><p><strong>LaTeX Nativo:</strong> Ahora puedes usar entornos como <code>\begin{aligned}...\end{aligned}</code> y comandos de Dirac (<code>\ket{\psi}</code>).</p></div>
+                <div class="flex gap-3"><i data-lucide="network" class="w-5 h-5 text-quantum-500 shrink-0"></i><p><strong>Grafo Reparado:</strong> El grafo topológico ahora usa íconos en lugar de imágenes de internet, evitando bloqueos. Funciona como Obsidian.</p></div>
+            </div>
+            <div class="mt-8 text-center">
+                <button onclick="document.getElementById('tutorial-modal').classList.add('hidden')" class="btn-primary mx-auto">¡Empezar a escribir!</button>
             </div>
         </div>
     </div>
@@ -194,13 +247,13 @@
 
     <!-- MODAL CONFIGURACIÓN CON PORTADA Y EXPORT/IMPORT JSON -->
     <div id="settings-modal" class="fixed inset-0 z-[60] glass-panel hidden flex items-center justify-center fade-in p-4">
-        <div class="bg-white dark:bg-slate-900 p-8 rounded-3xl shadow-2xl border border-slate-200 dark:border-slate-700 max-w-3xl w-full max-h-[90vh] overflow-y-auto">
+        <div class="modal-glass max-w-3xl max-h-[90vh] overflow-y-auto">
             <div class="flex justify-between items-center mb-6">
                 <h2 class="text-2xl font-bold flex items-center gap-3 text-slate-800 dark:text-white"><i data-lucide="settings" class="text-quantum-500"></i> Ajustes de Proyecto</h2>
                 <div class="flex gap-2">
-                    <button onclick="window.app.exportJSON()" class="px-3 py-1.5 bg-emerald-100 text-emerald-700 dark:bg-emerald-900/50 dark:text-emerald-400 rounded-lg text-xs font-bold flex items-center gap-2 hover:bg-emerald-200 transition-colors border border-emerald-200 dark:border-emerald-800"><i data-lucide="download" class="w-3 h-3"></i> Exportar JSON</button>
+                    <button onclick="window.app.exportJSON()" class="px-3 py-1.5 bg-emerald-100 text-emerald-700 dark:bg-emerald-900/50 dark:text-emerald-400 rounded-lg text-xs font-bold flex items-center gap-2 hover:bg-emerald-200 transition-colors border border-emerald-200 dark:border-emerald-800"><i data-lucide="download" class="w-3 h-3"></i> Backup JSON</button>
                     <label class="px-3 py-1.5 bg-blue-100 text-blue-700 dark:bg-blue-900/50 dark:text-blue-400 rounded-lg text-xs font-bold flex items-center gap-2 hover:bg-blue-200 transition-colors border border-blue-200 dark:border-blue-800 cursor-pointer">
-                        <i data-lucide="upload" class="w-3 h-3"></i> Importar JSON
+                        <i data-lucide="upload" class="w-3 h-3"></i> Cargar JSON
                         <input type="file" id="import-json-file" accept=".json" class="hidden" onchange="window.app.importJSON(event)">
                     </label>
                 </div>
@@ -208,129 +261,132 @@
             
             <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <!-- Metadatos Portada -->
-                <div class="space-y-4 bg-slate-50 dark:bg-slate-800/50 p-5 rounded-2xl border border-slate-200 dark:border-slate-700">
-                    <h3 class="text-xs font-bold text-slate-500 uppercase tracking-widest flex items-center gap-2"><i data-lucide="file-badge" class="w-4 h-4"></i> Datos de Portada</h3>
-                    <div><label class="text-[10px] font-bold uppercase opacity-70 ml-2">Título de Tesis</label><input type="text" id="config-proj-name" class="input-glass mt-1"></div>
-                    <div><label class="text-[10px] font-bold uppercase opacity-70 ml-2">Autor</label><input type="text" id="config-proj-author" class="input-glass mt-1"></div>
-                    <div><label class="text-[10px] font-bold uppercase opacity-70 ml-2">Director</label><input type="text" id="config-proj-director" class="input-glass mt-1"></div>
-                    <div><label class="text-[10px] font-bold uppercase opacity-70 ml-2">Co-Director</label><input type="text" id="config-proj-codirector" class="input-glass mt-1"></div>
-                    <div><label class="text-[10px] font-bold uppercase opacity-70 ml-2">Consejero / Universidad</label><input type="text" id="config-proj-consejero" class="input-glass mt-1"></div>
-                    <div><label class="text-[10px] font-bold uppercase opacity-70 ml-2">Fecha Presentación</label><input type="text" id="config-proj-date" class="input-glass mt-1"></div>
+                <div class="space-y-3 bg-white/50 dark:bg-slate-800/50 p-5 rounded-2xl border border-slate-200 dark:border-slate-700">
+                    <h3 class="text-xs font-bold text-slate-500 uppercase tracking-widest flex items-center gap-2 mb-3"><i data-lucide="file-badge" class="w-4 h-4"></i> Datos de Portada</h3>
+                    <div><label class="text-[10px] font-bold uppercase opacity-70 ml-2">Título de Tesis</label><input type="text" id="config-proj-name" class="input-glass mt-1 p-2"></div>
+                    <div><label class="text-[10px] font-bold uppercase opacity-70 ml-2">Autor</label><input type="text" id="config-proj-author" class="input-glass mt-1 p-2"></div>
+                    <div><label class="text-[10px] font-bold uppercase opacity-70 ml-2">Director</label><input type="text" id="config-proj-director" class="input-glass mt-1 p-2"></div>
+                    <div><label class="text-[10px] font-bold uppercase opacity-70 ml-2">Co-Director</label><input type="text" id="config-proj-codirector" class="input-glass mt-1 p-2"></div>
+                    <div><label class="text-[10px] font-bold uppercase opacity-70 ml-2">Consejero / Universidad</label><input type="text" id="config-proj-consejero" class="input-glass mt-1 p-2"></div>
+                    <div><label class="text-[10px] font-bold uppercase opacity-70 ml-2">Fecha Presentación</label><input type="text" id="config-proj-date" class="input-glass mt-1 p-2"></div>
                 </div>
 
-                <div class="space-y-6">
+                <div class="space-y-4">
                     <!-- Tipografía -->
-                    <div class="space-y-4 bg-slate-50 dark:bg-slate-800/50 p-5 rounded-2xl border border-slate-200 dark:border-slate-700">
-                        <h3 class="text-xs font-bold text-slate-500 uppercase tracking-widest flex items-center gap-2"><i data-lucide="type" class="w-4 h-4"></i> Formato Académico</h3>
+                    <div class="space-y-3 bg-white/50 dark:bg-slate-800/50 p-5 rounded-2xl border border-slate-200 dark:border-slate-700">
+                        <h3 class="text-xs font-bold text-slate-500 uppercase tracking-widest flex items-center gap-2 mb-3"><i data-lucide="type" class="w-4 h-4"></i> Formato Académico</h3>
                         <div>
                             <label class="text-[10px] font-bold uppercase opacity-70 ml-2">Fuente Base</label>
-                            <select id="config-font" class="input-glass mt-1 cursor-pointer"><option value="'Times New Roman', Times, serif">Times New Roman</option><option value="Arial, sans-serif">Arial</option><option value="'Lora', serif">Lora / Book</option></select>
+                            <select id="config-font" class="input-glass mt-1 p-2 cursor-pointer"><option value="'Times New Roman', Times, serif">Times New Roman</option><option value="Arial, sans-serif">Arial</option><option value="'Lora', serif">Lora / Book</option></select>
                         </div>
                         <div class="grid grid-cols-2 gap-4">
-                            <div><label class="text-[10px] font-bold uppercase opacity-70 ml-2">Tamaño</label><select id="config-size" class="input-glass mt-1 cursor-pointer"><option value="11pt">11pt</option><option value="12pt">12pt</option><option value="14pt">14pt</option></select></div>
-                            <div><label class="text-[10px] font-bold uppercase opacity-70 ml-2">Interlineado</label><select id="config-lineheight" class="input-glass mt-1 cursor-pointer"><option value="1.15">1.15</option><option value="1.5">1.5</option><option value="2.0">2.0</option></select></div>
+                            <div><label class="text-[10px] font-bold uppercase opacity-70 ml-2">Tamaño</label><select id="config-size" class="input-glass mt-1 p-2 cursor-pointer"><option value="11pt">11pt</option><option value="12pt">12pt</option><option value="14pt">14pt</option></select></div>
+                            <div><label class="text-[10px] font-bold uppercase opacity-70 ml-2">Interlineado</label><select id="config-lineheight" class="input-glass mt-1 p-2 cursor-pointer"><option value="1.15">1.15</option><option value="1.5">1.5</option><option value="2.0">2.0</option></select></div>
                         </div>
                     </div>
                     
                     <!-- Configuración IA -->
-                    <div class="space-y-4 bg-purple-50 dark:bg-purple-900/10 p-5 rounded-2xl border border-purple-200 dark:border-purple-800/30">
-                        <h3 class="text-xs font-bold text-purple-600 dark:text-purple-400 uppercase tracking-widest flex items-center gap-2"><i data-lucide="key" class="w-4 h-4"></i> Motor IA Gemini</h3>
+                    <div class="space-y-3 bg-purple-50/50 dark:bg-purple-900/10 p-5 rounded-2xl border border-purple-200 dark:border-purple-800/30">
+                        <h3 class="text-xs font-bold text-purple-600 dark:text-purple-400 uppercase tracking-widest flex items-center gap-2 mb-3"><i data-lucide="key" class="w-4 h-4"></i> Motor IA Gemini</h3>
                         <div>
-                            <label class="text-[10px] font-bold uppercase opacity-70 ml-2 text-purple-700 dark:text-purple-300">API Key de Google Gemini (Opcional)</label>
-                            <input type="password" id="config-gemini-key" placeholder="AIzaSy..." class="input-glass mt-1 border-purple-200 dark:border-purple-800">
-                            <p class="text-[10px] text-purple-600 dark:text-purple-400 mt-2 ml-2">Obtén tu clave gratuita en <a href="https://aistudio.google.com/" target="_blank" class="underline font-bold">Google AI Studio</a> para usar el Tutor.</p>
+                            <label class="text-[10px] font-bold uppercase opacity-70 ml-2 text-purple-700 dark:text-purple-300">API Key de Google Gemini</label>
+                            <input type="password" id="config-gemini-key" placeholder="AIzaSy..." class="input-glass mt-1 p-2 border-purple-200 dark:border-purple-800">
                         </div>
                     </div>
                 </div>
             </div>
             
             <div class="mt-8 flex justify-end gap-3">
-                <button onclick="document.getElementById('settings-modal').classList.add('hidden')" class="px-5 py-2.5 rounded-xl text-sm font-semibold opacity-70 hover:opacity-100 hover:bg-slate-100 dark:hover:bg-slate-800 transition-all text-slate-800 dark:text-slate-200">Cerrar</button>
+                <button onclick="document.getElementById('settings-modal').classList.add('hidden')" class="px-5 py-2.5 rounded-xl text-sm font-semibold opacity-70 hover:bg-slate-200 dark:hover:bg-slate-800 transition-all text-slate-800 dark:text-slate-200">Cerrar</button>
                 <button onclick="window.app.saveSettings()" class="btn-primary">Guardar Configuración</button>
             </div>
         </div>
     </div>
 
     <!-- MODAL VISTA GLOBAL DE LIBRO -->
-    <div id="global-preview-modal" class="fixed inset-0 z-[60] bg-slate-100 dark:bg-slate-950 hidden flex flex-col fade-in">
-        <header class="h-16 glass-panel flex items-center justify-between px-6 shrink-0 shadow-sm z-10">
-            <h2 class="font-bold flex items-center gap-2 text-slate-800 dark:text-white"><i data-lucide="book-open" class="text-quantum-500"></i> Documento Compilado</h2>
+    <div id="global-preview-modal" class="fixed inset-0 z-[60] bg-slate-100/90 dark:bg-slate-950/90 backdrop-blur-md hidden flex flex-col fade-in">
+        <header class="h-16 glass-panel flex items-center justify-between px-6 shrink-0 shadow-sm z-10 border-b border-slate-200 dark:border-slate-800">
+            <h2 class="font-bold flex items-center gap-2 text-slate-800 dark:text-white"><i data-lucide="book-open" class="text-quantum-500"></i> Documento Compilado Integrado</h2>
             <div class="flex gap-3">
-                <button onclick="window.app.exportToWord()" class="btn-primary py-1.5 text-xs"><i data-lucide="file-output" class="w-4 h-4"></i> Exportar a Word (.doc)</button>
-                <button onclick="document.getElementById('global-preview-modal').classList.add('hidden')" class="btn-icon bg-red-500/10 text-red-500 hover:bg-red-500/20"><i data-lucide="x" class="w-5 h-5"></i></button>
+                <button onclick="window.app.exportToWord()" class="btn-primary py-1.5 px-4 text-xs"><i data-lucide="file-output" class="w-4 h-4"></i> Exportar (.doc)</button>
+                <button onclick="document.getElementById('global-preview-modal').classList.add('hidden')" class="btn-icon bg-red-500/10 text-red-500 hover:bg-red-500/20 border-red-500/20"><i data-lucide="x" class="w-5 h-5"></i></button>
             </div>
         </header>
-        <div class="flex-1 overflow-y-auto p-4 md:p-8 relative bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-transparent to-black/5 dark:to-white/5" id="global-scroll-area">
+        <div class="flex-1 overflow-y-auto p-4 md:p-8 relative" id="global-scroll-area">
+            <div class="fixed bottom-6 right-8 z-10 glass-panel rounded-full p-1.5 flex gap-1 shadow-2xl border border-white/40">
+                <button onclick="window.app.setPreviewMode('global-render-content', 'a4-page')" class="px-4 py-1.5 text-[10px] font-bold uppercase rounded-full hover:bg-slate-200 dark:hover:bg-slate-800 transition-colors text-slate-800 dark:text-slate-200">Páginas A4</button>
+                <button onclick="window.app.setPreviewMode('global-render-content', 'web-page')" class="px-4 py-1.5 text-[10px] font-bold uppercase rounded-full bg-quantum-500 text-white shadow-md transition-colors">Modo Web</button>
+            </div>
             <div id="global-render-content" class="flex flex-col items-center gap-8 pb-10"></div>
         </div>
     </div>
 
     <!-- INTERFAZ PRINCIPAL DE LA APP -->
-    <div class="flex flex-1 overflow-hidden transition-opacity duration-500" id="app-container">
+    <div class="flex flex-1 overflow-hidden transition-opacity duration-500 opacity-0" id="app-container">
         
         <!-- SIDEBAR NAVEGACIÓN -->
         <aside class="sidebar w-72 glass-panel border-r border-slate-200 dark:border-white/10 flex flex-col shrink-0 z-20 shadow-xl transition-all duration-300 relative">
-            <div class="h-16 flex items-center justify-between px-5 border-b border-slate-200 dark:border-white/10 shrink-0 bg-white/30 dark:bg-slate-900/30">
+            <div class="h-16 flex items-center justify-between px-5 border-b border-slate-200 dark:border-white/10 shrink-0 bg-white/40 dark:bg-slate-900/40">
                 <div class="flex items-center gap-3 overflow-hidden">
-                    <div class="w-8 h-8 rounded-xl bg-gradient-to-br from-quantum-500 to-blue-600 flex items-center justify-center text-white shadow-md shrink-0"><i data-lucide="book-open" class="w-4 h-4"></i></div>
+                    <div class="w-8 h-8 rounded-xl bg-gradient-to-br from-quantum-400 to-blue-600 flex items-center justify-center text-white shadow-md shrink-0"><i data-lucide="book-open" class="w-4 h-4"></i></div>
                     <div class="truncate">
                         <h1 id="app-main-title" class="text-sm font-bold tracking-tight truncate text-slate-800 dark:text-white">Proyecto Tesis</h1>
-                        <p id="app-author-name" class="text-[10px] text-quantum-600 dark:text-quantum-400 font-mono tracking-widest uppercase truncate" id="user-role-badge">Dudbil</p>
+                        <p id="app-author-name" class="text-[10px] text-quantum-600 dark:text-quantum-400 font-mono tracking-widest uppercase truncate" id="user-role-badge">Mg. Dudbil</p>
                     </div>
                 </div>
                 <button onclick="window.app.openSettings()" class="btn-icon admin-only text-slate-500 hover:text-quantum-500 transition-colors" title="Ajustes de Tesis"><i data-lucide="settings" class="w-5 h-5"></i></button>
             </div>
 
             <div class="flex-1 overflow-y-auto py-4 flex flex-col px-3">
-                <div class="flex justify-between items-center mb-3 px-5 admin-only">
+                <div class="flex justify-between items-center mb-3 px-3 admin-only">
                     <span class="text-[10px] opacity-60 font-bold uppercase tracking-widest text-slate-800 dark:text-slate-300">Estructura Documental</span>
-                    <button onclick="window.app.addChapter()" class="text-quantum-600 dark:text-quantum-400 hover:scale-110 transition-transform" title="Añadir Capítulo"><i data-lucide="plus-circle" class="w-5 h-5"></i></button>
+                    <button onclick="window.app.addChapter()" class="text-quantum-600 dark:text-quantum-400 bg-quantum-500/10 hover:bg-quantum-500/20 p-1.5 rounded-lg transition-colors flex items-center gap-1 text-[10px] font-bold"><i data-lucide="plus" class="w-3 h-3"></i> Añadir Cap</button>
                 </div>
                 
-                <!-- Lista de Capítulos con Subsecciones -->
-                <div id="chapter-list" class="space-y-1 pb-4 px-3"></div>
+                <!-- Lista de Capítulos -->
+                <div id="chapter-list" class="space-y-1 pb-4 px-2"></div>
                 
                 <div class="border-t border-slate-200 dark:border-white/10 my-4 admin-only mx-4"></div>
 
-                <div class="text-[10px] opacity-60 font-bold uppercase tracking-widest px-5 mb-3 admin-only text-slate-800 dark:text-slate-300">Módulos Inteligentes</div>
+                <div class="text-[10px] opacity-60 font-bold uppercase tracking-widest px-5 mb-3 admin-only text-slate-800 dark:text-slate-300">Módulos de Análisis</div>
                 <div class="space-y-1 admin-only px-3">
-                    <button onclick="window.app.switchMainTab('analytics')" class="w-full text-left px-4 py-2.5 rounded-xl text-sm flex items-center gap-3 hover:bg-slate-200/50 dark:hover:bg-slate-800/50 transition-colors font-medium text-slate-700 dark:text-slate-300"><i data-lucide="network" class="w-4 h-4 text-emerald-500"></i> Grafo & Analítica</button>
-                    <button onclick="window.app.switchMainTab('tutor')" class="w-full text-left px-4 py-2.5 rounded-xl text-sm flex items-center gap-3 hover:bg-slate-200/50 dark:hover:bg-slate-800/50 transition-colors font-medium text-slate-700 dark:text-slate-300"><i data-lucide="bot" class="w-4 h-4 text-purple-500"></i> Tutor IA (Gemini)</button>
-                    <button onclick="window.app.switchMainTab('references')" class="w-full text-left px-4 py-2.5 rounded-xl text-sm flex items-center gap-3 hover:bg-slate-200/50 dark:hover:bg-slate-800/50 transition-colors font-medium text-slate-700 dark:text-slate-300"><i data-lucide="bookmark" class="w-4 h-4 text-blue-500"></i> Bibliografía (BibTeX)</button>
+                    <button onclick="window.app.switchMainTab('analytics')" class="w-full text-left px-4 py-2.5 rounded-xl text-sm flex items-center gap-3 hover:bg-white/50 dark:hover:bg-slate-800/50 transition-colors font-medium text-slate-700 dark:text-slate-300 border border-transparent hover:border-slate-200 dark:hover:border-slate-700"><i data-lucide="network" class="w-4 h-4 text-emerald-500"></i> Grafo & Analítica</button>
+                    <button onclick="window.app.switchMainTab('tutor')" class="w-full text-left px-4 py-2.5 rounded-xl text-sm flex items-center gap-3 hover:bg-white/50 dark:hover:bg-slate-800/50 transition-colors font-medium text-slate-700 dark:text-slate-300 border border-transparent hover:border-slate-200 dark:hover:border-slate-700"><i data-lucide="bot" class="w-4 h-4 text-purple-500"></i> Tutor IA (Gemini)</button>
+                    <button onclick="window.app.switchMainTab('references')" class="w-full text-left px-4 py-2.5 rounded-xl text-sm flex items-center gap-3 hover:bg-white/50 dark:hover:bg-slate-800/50 transition-colors font-medium text-slate-700 dark:text-slate-300 border border-transparent hover:border-slate-200 dark:hover:border-slate-700"><i data-lucide="bookmark" class="w-4 h-4 text-blue-500"></i> Bibliografía (BibTeX)</button>
                 </div>
             </div>
             
-            <div class="p-4 border-t border-slate-200 dark:border-white/10 shrink-0 flex justify-between items-center text-xs admin-only bg-slate-50/80 dark:bg-slate-900/80 backdrop-blur">
+            <div class="p-4 border-t border-slate-200 dark:border-white/10 shrink-0 flex justify-between items-center text-xs admin-only bg-white/40 dark:bg-slate-900/40 backdrop-blur">
                 <span class="flex items-center gap-2 font-mono font-bold text-slate-600 dark:text-slate-400" id="cloud-indicator">
                     <span class="w-2.5 h-2.5 rounded-full bg-emerald-500 animate-pulse shadow-[0_0_8px_rgba(16,185,129,0.6)]" id="cloud-dot"></span> <span id="cloud-text">Auto-Guardado</span>
                 </span>
                 <div class="flex gap-1">
-                    <button onclick="window.app.forceLocalMode()" class="btn-icon hover:text-red-500 text-slate-400" title="Cerrar sesión / Offline"><i data-lucide="log-out" class="w-4 h-4"></i></button>
-                    <button onclick="window.app.saveToCloud()" class="btn-icon text-quantum-600 dark:text-quantum-400 bg-quantum-500/10" title="Forzar guardado en Nube/Local"><i data-lucide="save" class="w-4 h-4"></i></button>
+                    <button onclick="window.app.logout()" class="btn-icon hover:text-red-500 text-slate-400" title="Cerrar sesión / Salir"><i data-lucide="log-out" class="w-4 h-4"></i></button>
+                    <button onclick="window.app.saveToCloud()" class="btn-icon text-quantum-600 dark:text-quantum-400 bg-quantum-500/10" title="Forzar guardado"><i data-lucide="save" class="w-4 h-4"></i></button>
                 </div>
             </div>
         </aside>
 
         <!-- ESPACIO DE TRABAJO -->
-        <main class="flex-1 flex flex-col relative min-w-0 bg-slate-100/50 dark:bg-[#020617]">
+        <main class="flex-1 flex flex-col relative min-w-0 bg-transparent">
             
             <!-- Toolbar Superior -->
             <header class="toolbar h-16 glass-panel border-b border-slate-200 dark:border-white/10 flex items-center justify-between px-6 shrink-0 z-10 transition-all duration-300">
                 <div class="flex items-center gap-4 flex-1 overflow-hidden pr-4">
-                    <button onclick="window.app.toggleFocusMode()" class="btn-icon text-quantum-600 dark:text-quantum-400 bg-quantum-500/10 shadow-sm" title="Modo Enfoque"><i data-lucide="maximize" class="w-4 h-4"></i></button>
+                    <button onclick="window.app.toggleFocusMode()" class="btn-icon text-quantum-600 dark:text-quantum-400 bg-white/50 dark:bg-slate-800/50 shadow-sm border border-slate-200 dark:border-slate-700" title="Modo Enfoque"><i data-lucide="maximize" class="w-4 h-4"></i></button>
                     <span id="current-title" class="font-bold text-sm lg:text-base truncate text-slate-800 dark:text-white">Cargando...</span>
                     <button onclick="window.app.editCurrentChapterTitle()" class="btn-icon admin-only text-slate-400 hover:text-quantum-500" title="Renombrar Título"><i data-lucide="edit-3" class="w-4 h-4"></i></button>
                     <button onclick="window.app.deleteCurrentChapter()" class="btn-icon admin-only text-slate-400 hover:text-red-500" title="Eliminar Sección"><i data-lucide="trash-2" class="w-4 h-4"></i></button>
                 </div>
                 
                 <div class="flex items-center gap-3 shrink-0">
-                    <div class="hidden lg:flex items-center gap-3 text-xs font-mono px-4 py-1.5 rounded-xl bg-white dark:bg-slate-800 shadow-sm border border-slate-200 dark:border-slate-700 admin-only text-slate-600 dark:text-slate-300">
+                    <div class="hidden lg:flex items-center gap-3 text-xs font-mono px-4 py-1.5 rounded-xl bg-white/70 dark:bg-slate-800/70 shadow-sm border border-slate-200 dark:border-slate-700 admin-only text-slate-600 dark:text-slate-300 backdrop-blur-sm">
                         <span title="Palabras Netas"><i data-lucide="type" class="w-3.5 h-3.5 inline text-quantum-500"></i> <span id="word-count" class="font-bold">0</span></span>
                         <span class="opacity-30">|</span>
                         <span title="Páginas Estimadas"><i data-lucide="file" class="w-3.5 h-3.5 inline text-blue-500"></i> <span id="page-count" class="font-bold">0</span></span>
                     </div>
                     <div class="w-px h-6 bg-slate-300 dark:bg-slate-700 mx-1 hidden sm:block"></div>
-                    <button onclick="window.app.toggleTheme()" class="btn-icon text-slate-500 bg-white dark:bg-slate-800 shadow-sm border border-slate-200 dark:border-slate-700" title="Tema Claro/Oscuro"><i data-lucide="moon" id="theme-icon" class="w-4 h-4"></i></button>
+                    <button onclick="window.app.toggleTheme()" class="btn-icon text-slate-500 bg-white/70 dark:bg-slate-800/70 shadow-sm border border-slate-200 dark:border-slate-700 backdrop-blur-sm" title="Tema Claro/Oscuro"><i data-lucide="moon" id="theme-icon" class="w-4 h-4"></i></button>
                     <button onclick="window.app.openGlobalPreview()" class="btn-primary py-2 px-5 text-xs ml-2 hidden sm:flex"><i data-lucide="layers" class="w-4 h-4"></i> Compilar Libro</button>
                 </div>
             </header>
@@ -338,67 +394,59 @@
             <!-- Contenedor Pestañas -->
             <div class="flex-1 overflow-hidden relative">
                 
-                <!-- 1. EDITOR & RENDER (Split Glass View) -->
+                <!-- 1. EDITOR & RENDER -->
                 <div id="tab-editor" class="tab-content active h-full flex flex-col lg:flex-row w-full select-text">
                     
                     <!-- Editor -->
-                    <div id="editor-container" class="w-full lg:w-1/2 h-1/2 lg:h-full flex flex-col border-b lg:border-b-0 lg:border-r border-slate-200 dark:border-white/10 relative bg-white/80 dark:bg-[#0d1117]/80 backdrop-blur-xl admin-only shadow-2xl z-10">
+                    <div id="editor-container" class="w-full lg:w-1/2 h-1/2 lg:h-full flex flex-col border-b lg:border-b-0 lg:border-r border-slate-200 dark:border-white/10 relative glass-panel admin-only shadow-2xl z-10">
                         
                         <!-- Barra Formato Rich -->
-                        <div class="h-14 flex items-center justify-center gap-1 shrink-0 bg-slate-100/80 dark:bg-black/40 border-b border-slate-200 dark:border-white/10 px-3 overflow-x-auto backdrop-blur-md">
+                        <div class="h-14 flex items-center justify-center gap-1.5 shrink-0 bg-white/50 dark:bg-black/30 border-b border-slate-200 dark:border-white/10 px-3 overflow-x-auto backdrop-blur-md">
                             <!-- Texto -->
                             <button onclick="window.app.insertFormat('**', '**')" class="btn-icon text-slate-700 dark:text-slate-300" title="Negrita"><i data-lucide="bold" class="w-4 h-4"></i></button>
                             <button onclick="window.app.insertFormat('*', '*')" class="btn-icon text-slate-700 dark:text-slate-300" title="Cursiva"><i data-lucide="italic" class="w-4 h-4"></i></button>
                             <div class="w-px h-5 bg-slate-300 dark:bg-slate-700 mx-1"></div>
                             
-                            <!-- Alineación (Genera tags HTML) -->
-                            <button onclick="window.app.insertFormat('<div style=\'text-align: left;\'>\\n', '\\n</div>')" class="btn-icon text-slate-700 dark:text-slate-300" title="Alinear Izquierda"><i data-lucide="align-left" class="w-4 h-4"></i></button>
-                            <button onclick="window.app.insertFormat('<div style=\'text-align: center;\'>\\n', '\\n</div>')" class="btn-icon text-slate-700 dark:text-slate-300" title="Centrar"><i data-lucide="align-center" class="w-4 h-4"></i></button>
-                            <button onclick="window.app.insertFormat('<div style=\'text-align: right;\'>\\n', '\\n</div>')" class="btn-icon text-slate-700 dark:text-slate-300" title="Alinear Derecha"><i data-lucide="align-right" class="w-4 h-4"></i></button>
-                            <button onclick="window.app.insertFormat('<div style=\'text-align: justify;\'>\\n', '\\n</div>')" class="btn-icon text-slate-700 dark:text-slate-300" title="Justificar"><i data-lucide="align-justify" class="w-4 h-4"></i></button>
+                            <!-- Alineación -->
+                            <button onclick="window.app.insertFormat('<div style=\'text-align: left;\'>\n', '\n</div>')" class="btn-icon text-slate-700 dark:text-slate-300" title="Alinear Izquierda"><i data-lucide="align-left" class="w-4 h-4"></i></button>
+                            <button onclick="window.app.insertFormat('<div style=\'text-align: center;\'>\n', '\n</div>')" class="btn-icon text-slate-700 dark:text-slate-300" title="Centrar"><i data-lucide="align-center" class="w-4 h-4"></i></button>
+                            <button onclick="window.app.insertFormat('<div style=\'text-align: right;\'>\n', '\n</div>')" class="btn-icon text-slate-700 dark:text-slate-300" title="Alinear Derecha"><i data-lucide="align-right" class="w-4 h-4"></i></button>
+                            <button onclick="window.app.insertFormat('<div style=\'text-align: justify;\'>\n', '\n</div>')" class="btn-icon text-slate-700 dark:text-slate-300" title="Justificar"><i data-lucide="align-justify" class="w-4 h-4"></i></button>
                             <div class="w-px h-5 bg-slate-300 dark:bg-slate-700 mx-1"></div>
                             
-                            <!-- Listas Avanzadas -->
+                            <!-- Listas -->
                             <button onclick="window.app.insertList('bullet')" class="btn-icon text-slate-700 dark:text-slate-300" title="Viñetas"><i data-lucide="list" class="w-4 h-4"></i></button>
                             <button onclick="window.app.insertList('number')" class="btn-icon text-slate-700 dark:text-slate-300" title="Números"><i data-lucide="list-ordered" class="w-4 h-4"></i></button>
                             <div class="w-px h-5 bg-slate-300 dark:bg-slate-700 mx-1"></div>
                             
-                            <!-- Estructura & Matemáticas -->
+                            <!-- LaTeX -->
                             <button onclick="window.app.insertFormat('$', '$')" class="btn-icon font-serif font-bold text-quantum-600 dark:text-quantum-400 bg-quantum-500/10" title="Ecuación Inline">$x$</button>
-                            <button onclick="window.app.insertFormat('\\n$$\\n', '\\n$$\\n')" class="btn-icon font-serif font-bold text-quantum-600 dark:text-quantum-400 bg-quantum-500/10" title="Ecuación Bloque Numerada">$$x$$</button>
-                            <button onclick="window.app.insertFormat('\\n[PAGE_BREAK]\\n', '')" class="btn-icon text-red-500 hover:bg-red-500/10" title="Salto de Página"><i data-lucide="scissors" class="w-4 h-4"></i></button>
+                            <button onclick="window.app.insertFormat('\n$$\n', '\n$$\n')" class="btn-icon font-serif font-bold text-quantum-600 dark:text-quantum-400 bg-quantum-500/10" title="Ecuación Numerada">$$x$$</button>
+                            <button onclick="window.app.insertFormat('\n$$\n\\begin{aligned}\n  A &= B \\\\\n  C &= D\n\\end{aligned}\n$$\n', '')" class="btn-icon font-serif font-bold text-quantum-600 dark:text-quantum-400 bg-quantum-500/10" title="Ecuación Alineada">$\equiv$</button>
+                            
+                            <button onclick="window.app.insertFormat('\n[PAGE_BREAK]\n', '')" class="btn-icon text-red-500 hover:bg-red-500/10" title="Salto de Página"><i data-lucide="scissors" class="w-4 h-4"></i></button>
                             <div class="w-px h-5 bg-slate-300 dark:bg-slate-700 mx-1"></div>
                             
-                            <!-- Multimedia Magnética -->
-                            <button onclick="window.app.openMediaModal('image')" class="btn-icon text-emerald-600 dark:text-emerald-400 hover:bg-emerald-500/10" title="Figura Autonumerada"><i data-lucide="image" class="w-4 h-4"></i></button>
-                            <button onclick="window.app.openMediaModal('table')" class="btn-icon text-amber-600 dark:text-amber-400 hover:bg-amber-500/10" title="Tabla Autonumerada"><i data-lucide="table" class="w-4 h-4"></i></button>
-                            <button onclick="window.app.openMediaModal('crossref')" class="btn-icon text-blue-600 dark:text-blue-400 hover:bg-blue-500/10" title="Vincular Referencia Cruzada"><i data-lucide="link-2" class="w-4 h-4"></i></button>
-                            <button onclick="window.app.openMediaModal('citation')" class="btn-icon text-indigo-600 dark:text-indigo-400 hover:bg-indigo-500/10" title="Cita Bibliográfica"><i data-lucide="bookmark" class="w-4 h-4"></i></button>
-                            <button onclick="window.app.openMediaModal('iframe')" class="btn-icon text-purple-600 dark:text-purple-400 hover:bg-purple-500/10" title="Simulador Iframe"><i data-lucide="monitor-play" class="w-4 h-4"></i></button>
+                            <!-- Multimedia -->
+                            <button onclick="window.app.openMediaModal('image')" class="btn-icon text-emerald-600 dark:text-emerald-400 hover:bg-emerald-500/10" title="Figura Numerada"><i data-lucide="image" class="w-4 h-4"></i></button>
+                            <button onclick="window.app.openMediaModal('table')" class="btn-icon text-amber-600 dark:text-amber-400 hover:bg-amber-500/10" title="Tabla Numerada"><i data-lucide="table" class="w-4 h-4"></i></button>
+                            <button onclick="window.app.openMediaModal('crossref')" class="btn-icon text-blue-600 dark:text-blue-400 hover:bg-blue-500/10" title="Referencia Cruzada"><i data-lucide="link-2" class="w-4 h-4"></i></button>
+                            <button onclick="window.app.openMediaModal('citation')" class="btn-icon text-indigo-600 dark:text-indigo-400 hover:bg-indigo-500/10" title="Cita"><i data-lucide="bookmark" class="w-4 h-4"></i></button>
+                            <button onclick="window.app.openMediaModal('iframe')" class="btn-icon text-purple-600 dark:text-purple-400 hover:bg-purple-500/10" title="Iframe"><i data-lucide="monitor-play" class="w-4 h-4"></i></button>
                         </div>
                         
-                        <!-- Páneles de Texto -->
                         <div class="flex-1 flex overflow-hidden">
-                            <textarea id="editor-pane" class="flex-1 w-full bg-transparent p-6 text-[0.95rem] text-slate-800 dark:text-slate-200 focus:ring-0" placeholder="Redacta tu tesis. Comandos de Índice Automático:\n\n[INDICE_GENERAL]\n[LISTA_FIGURAS]\n[LISTA_TABLAS]\n[BIBLIOGRAFIA]\n[PAGE_BREAK]" oninput="window.app.handleInput()"></textarea>
-                            
-                            <!-- Notes Panel (Sliding) -->
-                            <div id="notes-panel" class="notes-panel bg-amber-50/50 dark:bg-amber-900/10 flex flex-col">
-                                <div class="h-10 border-b border-amber-200 dark:border-amber-900/50 flex items-center justify-between px-4 bg-amber-100/50 dark:bg-amber-900/20">
-                                    <span class="text-xs font-bold text-amber-700 dark:text-amber-500 uppercase tracking-widest"><i data-lucide="sticky-note" class="w-3 h-3 inline mr-1"></i> Correcciones</span>
-                                    <button onclick="window.app.toggleNotesPanel()" class="text-amber-600 hover:text-red-500"><i data-lucide="x" class="w-4 h-4"></i></button>
-                                </div>
-                                <textarea id="notes-pane" class="flex-1 w-full bg-transparent p-4 text-amber-900 dark:text-amber-200 placeholder-amber-700/50 dark:placeholder-amber-500/50" placeholder="Anota aquí recordatorios de revisión o correcciones pendientes..." oninput="window.app.saveNotes()"></textarea>
-                            </div>
+                            <textarea id="editor-pane" class="flex-1 w-full bg-transparent p-6 text-[0.95rem] text-slate-800 dark:text-slate-200 focus:ring-0" placeholder="Redacta tu tesis.&#10;&#10;Comandos Especiales:&#10;[INDICE_GENERAL]&#10;[LISTA_FIGURAS]&#10;[LISTA_TABLAS]&#10;[BIBLIOGRAFIA]&#10;[PAGE_BREAK]" oninput="window.app.handleInput()"></textarea>
                         </div>
                     </div>
 
                     <!-- Vista Previa Panel -->
-                    <div id="render-container" class="w-full lg:w-1/2 h-1/2 lg:h-full overflow-y-auto relative p-4 lg:p-8 flex justify-center items-start bg-slate-50 dark:bg-[#020617]">
-                        <div class="absolute top-4 right-8 z-10 glass-panel rounded-full p-1 flex gap-1 shadow-lg">
-                            <button onclick="window.app.setPreviewMode('render-pane', 'a4-page')" class="px-4 py-1.5 text-[10px] font-bold uppercase rounded-full hover:bg-black/10 dark:hover:bg-white/10 transition-colors">A4 Print</button>
-                            <button onclick="window.app.setPreviewMode('render-pane', 'web-page')" class="px-4 py-1.5 text-[10px] font-bold uppercase rounded-full hover:bg-black/10 dark:hover:bg-white/10 transition-colors bg-quantum-500/20 text-quantum-600 dark:text-quantum-400">Web App</button>
+                    <div id="render-wrapper" class="w-full lg:w-1/2 h-1/2 lg:h-full overflow-y-auto relative p-4 lg:p-8 flex justify-center items-start bg-transparent">
+                        <div class="absolute top-4 right-8 z-10 glass-panel rounded-full p-1.5 flex gap-1 shadow-lg border border-slate-200 dark:border-slate-700">
+                            <button onclick="window.app.setPreviewMode('render-pane-container', 'page-container')" class="px-4 py-1.5 text-[10px] font-bold uppercase rounded-full hover:bg-slate-200 dark:hover:bg-slate-800 transition-colors text-slate-600 dark:text-slate-300">Páginas A4</button>
+                            <button onclick="window.app.setPreviewMode('render-pane-container', 'web-page')" class="px-4 py-1.5 text-[10px] font-bold uppercase rounded-full bg-quantum-500 text-white shadow-md transition-colors">Vista Web</button>
                         </div>
-                        <div id="render-pane" class="web-page render-area pb-[25mm] relative"></div>
+                        <div id="render-pane-container" class="page-container w-full"></div>
                     </div>
                     
                     <button id="exit-focus-btn" onclick="window.app.toggleFocusMode()" class="fixed bottom-6 right-6 btn-primary hidden z-50 shadow-2xl opacity-50 hover:opacity-100">
@@ -407,60 +455,57 @@
                 </div>
 
                 <!-- 2. ANALYTICS & GRAPH TAB -->
-                <div id="tab-analytics" class="tab-content h-full p-6 lg:p-10 overflow-y-auto admin-only flex flex-col items-center bg-slate-50 dark:bg-[#020617]">
+                <div id="tab-analytics" class="tab-content h-full p-6 lg:p-10 overflow-y-auto admin-only flex flex-col items-center bg-transparent">
                     <div class="max-w-6xl w-full space-y-6 fade-in">
-                        <h2 class="text-3xl font-extrabold flex items-center gap-3 mb-6"><i data-lucide="network" class="w-8 h-8 text-emerald-500"></i> Analítica Cuántica y Topología</h2>
+                        <h2 class="text-3xl font-extrabold flex items-center gap-3 mb-6 text-slate-800 dark:text-white"><i data-lucide="network" class="w-8 h-8 text-emerald-500"></i> Analítica Cuántica y Grafo</h2>
                         
                         <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-                            <!-- Stats Column -->
                             <div class="space-y-6">
                                 <div class="glass-panel rounded-3xl p-6 flex flex-col justify-center text-center shadow-lg border-emerald-500/30">
-                                    <p class="text-xs uppercase font-bold tracking-widest opacity-60 mb-1">Palabras Netas</p>
+                                    <p class="text-xs uppercase font-bold tracking-widest opacity-60 mb-1 text-slate-800 dark:text-white">Palabras Netas</p>
                                     <p class="text-4xl font-mono font-bold text-emerald-500" id="stat-words">0</p>
                                 </div>
                                 <div class="glass-panel rounded-3xl p-6 flex flex-col justify-center text-center shadow-lg border-quantum-500/30">
-                                    <p class="text-xs uppercase font-bold tracking-widest opacity-60 mb-1">Ecuaciones</p>
+                                    <p class="text-xs uppercase font-bold tracking-widest opacity-60 mb-1 text-slate-800 dark:text-white">Fórmulas (LaTeX)</p>
                                     <p class="text-4xl font-mono font-bold text-quantum-500" id="stat-math">0</p>
                                 </div>
                             </div>
                             
-                            <!-- Commitment Chart -->
                             <div class="glass-panel rounded-3xl p-6 shadow-lg md:col-span-2 border-blue-500/30 flex flex-col">
-                                <h3 class="text-sm font-bold uppercase tracking-widest opacity-60 mb-2 flex items-center gap-2"><i data-lucide="activity" class="w-4 h-4"></i> Compromiso de Escritura</h3>
+                                <h3 class="text-sm font-bold uppercase tracking-widest opacity-60 mb-2 flex items-center gap-2 text-slate-800 dark:text-white"><i data-lucide="activity" class="w-4 h-4"></i> Historial de Escritura</h3>
                                 <div class="flex-1 relative w-full h-full min-h-[150px]">
                                     <canvas id="commitment-chart"></canvas>
                                 </div>
                             </div>
                         </div>
 
-                        <!-- Knowledge Graph -->
-                        <div class="glass-panel rounded-3xl p-6 shadow-lg min-h-[500px] flex flex-col">
-                            <h3 class="text-sm font-bold uppercase tracking-widest opacity-60 mb-4 text-center flex items-center justify-center gap-2">
-                                <i data-lucide="share-2" class="w-4 h-4 text-quantum-500"></i> Grafo de Conocimiento (Capítulos vs Conceptos)
+                        <div class="glass-panel rounded-3xl p-6 shadow-lg min-h-[600px] flex flex-col">
+                            <h3 class="text-sm font-bold uppercase tracking-widest opacity-60 mb-4 text-center flex items-center justify-center gap-2 text-slate-800 dark:text-white">
+                                <i data-lucide="share-2" class="w-4 h-4 text-quantum-500"></i> Conexión Topológica (Estilo Obsidian)
                             </h3>
-                            <div id="knowledge-graph" class="flex-1 bg-white/50 dark:bg-slate-900/50 rounded-2xl border border-slate-200 dark:border-slate-700 shadow-inner"></div>
+                            <div id="knowledge-graph" class="flex-1 bg-white/60 dark:bg-slate-900/60 rounded-2xl border border-slate-200 dark:border-slate-700 shadow-inner"></div>
                         </div>
                     </div>
                 </div>
 
                 <!-- 3. TUTOR IA TAB -->
-                <div id="tab-tutor" class="tab-content h-full flex flex-col admin-only max-w-4xl mx-auto glass-panel border-x border-white/10 shadow-2xl">
-                    <div class="p-6 border-b border-white/10 shrink-0 text-center bg-white/50 dark:bg-slate-900/50">
+                <div id="tab-tutor" class="tab-content h-full flex flex-col admin-only max-w-4xl mx-auto glass-panel border-x border-slate-200 dark:border-slate-700 shadow-2xl">
+                    <div class="p-6 border-b border-slate-200 dark:border-slate-700 shrink-0 text-center bg-white/60 dark:bg-slate-900/60">
                         <div class="w-16 h-16 bg-purple-500/20 rounded-full flex items-center justify-center mx-auto mb-3 border border-purple-500/50 shadow-[0_0_15px_rgba(168,85,247,0.4)]">
                             <i data-lucide="bot" class="w-8 h-8 text-purple-500"></i>
                         </div>
-                        <h2 class="font-bold text-xl">Tutor Gemini Cuántico</h2>
-                        <p class="text-xs opacity-60">IA Contextual para corrección de estilo, matemáticas y estructura.</p>
+                        <h2 class="font-bold text-xl text-slate-800 dark:text-white">Tutor Gemini Cuántico</h2>
+                        <p class="text-xs opacity-60 text-slate-700 dark:text-slate-300">Asistente IA para corrección de estilo, matemáticas y estructura.</p>
                     </div>
                     <div id="chat-container" class="flex-1 overflow-y-auto p-6 space-y-6 scroll-smooth bg-slate-50/50 dark:bg-[#020617]/50">
                         <div class="flex gap-4">
                             <div class="w-8 h-8 rounded-full bg-purple-500 flex items-center justify-center shrink-0 text-white shadow-lg"><i data-lucide="bot" class="w-4 h-4"></i></div>
                             <div class="glass-panel p-4 rounded-2xl rounded-tl-none shadow-sm max-w-2xl text-sm border-purple-500/30 text-slate-800 dark:text-slate-200">
-                                <strong>¡Hola Dudbil!</strong> Soy tu tutor. Configura tu API Key en los ajustes y consúltame sobre tu redacción o conceptos de óptica.
+                                <strong>¡Hola Mg. Dudbil!</strong> Soy tu tutor. Configura tu API Key en los ajustes y consúltame sobre tu redacción o conceptos de óptica y fotónica.
                             </div>
                         </div>
                     </div>
-                    <div class="p-4 shrink-0 bg-white/80 dark:bg-slate-900/80 border-t border-slate-200 dark:border-white/10 backdrop-blur-md">
+                    <div class="p-4 shrink-0 bg-white/80 dark:bg-slate-900/80 border-t border-slate-200 dark:border-slate-700 backdrop-blur-md">
                         <div class="relative flex items-center max-w-3xl mx-auto">
                             <input type="text" id="chat-input" class="w-full bg-slate-100 dark:bg-slate-950 border border-slate-300 dark:border-slate-700 rounded-full pl-6 pr-16 py-4 text-sm focus:border-purple-500 outline-none text-slate-800 dark:text-slate-200 shadow-inner" placeholder="Escribe un comando para el tutor..." onkeypress="if(event.key === 'Enter') window.app.sendChatMessage()">
                             <button onclick="window.app.sendChatMessage()" class="absolute right-2 p-3 bg-purple-600 hover:bg-purple-700 text-white rounded-full transition-transform active:scale-95 shadow-md"><i data-lucide="send" class="w-5 h-5"></i></button>
@@ -469,10 +514,10 @@
                 </div>
                 
                 <!-- 4. REFERENCIAS TAB -->
-                <div id="tab-references" class="tab-content h-full p-6 lg:p-10 overflow-y-auto select-text admin-only bg-slate-50 dark:bg-[#020617]">
+                <div id="tab-references" class="tab-content h-full p-6 lg:p-10 overflow-y-auto select-text admin-only bg-transparent">
                     <div class="max-w-5xl mx-auto fade-in">
                         <div class="flex justify-between items-center mb-8">
-                            <h2 class="text-3xl font-extrabold flex items-center gap-3"><i data-lucide="bookmark" class="w-8 h-8 text-blue-500"></i> Gestor Bibliográfico IEEE/BibTeX</h2>
+                            <h2 class="text-3xl font-extrabold flex items-center gap-3 text-slate-800 dark:text-white"><i data-lucide="bookmark" class="w-8 h-8 text-blue-500"></i> Gestor Bibliográfico BibTeX</h2>
                             <button onclick="window.app.exportBibtex()" class="btn-primary text-sm py-2 px-4 bg-gradient-to-r from-blue-600 to-indigo-600"><i data-lucide="download" class="w-4 h-4"></i> Exportar BibTeX (.bib)</button>
                         </div>
                         
@@ -486,7 +531,7 @@
                             </div>
                             <button onclick="window.app.addReference()" class="btn-primary w-full justify-center bg-gradient-to-r from-blue-500 to-blue-400"><i data-lucide="plus" class="w-4 h-4"></i> Guardar Referencia</button>
                         </div>
-                        <div id="ref-list" class="space-y-3 font-serif text-sm opacity-90"></div>
+                        <div id="ref-list" class="space-y-3 font-serif text-sm opacity-90 text-slate-800 dark:text-slate-200"></div>
                     </div>
                 </div>
 
@@ -495,7 +540,7 @@
     </div>
 
     <!-- FOOTER INSTITUCIONAL -->
-    <footer class="glass-panel border-t border-slate-200 dark:border-white/10 py-3 px-8 flex justify-between items-center shrink-0 z-30 transition-colors duration-300">
+    <footer class="glass-panel border-t border-slate-200 dark:border-slate-800 py-3 px-8 flex justify-between items-center shrink-0 z-30 transition-colors duration-300">
         <div class="text-[10px] text-slate-600 dark:text-slate-400 font-mono flex items-center gap-3 font-semibold">
             <span>&copy; 2026 Dudbil. Todos los derechos reservados.</span>
             <span class="opacity-30 hidden sm:inline">|</span>
@@ -507,12 +552,12 @@
     </footer>
 
     <!-- Contenedor Oculto Exportación -->
-    <div id="hidden-export-container" style="display:none;" class="a4-page render-area"></div>
+    <div id="hidden-export-container" style="display:none;"></div>
 
-    <!-- === LÓGICA JAVASCRIPT PRINCIPAL === -->
+    <!-- === LÓGICA JAVASCRIPT === -->
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
-        import { getAuth, signInWithPopup, GoogleAuthProvider, signInAnonymously, onAuthStateChanged, signOut, signInWithCustomToken } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
+        import { getAuth, signInWithPopup, GoogleAuthProvider, signInWithEmailAndPassword, signInAnonymously, onAuthStateChanged, signOut, signInWithCustomToken } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
         import { getFirestore, doc, setDoc, getDoc } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
 
         const firebaseConfig = {
@@ -527,68 +572,104 @@
 
         const app = initializeApp(firebaseConfig); const auth = getAuth(app); const db = getFirestore(app); const googleProvider = new GoogleAuthProvider();
         
-        let activeMediaAction = null; 
-
         let projectConfig = { 
-            name: "Tesis Doctoral en Física", 
-            author: "Dr. Dudbil", 
-            director: "Dra. S. Ledesma", 
-            codirector: "Dra. L. Rebón", 
-            consejero: "Dr. M. Capeluto", 
-            date: "Abril 2026", 
-            font: "'Times New Roman', serif", 
-            fontSize: "12pt", 
-            lineHeight: "1.5", 
-            align: "justify",
-            geminiKey: "" 
+            name: "Tesis Doctoral en Física", author: "Mg. Dudbil", director: "Dra. S. Ledesma", codirector: "Dra. L. Rebón", consejero: "Universidad de Buenos Aires", date: "Abril 2026", font: "'Times New Roman', serif", fontSize: "12pt", lineHeight: "1.5", align: "justify", geminiKey: "" 
         };
         
-        let isAdmin = true; 
+        let isAdmin = true; let isFirebaseActive = false;
         let currentChap = "front", renderTimeout, draggedItemIdx = null;
         let commitmentChartInstance = null; let networkInstance = null;
         const ADMIN_EMAIL = 'dudbilopr@gmail.com', GUEST_PASSWORD = 'tesis', apiKey = ""; 
         
-        let chaptersDef = [ 
-            { id: "front", title: "Portada", sections: [] }, 
-            { id: "indices", title: "Índice General", sections: [] }, 
-            { id: "cap1", title: "Capítulo 1: Introducción", sections: [] }, 
-            { id: "cap2", title: "Capítulo 2: Metodología", sections: [] }
-        ];
-        
+        let chaptersDef = [];
         let thesisContent = {}, referencesDB = [], chapterNotes = {}, commitmentLog = [];
         let globalRegistry = { fig: {}, tab: {} }; let listFigures = [], listTables = [];
 
         window.onload = () => {
-            loadFromLocal();
-            lucide.createIcons();
-            document.body.classList.remove('reader-mode');
-            const loginOverlay = document.getElementById('login-overlay');
-            if (loginOverlay) loginOverlay.classList.add('hidden'); 
-            
-            const appContainer = document.getElementById('app-container');
-            if (appContainer) appContainer.classList.remove('opacity-0');
-            
             const tutModal = document.getElementById('tutorial-modal');
-            if(tutModal && !localStorage.getItem('nexus_v10_tut_fixed')) { 
+            if(tutModal && !localStorage.getItem('nexus_v11_tut')) { 
                 tutModal.classList.remove('hidden'); 
-                localStorage.setItem('nexus_v10_tut_fixed', 'true'); 
+                localStorage.setItem('nexus_v11_tut', 'true'); 
             }
+            lucide.createIcons();
+            
+            // Intento seguro de Firebase Auth
+            initFirebase();
         };
 
         window.app = window.app || {};
 
-        window.app.loginAdmin = () => { window.app.forceLocalMode(); };
-        window.app.loginGuest = () => { isAdmin = false; window.app.forceLocalMode(); document.body.classList.add('reader-mode'); };
+        async function initFirebase() {
+            try {
+                if (typeof __initial_auth_token !== 'undefined' && __initial_auth_token) { await signInWithCustomToken(auth, __initial_auth_token); }
+                
+                onAuthStateChanged(auth, (user) => {
+                    if (user) {
+                        isFirebaseActive = true; isAdmin = (user.email === ADMIN_EMAIL || user.email === 'test@test.com'); // Allow local test
+                        document.body.classList.toggle('reader-mode', !isAdmin);
+                        const roleBadge = document.getElementById('user-role-badge'); if (roleBadge) roleBadge.textContent = isAdmin ? 'ADMINISTRADOR' : 'LECTOR';
+                        const overlay = document.getElementById('login-overlay'); if(overlay) overlay.classList.add('hidden'); 
+                        const appCont = document.getElementById('app-container'); if(appCont) appCont.classList.remove('opacity-0');
+                        loadFromCloud();
+                    }
+                });
+            } catch (error) { 
+                console.warn("Firebase Canvas fallback.", error); 
+                // No mostrar error aquí, dejar que el usuario decida en el modal de login.
+            }
+        }
+
+        window.app.loginAdminGoogle = async () => { 
+            try { await signInWithPopup(auth, googleProvider); } 
+            catch(e) { 
+                const err = document.getElementById('login-error-container');
+                if(err) { err.innerHTML = "<b>Error Google Auth:</b> Las ventanas emergentes están bloqueadas en este entorno. Por favor, usa 'Modo Local' o abre el archivo en una pestaña limpia."; err.classList.remove('hidden'); }
+            } 
+        };
+
+        window.app.loginEmail = async () => {
+            const e = document.getElementById('login-email').value;
+            const p = document.getElementById('login-password').value;
+            try { await signInWithEmailAndPassword(auth, e, p); }
+            catch(err) {
+                const errC = document.getElementById('login-error-container');
+                if(errC) { errC.innerHTML = "<b>Error:</b> Credenciales inválidas o usuario no registrado."; errC.classList.remove('hidden'); }
+            }
+        };
+
+        window.app.loginGuest = async () => { 
+            const pwd = document.getElementById('guest-password');
+            if(pwd && pwd.value === GUEST_PASSWORD) {
+                isAdmin = false; window.app.forceLocalMode(); document.body.classList.add('reader-mode'); 
+            } else {
+                const err = document.getElementById('login-error-container');
+                if(err) { err.textContent = "Clave Inválida"; err.classList.remove('hidden'); }
+            }
+        };
+
         window.app.forceLocalMode = () => {
-            const loginOverlay = document.getElementById('login-overlay');
-            if (loginOverlay) loginOverlay.classList.add('hidden'); 
-            const appContainer = document.getElementById('app-container');
-            if (appContainer) appContainer.classList.remove('opacity-0');
+            const loginOverlay = document.getElementById('login-overlay'); if (loginOverlay) loginOverlay.classList.add('hidden'); 
+            const appContainer = document.getElementById('app-container'); if (appContainer) appContainer.classList.remove('opacity-0');
+            const badge = document.getElementById('user-role-badge'); if(badge) badge.textContent = isAdmin ? 'ADMINISTRADOR' : 'LECTOR';
+            const dot = document.getElementById('cloud-dot'); if(dot) { dot.classList.replace('bg-emerald-500', 'bg-amber-500'); document.getElementById('cloud-text').textContent = "Modo Local"; }
             loadFromLocal();
         };
 
+        const docRef = doc(db, 'artifacts', 'tesis-dudbil', 'public', 'data', 'manuscript', 'dudbil_doc');
+
+        async function loadFromCloud() {
+            try {
+                const docSnap = await Promise.race([getDoc(docRef), new Promise((_, r) => setTimeout(() => r(new Error('timeout')), 5000))]);
+                if (docSnap.exists()) {
+                    const data = docSnap.data(); thesisContent = data.content || {}; referencesDB = data.refs || []; chapterNotes = data.notes || {}; commitmentLog = data.commits || [];
+                    if(data.structure) chaptersDef = data.structure; if(data.config) projectConfig = data.config;
+                } else if (isAdmin) { initEmptyThesis(); }
+                updateConfigUI(); renderSidebar(); renderRefs();
+            } catch (e) { console.warn("Firebase timeout, fallback to local."); window.app.forceLocalMode(); }
+        }
+
         function loadFromLocal() {
-            const saved = localStorage.getItem('nexus_writer_v10');
+            const saved = localStorage.getItem('nexus_writer_v11');
             if (saved) {
                 const data = JSON.parse(saved); 
                 thesisContent = data.content || {}; referencesDB = data.refs || []; chapterNotes = data.notes || {}; commitmentLog = data.commits || [];
@@ -598,13 +679,44 @@
             updateConfigUI(); renderSidebar(); renderRefs();
         }
 
+        // PLANTILLA DOCTORAL COMPLETA
         function initEmptyThesis() { 
-            chaptersDef.forEach(c => thesisContent[c.id] = `# ${c.title}\n\n`); 
-            if(thesisContent["indices"]) thesisContent["indices"] = "# Índice General\n\n[INDICE_GENERAL]\n\n## Lista de Figuras\n[LISTA_FIGURAS]\n\n## Lista de Tablas\n[LISTA_TABLAS]\n";
+            chaptersDef = [ 
+                { id: "front", title: "Portada y Agradecimientos", sections: [] }, 
+                { id: "indices", title: "Índices Generales", sections: [] }, 
+                { id: "cap1", title: "Capítulo 1: Introducción General", sections: [] }, 
+                { id: "cap2", title: "Capítulo 2: Fundamentos Teóricos", sections: [] },
+                { id: "cap3", title: "Capítulo 3: Espacio + Polarización", sections: [] },
+                { id: "cap4", title: "Capítulo 4: Dominando el OAM", sections: [] },
+                { id: "cap5", title: "Capítulo 5: Fusión Multidimensional", sections: [] },
+                { id: "cap6", title: "Conclusiones y Bibliografía", sections: [] }
+            ];
+
+            referencesDB = [
+                {au: "A. Zeilinger", ti: "Quantum entanglement of high dimensionality", re: "Nature Physics", an: "2020", doi: "10.1038/nphys"},
+                {au: "M. Padgett", ti: "Orbital angular momentum of light", re: "Physics Today", an: "2015", doi: "10.1063/PT.3.2000"}
+            ];
+
+            thesisContent["front"] = `Agradezco a mis directores, a la Universidad de Buenos Aires y a mis colegas por el apoyo brindado en el desarrollo de este trabajo.
+
+[PAGE_BREAK]`;
+            thesisContent["indices"] = `# Índice de Contenidos\n\n[INDICE_GENERAL]\n\n[PAGE_BREAK]\n\n## Lista de Figuras\n[LISTA_FIGURAS]\n\n[PAGE_BREAK]\n\n## Lista de Tablas\n[LISTA_TABLAS]\n`;
+            
+            thesisContent["cap1"] = `# Capítulo 1: Introducción General\n\nLa información cuántica requiere de alta dimensionalidad. En este capítulo exploraremos la transición de Qubits a Qudits.\n\n## 1.1 El límite de la Polarización\n\nLa polarización es un estado de dos niveles, un qubit:\n\n$$\n\\ket{\\psi} = \\alpha \\ket{H} + \\beta \\ket{V}\n$$\n\nDonde el producto interno cumple $\\braket{H}{V} = 0$.\n\n## 1.2 La solución: Momento Angular Orbital\n\nEl momento angular orbital (OAM) permite codificar información en un alfabeto infinito [CITA|2].\n\n$$\n\\begin{aligned}\n  E(r, \\phi, z) &= E_0(r,z) e^{i \\ell \\phi} \\\\\n  \\ell &= 0, \\pm 1, \\pm 2, \\dots\n\\end{aligned}\n$$\n`;
+
+            thesisContent["cap2"] = `# Capítulo 2: Fundamentos Teóricos\n\n## 2.1 Uso de SLM\n\nUn Modulador Espacial de Luz (SLM) permite controlar el frente de onda. Su modulación en fase pura viene dada por:\n\n$$\nt(x) = \\exp\\left[ i \\left( \\Phi_0 \\mod_{2\\pi}\\left(\\frac{2\\pi x}{d}\\right) \\right) \\right]\n$$\n\n[FIG | https://upload.wikimedia.org/wikipedia/commons/thumb/c/ca/Mach-Zehnder_interferometer.svg/500px-Mach-Zehnder_interferometer.svg.png | Interferómetro de Mach-Zehnder. | fig:setup]\n\nComo se observa en la [REF | fig:setup], la fase se modula dinámicamente.\n`;
+
+            thesisContent["cap3"] = `# Capítulo 3: Correlación Espacio y Polarización\n\nResultados publicados en Physical Review A (2019).\n`;
+            thesisContent["cap4"] = `# Capítulo 4: Generación de Haces OAM\n\nResultados publicados en Applied Optics (2017).\n`;
+            thesisContent["cap5"] = `# Capítulo 5: Fusión Multidimensional\n\nResultados de Optics Letters (2020).\n\n[TAB | Resultados de Pureza y Fidelidad | tab:resultados]\n| Estado | Pureza | Fidelidad |\n|---|---|---|\n| L=1 | 0.98 | 0.96 |\n| L=2 | 0.95 | 0.94 |\n\nLa [REF | tab:resultados] muestra la viabilidad de la técnica.\n`;
+
+            thesisContent["cap6"] = `# Conclusiones\n\nSe ha demostrado que la modulación holográfica es superior a las técnicas clásicas [CITA|1].\n\n[PAGE_BREAK]\n\n# Referencias Bibliográficas\n\n[BIBLIOGRAFIA]\n`;
+
+            window.app.saveToCloud();
         }
 
         window.app.addChapter = () => {
-            const t = prompt("Nombre del nuevo capítulo/sección:");
+            const t = prompt("Nombre del nuevo capítulo:");
             if(!t || t.trim() === "") return;
             const id = 'cap_' + Date.now();
             chaptersDef.push({ id: id, title: t.trim(), sections: [] });
@@ -622,12 +734,22 @@
             }
         };
 
+        // --- MARKED RENDERER FIX (Safe slugs) ---
         const renderer = new marked.Renderer();
-        renderer.heading = function (text, level) {
-            const slug = text.toLowerCase().replace(/[^\w]+/g, '-');
-            return `<h${level} id="${slug}">${text}</h${level}>`;
+        renderer.heading = function (tokenOrText, level, raw) {
+            const text = typeof tokenOrText === 'string' ? tokenOrText : (tokenOrText.text || '');
+            const depth = typeof tokenOrText === 'string' ? level : (tokenOrText.depth || 1);
+            const slug = String(text).toLowerCase().replace(/[^\w]+/g, '-');
+            return `<h${depth} id="${slug}">${text}</h${depth}>`;
         };
-        marked.setOptions({ renderer: renderer });
+        marked.use({ renderer });
+
+        // --- KATEX MACROS (TRUE LATEX) ---
+        const katexConfig = { 
+            delimiters: [ {left: '$$', right: '$$', display: true}, {left: '$', right: '$', display: false}, {left: '\\[', right: '\\]', display: true} ], 
+            throwOnError: false,
+            macros: { "\\bra": "\\langle #1 |", "\\ket": "| #1 \\rangle", "\\braket": "\\langle #1 | #2 \\rangle" }
+        };
 
         function extractHeadersForSidebar() {
             chaptersDef.forEach(chap => {
@@ -664,7 +786,7 @@
                 if(chap.sections && chap.sections.length > 0) {
                     const chevron = document.createElement('i'); chevron.setAttribute('data-lucide', 'chevron-right'); 
                     chevron.className = `w-4 h-4 chevron ${currentChap === chap.id ? 'open' : 'opacity-50'}`;
-                    chevron.onclick = (e) => { e.stopPropagation(); document.getElementById(`sub-${chap.id}`).classList.toggle('open'); chevron.classList.toggle('open'); };
+                    chevron.onclick = (e) => { e.stopPropagation(); const sub = document.getElementById(`sub-${chap.id}`); if(sub) sub.classList.toggle('open'); chevron.classList.toggle('open'); };
                     btn.appendChild(chevron);
                 }
                 
@@ -700,7 +822,7 @@
                 const figRegex = /\[FIG\s*\|\s*(.*?)\s*\|\s*(.*?)\s*\|\s*(.*?)\]/g; let match;
                 while ((match = figRegex.exec(content)) !== null) {
                     let label = match[3].trim(); globalRegistry.fig[label] = figCount;
-                    listFigures.push({ num: figCount, caption: match[2].trim(), label: label }); figCount++;
+                    listFigures.push({ num: figCount, caption: match[2].trim(), label: label, url: match[1].trim() }); figCount++;
                 }
                 const tabRegex = /\[TAB\s*\|\s*(.*?)\s*\|\s*(.*?)\]/g;
                 while ((match = tabRegex.exec(content)) !== null) {
@@ -721,7 +843,7 @@
     <div style="font-size: 1.2em; line-height: 2.0; margin-bottom: 4em;">
         ${projectConfig.director ? `<p><strong>Director:</strong> ${projectConfig.director}</p>` : ''}
         ${projectConfig.codirector ? `<p><strong>Co-Director:</strong> ${projectConfig.codirector}</p>` : ''}
-        ${projectConfig.consejero ? `<p><strong>Universidad:</strong> ${projectConfig.consejero}</p>` : ''}
+        ${projectConfig.consejero ? `<p><strong>Institución:</strong> ${projectConfig.consejero}</p>` : ''}
     </div>
     <p style="font-size: 1.2em; font-style: italic; opacity: 0.8;">${projectConfig.date || ''}</p>
 </div>
@@ -734,7 +856,8 @@
 
             processed = processed.replace(/\[FIG\s*\|\s*(.*?)\s*\|\s*(.*?)\s*\|\s*(.*?)\]/g, (m, url, caption, label) => {
                 let num = globalRegistry.fig[label.trim()] || '?';
-                return `<figure id="${label.trim()}"><img src="${url.trim()}" alt="${caption.trim()}"><figcaption><strong>Figura ${num}:</strong> ${caption.trim()}</figcaption></figure>`;
+                // Fallback de imagen para no colapsar si la URL no carga
+                return `<figure id="${label.trim()}"><img src="${url.trim()}" onerror="this.src='data:image/svg+xml;charset=UTF-8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22100%25%22%20height%3D%22200%22%20fill%3D%22%23e2e8f0%22%3E%3Crect%20width%3D%22100%25%22%20height%3D%22100%25%22%2F%3E%3Ctext%20x%3D%2250%25%22%20y%3D%2250%25%22%20fill%3D%22%2394a3b8%22%20font-family%3D%22sans-serif%22%20font-size%3D%2216%22%20text-anchor%3D%22middle%22%3EImagen%20no%20disponible%3C%2Ftext%3E%3C%2Fsvg%3E'" alt="${caption.trim()}"><figcaption><strong>Figura ${num}:</strong> ${caption.trim()}</figcaption></figure>`;
             });
             processed = processed.replace(/\[TAB\s*\|\s*(.*?)\s*\|\s*(.*?)\]/g, (m, caption, label) => {
                 let num = globalRegistry.tab[label.trim()] || '?';
@@ -768,11 +891,11 @@
 
             processed = processed.replace(/\[LISTA_FIGURAS\]/g, () => {
                 if(listFigures.length === 0) return "<p class='italic opacity-50'>No hay figuras.</p>";
-                return "<ul class='toc-list'>" + listFigures.map(f => `<li><a href="#${f.label}" style="text-decoration:none; color:inherit;"><strong>Figura ${f.num}:</strong> ${f.caption}</a></li>`).join('') + "</ul>";
+                return "<ul class='toc-list'>" + listFigures.map(f => `<li><a href="#${f.label}"><strong>Figura ${f.num}:</strong> ${f.caption}</a></li>`).join('') + "</ul>";
             });
             processed = processed.replace(/\[LISTA_TABLAS\]/g, () => {
                 if(listTables.length === 0) return "<p class='italic opacity-50'>No hay tablas.</p>";
-                return "<ul class='toc-list'>" + listTables.map(t => `<li><a href="#${t.label}" style="text-decoration:none; color:inherit;"><strong>Tabla ${t.num}:</strong> ${t.caption}</a></li>`).join('') + "</ul>";
+                return "<ul class='toc-list'>" + listTables.map(t => `<li><a href="#${t.label}"><strong>Tabla ${t.num}:</strong> ${t.caption}</a></li>`).join('') + "</ul>";
             });
             
             processed = processed.replace(/\[BIBLIOGRAFIA\]/g, () => {
@@ -783,6 +906,44 @@
             });
 
             return processed;
+        }
+
+        function renderToPages(text, containerId, modeClass) {
+            const container = document.getElementById(containerId);
+            if(!container) return;
+            container.innerHTML = "";
+            
+            const chunks = text.split(/<div class="page-break-visual" style="page-break-after: always;"><\/div>/gi);
+            
+            chunks.forEach((chunk, index) => {
+                let html = DOMPurify.sanitize(marked.parse(chunk), { ADD_TAGS: ['math', 'annotation', 'iframe', 'img', 'a', 'figure', 'figcaption', 'div', 'sup', 'ol', 'li', 'ul'], ADD_ATTR: ['display', 'src', 'alt', 'width', 'height', 'allowfullscreen', 'frameborder', 'scrolling', 'href', 'target', 'id', 'style', 'class', 'type'] });
+                const pageEl = document.createElement('div');
+                pageEl.className = modeClass; 
+                
+                if(modeClass.includes('web-page')) {
+                    if(index > 0) {
+                         const divider = document.createElement('div');
+                         divider.className = "page-break-visual";
+                         container.appendChild(divider);
+                    }
+                    const cont = document.createElement('div');
+                    cont.className = "render-area";
+                    cont.innerHTML = html;
+                    renderMathInElement(cont, katexConfig);
+                    container.appendChild(cont);
+                } else {
+                    pageEl.innerHTML = html;
+                    renderMathInElement(pageEl, katexConfig);
+                    container.appendChild(pageEl);
+                }
+            });
+            
+            if(modeClass.includes('web-page') && chunks.length > 0) {
+                const wrapper = document.createElement('div');
+                wrapper.className = "web-page";
+                while(container.childNodes.length > 0) { wrapper.appendChild(container.childNodes[0]); }
+                container.appendChild(wrapper);
+            }
         }
 
         function updateUI() {
@@ -803,16 +964,18 @@
             renderTimeout = setTimeout(() => {
                 buildGlobalRegistry(); 
                 let processedText = preprocessText(text, currentChap); 
-                let html = DOMPurify.sanitize(marked.parse(processedText), { ADD_TAGS: ['math', 'annotation', 'iframe', 'img', 'a', 'figure', 'figcaption', 'div', 'sup'], ADD_ATTR: ['display', 'src', 'alt', 'width', 'height', 'allowfullscreen', 'frameborder', 'scrolling', 'href', 'target', 'id', 'style', 'class'] });
-                const renderPane = document.getElementById('render-pane'); 
-                if (renderPane) {
-                    renderPane.innerHTML = html;
-                    renderMathInElement(renderPane, { delimiters: [ {left: '$$', right: '$$', display: true}, {left: '$', right: '$', display: false}, {left: '\\[', right: '\\]', display: true} ], throwOnError: false });
-                }
+                
+                const containerId = 'render-pane-container';
+                const cElem = document.getElementById(containerId);
+                const modeClass = cElem ? cElem.className : 'a4-page render-area';
+                
+                renderToPages(processedText, containerId, modeClass);
+                
                 if(isAdmin) { trackCommitment(); window.app.saveToCloud(); updateAnalytics(); }
             }, 400);
         };
 
+        // INSERCIÓN DE LISTAS Y TEXTO (Safe split parsing)
         window.app.insertList = (type) => {
             const ed = document.getElementById('editor-pane'); if(!ed) return;
             const p = type === 'bullet' ? "\n- " : (type === 'number' ? "\n1. " : '\n<ol type="a">\n  <li>Ítem</li>\n</ol>\n');
@@ -838,9 +1001,7 @@
             if(commitmentLog.length > 14) commitmentLog.shift();
         }
 
-        window.app.toggleNotesPanel = () => { const np = document.getElementById('notes-panel'); if(np) np.classList.toggle('open'); };
-        window.app.saveNotes = () => { const np = document.getElementById('notes-pane'); if(np) chapterNotes[currentChap] = np.value; window.app.saveToCloud(); };
-
+        // --- MOTOR DE GRAFOS (Con íconos nativos en lugar de imágenes de internet para evitar CORS) ---
         window.app.renderGraphAndChart = () => {
             const ctxElem = document.getElementById('commitment-chart');
             if (ctxElem) {
@@ -849,15 +1010,49 @@
                 commitmentChartInstance = new Chart(ctx, { type: 'line', data: { labels: labels, datasets: [{ label: 'Palabras', data: data, borderColor: '#14b8a6', backgroundColor: 'rgba(20,184,166,0.2)', fill: true, tension: 0.4 }] }, options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } } } });
             }
 
-            const stops = new Set(["este","esta","para","como","pero","donde","cuando","entre","sobre","desde","hacia","hasta","tiene","puede","hacer","todo","esto","para","como"]); let nodes = [], edges = []; const termCount = {};
+            let nodes = new vis.DataSet();
+            let edges = new vis.DataSet();
+
+            nodes.add({ id: 'tesis', label: projectConfig.name.substring(0,20), group: 'root', shape: 'star', size: 30, color: '#6366f1', font: {color:'white', bold:true} });
+
             chaptersDef.forEach(c => {
-                nodes.push({ id: `c_${c.id}`, label: c.title.substring(0,15)+'...', group: 'chapter', shape: 'box', color: '#3b82f6', font: {color: 'white'} });
-                const words = (thesisContent[c.id]||"").toLowerCase().match(/\b[a-záéíóúüñ]{5,}\b/g)||[]; const cFreq = {}; words.forEach(w => { if(!stops.has(w)) cFreq[w] = (cFreq[w]||0)+1; });
-                Object.entries(cFreq).sort((a,b)=>b[1]-a[1]).slice(0, 5).forEach(([w, count]) => { termCount[w] = (termCount[w]||0)+count; edges.push({ from: `c_${c.id}`, to: `w_${w}`, value: count }); });
+                nodes.add({ id: `c_${c.id}`, label: c.title.substring(0,15)+'...', group: 'chapter', shape: 'box', color: '#14b8a6', font: {color:'white'} });
+                edges.add({ from: 'tesis', to: `c_${c.id}`, length: 150 });
+
+                if(c.sections) {
+                    c.sections.forEach((s, i) => {
+                        let sId = `s_${c.id}_${i}`;
+                        nodes.add({ id: sId, label: s.text.substring(0,20)+'...', group: 'section', shape: 'dot', size: 10, color: '#8b5cf6' });
+                        edges.add({ from: `c_${c.id}`, to: sId, length: 100 });
+                    });
+                }
+
+                const content = thesisContent[c.id] || "";
+                
+                // Figures as native Hexagons instead of fetching CORS images
+                const figs = [...content.matchAll(/\[FIG\s*\|\s*(.*?)\s*\|\s*(.*?)\s*\|\s*(.*?)\]/g)];
+                figs.forEach((f, i) => {
+                    let fId = `f_${c.id}_${i}`;
+                    nodes.add({ id: fId, label: 'Fig: ' + f[3], shape: 'hexagon', color: '#10b981', size: 15 });
+                    edges.add({ from: `c_${c.id}`, to: fId, length: 80, dashes: true });
+                });
+
+                // Terms
+                const stops = new Set(["este","esta","para","como","pero","donde","cuando","entre","sobre","desde","hacia","hasta","tiene","puede","hacer","todo","esto","para","como","capítulo","sección"]); 
+                const words = content.toLowerCase().match(/\b[a-záéíóúüñ]{5,}\b/g)||[]; const cFreq = {}; words.forEach(w => { if(!stops.has(w)) cFreq[w] = (cFreq[w]||0)+1; });
+                Object.entries(cFreq).sort((a,b)=>b[1]-a[1]).slice(0, 3).forEach(([w, count]) => { 
+                    if(!nodes.get(`w_${w}`)) { nodes.add({ id: `w_${w}`, label: w, group: 'term', shape: 'diamond', size: 8, color: '#ec4899' }); }
+                    edges.add({ from: `c_${c.id}`, to: `w_${w}`, value: count, length: 200, color: { opacity: 0.3 } }); 
+                });
             });
-            Object.keys(termCount).forEach(w => { nodes.push({ id: `w_${w}`, label: w, group: 'term', shape: 'dot', size: 10 + (termCount[w]/2), color: '#14b8a6' }); });
+
             const graphContainer = document.getElementById('knowledge-graph');
-            if(graphContainer) { if(networkInstance) networkInstance.destroy(); networkInstance = new vis.Network(graphContainer, { nodes: new vis.DataSet(nodes), edges: new vis.DataSet(edges) }, { physics: { stabilization: true } }); }
+            if(graphContainer) { 
+                if(networkInstance) networkInstance.destroy(); 
+                networkInstance = new vis.Network(graphContainer, { nodes: nodes, edges: edges }, { 
+                    physics: { solver: 'forceAtlas2Based', forceAtlas2Based: { gravitationalConstant: -50, centralGravity: 0.01, springLength: 100, springConstant: 0.08 } } 
+                }); 
+            }
         };
 
         function updateAnalytics() {
@@ -932,6 +1127,7 @@
             const modal = document.getElementById('settings-modal'); if(modal) modal.classList.add('hidden'); 
             updateConfigUI(); window.app.saveToCloud(); window.app.handleInput(); 
         };
+        
         window.app.openSettings = () => { 
             const n = document.getElementById('config-proj-name'); if(n) n.value = projectConfig.name || ""; 
             const a = document.getElementById('config-proj-author'); if(a) a.value = projectConfig.author || ""; 
@@ -947,19 +1143,41 @@
             const l = document.getElementById('config-lineheight'); if(l) l.value = projectConfig.lineHeight || "1.5"; 
             const modal = document.getElementById('settings-modal'); if(modal) modal.classList.remove('hidden'); 
         };
+        
         function updateConfigUI() { 
             const mt = document.getElementById('app-main-title'); if(mt) mt.textContent = projectConfig.name; 
             const au = document.getElementById('app-author-name'); if(au) au.textContent = projectConfig.author; 
             const styles = `font-family:${projectConfig.font}; font-size:${projectConfig.fontSize}; line-height:${projectConfig.lineHeight}; text-align:${projectConfig.align};`; 
-            const rp = document.getElementById('render-pane'); if(rp) rp.style.cssText = styles; 
+            
+            const containers = document.querySelectorAll('.a4-page, .web-page');
+            containers.forEach(c => {
+                c.style.fontFamily = projectConfig.font;
+                c.style.fontSize = projectConfig.fontSize;
+                c.style.lineHeight = projectConfig.lineHeight;
+                c.style.textAlign = projectConfig.align;
+            });
         }
         
-        window.app.saveToCloud = async () => { if (!isAdmin) return; const payload = { content: thesisContent, refs: referencesDB, structure: chaptersDef, config: projectConfig, notes: chapterNotes, commits: commitmentLog }; localStorage.setItem('nexus_writer_v10', JSON.stringify(payload)); };
+        window.app.saveToCloud = async () => { if (!isAdmin) return; const payload = { content: thesisContent, refs: referencesDB, structure: chaptersDef, config: projectConfig, notes: chapterNotes, commits: commitmentLog }; localStorage.setItem('nexus_writer_v11', JSON.stringify(payload)); };
         window.app.editCurrentChapterTitle = () => { const chapObj = chaptersDef.find(c => c.id === currentChap); const n = prompt("Renombrar:", chapObj.title); if(n && n.trim()!=="") { chapObj.title = n.trim(); renderSidebar(); window.app.saveToCloud(); updateUI(); } };
-        window.app.setPreviewMode = (id, c) => { const el = document.getElementById(id); if(el) el.className = `${c} render-area pb-[25mm] relative`; };
+        window.app.setPreviewMode = (id, c) => { 
+            const containerId = id === 'render-pane' ? 'render-pane-container' : 'global-render-content';
+            const container = document.getElementById(containerId); 
+            if(!container) return;
+            
+            if(id === 'render-pane') {
+                container.className = c.includes('a4-page') ? 'page-container w-full' : 'page-container w-full web-mode-active';
+                window.app.handleInput(); 
+            } else {
+                container.className = c.includes('a4-page') ? 'flex flex-col items-center gap-8 pb-10' : 'web-page render-area pb-10';
+                window.app.openGlobalPreview();
+            }
+        };
+
         window.app.switchMainTab = (id) => { document.querySelectorAll('.tab-content').forEach(e => e.classList.remove('active')); const t = document.getElementById(`tab-${id}`); if(t) t.classList.add('active'); if(id==='analytics') { updateAnalytics(); setTimeout(()=>window.app.renderGraphAndChart(), 200); } };
         window.app.toggleTheme = () => { document.documentElement.classList.toggle('dark'); const ti = document.getElementById('theme-icon'); if(ti) ti.setAttribute('data-lucide', document.documentElement.classList.contains('dark')?'sun':'moon'); lucide.createIcons(); };
-        window.app.toggleFocusMode = () => { const fm = document.body.classList.toggle('focus-mode'); const btn = document.getElementById('exit-focus-btn'); if(btn) btn.classList.toggle('hidden', !fm); if(fm) { const ec = document.getElementById('editor-container'); if(ec) ec.classList.add('hidden'); const rc = document.getElementById('render-container'); if(rc) rc.classList.replace('lg:w-1/2', 'w-full'); window.app.setPreviewMode('render-pane', 'web-page'); } else { const ec = document.getElementById('editor-container'); if(ec) ec.classList.remove('hidden'); const rc = document.getElementById('render-container'); if(rc) rc.classList.replace('w-full', 'lg:w-1/2'); window.app.setPreviewMode('render-pane', 'a4-page'); } };
+        window.app.toggleFocusMode = () => { const fm = document.body.classList.toggle('focus-mode'); const btn = document.getElementById('exit-focus-btn'); if(btn) btn.classList.toggle('hidden', !fm); if(fm) { const ec = document.getElementById('editor-container'); if(ec) ec.classList.add('hidden'); const rc = document.getElementById('render-wrapper'); if(rc) rc.classList.replace('lg:w-1/2', 'w-full'); window.app.setPreviewMode('render-pane', 'web-page'); } else { const ec = document.getElementById('editor-container'); if(ec) ec.classList.remove('hidden'); const rc = document.getElementById('render-wrapper'); if(rc) rc.classList.replace('w-full', 'lg:w-1/2'); window.app.setPreviewMode('render-pane', 'a4-page'); } };
+        window.app.logout = () => { location.reload(); };
 
         window.app.sendChatMessage = async () => { const input = document.getElementById('chat-input'); if(!input) return; const msg = input.value.trim(); if(!msg) return; appendChat('user', msg); input.value = ""; const userKey = projectConfig.geminiKey || apiKey; if(!userKey) { setTimeout(() => appendChat('tutor', "API Key de Gemini no configurada. Ve a Ajustes (⚙️) y pega tu clave."), 500); return; } const id = appendChat('tutor', 'Pensando...'); try { const res = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-09-2025:generateContent?key=${userKey}`, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ contents: [{ parts: [{ text: `El autor pregunta: "${msg}". Contexto: "${(thesisContent[currentChap]||"").substring(0,1000)}". Responde técnicamente.` }] }] }) }); const data = await res.json(); const msgEl = document.getElementById(id); if(msgEl) msgEl.innerHTML = marked.parse(data.candidates?.[0]?.content?.parts?.[0]?.text || "Error"); } catch (e) { const msgEl = document.getElementById(id); if(msgEl) msgEl.textContent = "Error de red."; } };
         function appendChat(role, text) { const c = document.getElementById('chat-container'); if(!c) return null; const id = 'msg-'+Date.now(); const isU = role==='user'; c.insertAdjacentHTML('beforeend', `<div class="flex gap-4 ${isU?'flex-row-reverse':''}"><div class="w-10 h-10 rounded-full ${isU?'bg-blue-500 text-white':'bg-purple-500 text-white'} flex items-center justify-center shrink-0 shadow-lg"><i data-lucide="${isU?'user':'bot'}" class="w-5 h-5"></i></div><div class="glass-panel p-5 rounded-2xl shadow-md max-w-2xl text-sm ${isU?'rounded-tr-none':'rounded-tl-none'} text-slate-800 dark:text-slate-200" id="${id}">${text}</div></div>`); lucide.createIcons(); c.scrollTop = c.scrollHeight; return id; }
@@ -970,34 +1188,66 @@
 
         window.app.openGlobalPreview = () => { 
             const modal = document.getElementById('global-preview-modal'); const c = document.getElementById('global-render-content'); if(!modal || !c) return; modal.classList.remove('hidden'); 
-            buildGlobalRegistry(); c.innerHTML = "";
-            const styles = `font-family:${projectConfig.font}; font-size:${projectConfig.fontSize}; line-height:${projectConfig.lineHeight}; text-align:${projectConfig.align};`; 
-            chaptersDef.forEach(chap => { 
-                let processed = preprocessText(thesisContent[chap.id] || "", chap.id);
-                let htmlStr = DOMPurify.sanitize(marked.parse(processed), { ADD_TAGS: ['math', 'iframe', 'img', 'figure', 'figcaption', 'div', 'sup'], ADD_ATTR: ['display', 'src', 'alt', 'width', 'height', 'frameborder', 'scrolling', 'id', 'style', 'class'] }); 
-                const pageDiv = document.createElement('div'); pageDiv.className = 'a4-page render-area'; pageDiv.style.cssText = styles; pageDiv.innerHTML = htmlStr;
-                renderMathInElement(pageDiv, { delimiters: [{left: '$$', right: '$$', display: true}, {left: '$', right: '$', display: false}], throwOnError: false }); c.appendChild(pageDiv);
-            }); 
+            buildGlobalRegistry(); 
+            
+            let fullText = ""; 
+            chaptersDef.forEach(chap => { fullText += (thesisContent[chap.id] || "") + "\n\n[PAGE_BREAK]\n\n"; }); 
+            let processed = preprocessText(fullText, "global");
+            
+            const isWebMode = c.className.includes('web-page');
+            
+            if(isWebMode) {
+                let htmlStr = DOMPurify.sanitize(marked.parse(processed), { ADD_TAGS: ['math', 'iframe', 'img', 'figure', 'figcaption', 'div', 'sup', 'ol', 'li', 'ul'], ADD_ATTR: ['display', 'src', 'alt', 'width', 'height', 'frameborder', 'scrolling', 'id', 'style', 'class', 'type'] }); 
+                c.innerHTML = htmlStr;
+                renderMathInElement(c, katexConfig);
+                c.style.cssText = `font-family:${projectConfig.font}; font-size:${projectConfig.fontSize}; line-height:${projectConfig.lineHeight}; text-align:${projectConfig.align};`;
+            } else {
+                renderToPages(processed, 'global-render-content', 'a4-page render-area shadow-2xl');
+                const pages = c.querySelectorAll('.a4-page');
+                pages.forEach(p => p.style.cssText = `font-family:${projectConfig.font}; font-size:${projectConfig.fontSize}; line-height:${projectConfig.lineHeight}; text-align:${projectConfig.align};`);
+            }
         };
         
         window.app.exportToWord = () => {
             const container = document.getElementById('hidden-export-container'); if(!container) return;
-            buildGlobalRegistry(); let md = ""; chaptersDef.forEach(c => { md += preprocessText(thesisContent[c.id]||"", c.id) + "\n\n<br clear='all' style='page-break-before:always' />\n\n"; });
-            container.innerHTML = DOMPurify.sanitize(marked.parse(md), {ADD_TAGS:['math', 'img', 'figure', 'figcaption', 'a', 'div', 'sup'], ADD_ATTR:['display', 'src', 'alt', 'width', 'height', 'id', 'style', 'href', 'class']}); 
-            renderMathInElement(container, { delimiters: [{left: '$$', right: '$$', display: true}, {left: '$', right: '$', display: false}], throwOnError: false }); 
+            buildGlobalRegistry(); let md = ""; chaptersDef.forEach(c => { md += preprocessText(thesisContent[c.id]||"", c.id) + "\n\n[PAGE_BREAK]\n\n"; });
+            
+            md = md.replace(/\[PAGE_BREAK\]/g, '<br clear="all" style="page-break-before:always" />');
+
+            container.innerHTML = DOMPurify.sanitize(marked.parse(md), {ADD_TAGS:['math', 'img', 'figure', 'figcaption', 'a', 'div', 'sup', 'br'], ADD_ATTR:['display', 'src', 'alt', 'width', 'height', 'id', 'style', 'href', 'class', 'clear']}); 
+            renderMathInElement(container, katexConfig); 
 
             const dynamicCSS = `
                 @page WordSection1 { size: 21cm 29.7cm; margin: 2.5cm 2.5cm 2.5cm 2.5cm; mso-footer: f1; mso-footer-margin: 1.25cm; }
                 div.WordSection1 { page: WordSection1; }
                 p.MsoFooter { margin: 0; font-size: 10pt; text-align: center; font-family: ${projectConfig.font}; }
                 body { font-family:${projectConfig.font};font-size:${projectConfig.fontSize};line-height:${projectConfig.lineHeight};text-align:${projectConfig.align};counter-reset:equation; }
-                h1 { font-size:24pt;font-weight:bold;text-align:center;page-break-before:always; } h2 { font-size:18pt;font-weight:bold; } h3 { font-size:14pt;font-weight:bold; }
+                h1 { font-size:24pt;font-weight:bold;text-align:center; } h2 { font-size:18pt;font-weight:bold; } h3 { font-size:14pt;font-weight:bold; }
                 img { max-width:100%; border-radius:8px; display:block; margin: 1.5rem auto; } figure { text-align:center; margin: 2rem 0; } figcaption { font-size:0.9em; color:#555; margin-top:0.5rem; }
                 table { width: 100%; border-collapse: collapse; margin: 1.5rem 0; } th, td { border: 1px solid #000; padding: 0.5rem; text-align: left; } th { font-weight: bold; background-color: #f2f2f2; text-align: center; }
                 .katex { font-family:'Cambria Math',serif;font-size:14pt; } .katex-display { text-align:center;margin:1em 0;position:relative; } .katex-display::after{counter-increment:equation;content:"(" counter(equation) ")";position:absolute;right:0;top:50%;transform:translateY(-50%);font-family:'Times New Roman',serif;font-size:11pt;}
                 .page-break-visual { page-break-after: always; }
             `;
-            const docContent = `<html xmlns:o='urn:schemas-microsoft-com:office:office' xmlns:w='urn:schemas-microsoft-com:office:word' xmlns='http://www.w3.org/TR/REC-html40'><head><meta charset='utf-8'><style>${dynamicCSS}</style></head><body><div class="WordSection1">${container.innerHTML}<div style="mso-element:footer" id="f1"><p class="MsoFooter"><span style="mso-field-code:' PAGE '"></span></p></div></div></body></html>`;
+
+            const docContent = `
+                <html xmlns:o='urn:schemas-microsoft-com:office:office' xmlns:w='urn:schemas-microsoft-com:office:word' xmlns='http://www.w3.org/TR/REC-html40'>
+                <head>
+                    <meta charset='utf-8'>
+                    <style>${dynamicCSS}</style>
+                    <!--[if gte mso 9]><xml><w:WordDocument><w:View>Print</w:View><w:Zoom>100</w:Zoom></w:WordDocument></xml><![endif]-->
+                </head>
+                <body>
+                    <div class="WordSection1">
+                        ${container.innerHTML}
+                        <div style="mso-element:footer" id="f1">
+                            <p class="MsoFooter">
+                                <span style="mso-field-code:' PAGE '"></span>
+                            </p>
+                        </div>
+                    </div>
+                </body>
+                </html>`;
+                
             const link = document.createElement("a"); link.href = URL.createObjectURL(new Blob(['\ufeff', docContent], { type: 'application/msword' })); link.download = `${(projectConfig.name||'Proyecto').replace(/\s+/g,'_')}.doc`; link.click();
         };
 
