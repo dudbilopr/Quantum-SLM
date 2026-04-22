@@ -139,6 +139,14 @@
         .video-container { position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden; max-width: 100%; border-radius: 1rem; margin: 2rem 0; box-shadow: 0 10px 30px rgba(0,0,0,0.1); }
         .video-container iframe { position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: none; }
 
+        /* Nuevos Estilos: Resizer, Fullscreen y Portada UBA */
+        .resizer { width: 6px; cursor: col-resize; background: rgba(148,163,184,0.1); transition: background 0.2s; z-index: 20; position: relative; }
+        .resizer::after { content: ''; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); height: 20px; width: 2px; background: rgba(148,163,184,0.5); border-radius: 2px; }
+        .resizer:hover, .resizer.active { background: rgba(20, 184, 166, 0.3); }
+        .render-fullscreen { position: fixed !important; top: 0; left: 0; right: 0; bottom: 0; z-index: 200 !important; width: 100% !important; max-width: none !important; background: var(--app-bg) !important; padding: 2rem !important; }
+        .uba-cover { text-align: center; font-family: 'Times New Roman', serif; display: flex; flex-direction: column; justify-content: space-between; min-height: 22cm; padding: 1rem; }
+        .uba-logo { max-width: 120px; margin: 0 auto 1.5rem auto; object-fit: contain; }
+
         /* Layout & Utilities */
         .tab-content { display: none; opacity: 0; transition: opacity 0.3s ease; height: 100%; overflow: hidden; }
         .tab-content.active { display: flex; opacity: 1; flex-direction: column; }
@@ -305,14 +313,18 @@
                         <textarea id="editor-pane" class="flex-1 w-full bg-transparent p-4 text-slate-800 dark:text-slate-200 focus:ring-0 custom-scrollbar" placeholder="Comienza a escribir tu tesis usando Markdown o LaTeX...&#10;Comandos mágicos:&#10;[INDICE_GENERAL]&#10;[LISTA_FIGURAS]" oninput="window.app.onEditorInput()"></textarea>
                     </div>
 
+                    <!-- Resizer (Nuevo) -->
+                    <div id="pane-resizer" class="hidden md:block resizer admin-only" title="Arrastra para redimensionar"></div>
+
                     <!-- Render Pane (Preview) -->
-                    <div id="render-container" class="w-full md:w-1/2 h-1/2 md:h-full overflow-y-auto relative p-4 bg-slate-100/50 dark:bg-[#0a0a0a] scroll-smooth">
+                    <div id="render-container" class="w-full md:w-1/2 h-1/2 md:h-full overflow-y-auto relative p-4 bg-slate-100/50 dark:bg-[#0a0a0a] scroll-smooth" style="flex: 1;">
                         <!-- Botonera Vista -->
                         <div class="absolute top-4 right-6 z-10 glass-panel rounded-lg p-1 flex shadow-sm bg-white/80 dark:bg-obsidian-800/80">
                             <button onclick="window.app.setRenderMode('a4')" id="btn-mode-a4" class="px-3 py-1 text-[10px] font-bold uppercase rounded bg-slate-200 dark:bg-slate-700">A4 APA</button>
                             <button onclick="window.app.setRenderMode('web')" id="btn-mode-web" class="px-3 py-1 text-[10px] font-bold uppercase rounded hover:bg-slate-200 dark:hover:bg-slate-700">Web</button>
+                            <button onclick="window.app.toggleFullscreenRender()" id="btn-fullscreen" class="px-3 py-1 text-[10px] font-bold uppercase rounded hover:bg-slate-200 dark:hover:bg-slate-700 ml-1 bg-quantum-500 text-white" title="Expandir/Contraer Vista"><i data-lucide="maximize" class="w-3 h-3"></i></button>
                         </div>
-                        <div id="render-content" class="w-full pb-20"></div>
+                        <div id="render-content" class="w-full pb-20 flex flex-col items-center"></div>
                     </div>
                 </div>
 
@@ -429,19 +441,30 @@
 
     <!-- Settings Modal -->
     <div id="settings-modal" class="fixed inset-0 z-50 glass-panel flex items-center justify-center p-4 hidden">
-        <div class="glass-panel p-8 rounded-3xl max-w-2xl w-full bg-white/95 dark:bg-obsidian-900/95 max-h-[90vh] overflow-y-auto">
+        <div class="glass-panel p-8 rounded-3xl max-w-4xl w-full bg-white/95 dark:bg-obsidian-900/95 max-h-[90vh] overflow-y-auto">
             <h2 class="text-2xl font-bold mb-6 flex items-center gap-2"><i data-lucide="settings" class="text-slate-500"></i> Ajustes del Proyecto</h2>
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                 <div class="space-y-3">
-                    <h3 class="text-xs font-bold uppercase opacity-50 border-b border-slate-200 dark:border-slate-700 pb-1">Metadatos (Portada)</h3>
+                    <h3 class="text-xs font-bold uppercase opacity-50 border-b border-slate-200 dark:border-slate-700 pb-1">Metadatos Tesis</h3>
                     <input type="text" id="cfg-name" placeholder="Título Tesis" class="input-glass text-sm">
                     <input type="text" id="cfg-author" placeholder="Autor" class="input-glass text-sm">
-                    <input type="text" id="cfg-director" placeholder="Director" class="input-glass text-sm">
-                    <input type="text" id="cfg-inst" placeholder="Institución (UBA)" class="input-glass text-sm">
+                    <input type="text" id="cfg-director" placeholder="Directora" class="input-glass text-sm">
+                    <input type="text" id="cfg-codirector" placeholder="Codirectora" class="input-glass text-sm">
+                    <input type="text" id="cfg-consejero" placeholder="Consejero" class="input-glass text-sm">
                 </div>
                 <div class="space-y-3">
-                    <h3 class="text-xs font-bold uppercase opacity-50 border-b border-slate-200 dark:border-slate-700 pb-1">Configuración IA & Motor</h3>
-                    <label class="text-[10px] uppercase font-bold text-purple-500 block">Gemini API Key</label>
+                    <h3 class="text-xs font-bold uppercase opacity-50 border-b border-slate-200 dark:border-slate-700 pb-1">Institución y Laboratorio</h3>
+                    <input type="text" id="cfg-inst" placeholder="Institución (UBA)" class="input-glass text-sm">
+                    <input type="text" id="cfg-fac" placeholder="Facultad" class="input-glass text-sm">
+                    <input type="text" id="cfg-dep" placeholder="Departamento" class="input-glass text-sm">
+                    <input type="text" id="cfg-line" placeholder="Línea de Investigación" class="input-glass text-sm">
+                    <input type="text" id="cfg-group" placeholder="Grupo de Investigación" class="input-glass text-sm">
+                </div>
+                <div class="space-y-3">
+                    <h3 class="text-xs font-bold uppercase opacity-50 border-b border-slate-200 dark:border-slate-700 pb-1">Configuración Adicional</h3>
+                    <input type="text" id="cfg-year" placeholder="Año (Ej. 2026)" class="input-glass text-sm">
+                    <input type="text" id="cfg-logo" placeholder="URL Logo Universitario" class="input-glass text-sm">
+                    <label class="text-[10px] uppercase font-bold text-purple-500 block mt-4">Gemini API Key</label>
                     <input type="password" id="cfg-gemini" placeholder="AIzaSy..." class="input-glass text-sm border-purple-500/30 focus:border-purple-500">
                     <div class="pt-4 flex gap-2">
                         <button onclick="window.app.exportJSON()" class="flex-1 bg-slate-200 dark:bg-slate-800 py-2 rounded-lg text-xs font-bold hover:bg-slate-300 dark:hover:bg-slate-700 transition-colors">Backup JSON</button>
@@ -510,7 +533,21 @@
             content: {}, 
             structure: [],
             refs: [],
-            config: { name: "Investigación en Información Cuántica Fotónica", author: "Mg. Dudbil", director: "Dra. S. Ledesma", inst: "Universidad de Buenos Aires", geminiKey: "" }
+            config: { 
+                name: "Utilización de moduladores espaciales de luz en la codificación de estados cuánticos", 
+                author: "Mg. Dudbil Olvasada Pabón Riaño", 
+                director: "Dra. Silvia Ledesma", 
+                codirector: "Dra. Lorena Rebón",
+                consejero: "Dra. Maria Gabriela Capeluto",
+                inst: "Universidad de Buenos Aires", 
+                fac: "Facultad de Ciencias Exactas y Naturales",
+                dep: "Departamento de Física",
+                line: "Óptica Cuántica",
+                group: "Laboratorio de Óptica y Fotónica (LOFT)",
+                year: "2026",
+                logo: "https://upload.wikimedia.org/wikipedia/commons/thumb/1/11/UBA_logo.svg/1024px-UBA_logo.svg.png",
+                geminiKey: "" 
+            }
         };
         
         // Base de Datos Centralizada de Glosario (Tooltips)
@@ -533,6 +570,7 @@
 
         window.onload = () => {
             lucide.createIcons();
+            initResizer(); // Inicializar redimensionamiento
             // Init Auth Listener
             onAuthStateChanged(auth, async (user) => {
                 if (user) {
@@ -562,6 +600,24 @@
             catch(e) { document.getElementById('login-error').textContent = e.message; document.getElementById('login-error').classList.remove('hidden'); }
         };
         window.app.logout = async () => { await signOut(auth); location.reload(); };
+
+        function initResizer() {
+            const resizer = document.getElementById('pane-resizer');
+            const leftPane = document.getElementById('editor-container');
+            const container = document.getElementById('tab-editor');
+            if(!resizer || !leftPane || !container) return;
+            let isResizing = false;
+            resizer.addEventListener('mousedown', (e) => { isResizing = true; resizer.classList.add('active'); document.body.style.cursor = 'col-resize'; });
+            document.addEventListener('mousemove', (e) => {
+                if (!isResizing) return;
+                const rect = container.getBoundingClientRect();
+                let newWidth = ((e.clientX - rect.left) / rect.width) * 100;
+                if(newWidth < 20) newWidth = 20; if(newWidth > 80) newWidth = 80;
+                leftPane.style.width = newWidth + '%';
+                leftPane.style.flex = 'none'; // Quita la clase flex equivalente
+            });
+            document.addEventListener('mouseup', () => { if(isResizing) { isResizing = false; resizer.classList.remove('active'); document.body.style.cursor = ''; } });
+        }
 
         async function loadData() {
             setSyncStatus('Cargando...', 'bg-amber-500');
@@ -623,7 +679,7 @@
                 { id: 'apx', title: 'Apéndices' }
             ];
             
-            state.content['front'] = `## Resumen\n\nEste trabajo presenta un estudio avanzado sobre la manipulación de estados fotónicos de alta dimensión (qudits) empleando Moduladores Espaciales de Luz (SLM). Se explora el entrelazamiento híbrido y el Momento Angular Orbital (OAM).\n\n[PAGE_BREAK]\n\n# Índice General\n[INDICE_GENERAL]\n\n[PAGE_BREAK]\n\n# Lista de Figuras\n[LISTA_FIGURAS]\n\n[PAGE_BREAK]`;
+            state.content['front'] = `## Dedicatoria\n\nA mi familia y a quienes me apoyaron incondicionalmente en este camino.\n\n[PAGE_BREAK]\n\n## Agradecimientos\n\nA mis directoras, la Dra. Silvia Ledesma y la Dra. Lorena Rebón, por su guía experta y apoyo inquebrantable. Al LOFT por brindarme un espacio de crecimiento y excelencia científica.\n\n[PAGE_BREAK]\n\n## Resumen\n\nEste trabajo presenta un estudio avanzado sobre la manipulación de estados fotónicos de alta dimensión ([qudits](https://es.wikipedia.org/wiki/Qudit)) empleando Moduladores Espaciales de Luz ([SLM](https://en.wikipedia.org/wiki/Spatial_light_modulator)). Se explora el entrelazamiento híbrido y el Momento Angular Orbital (OAM).\n\n[PAGE_BREAK]\n\n## Abstract\n\nThis work presents an advanced study on the manipulation of high-dimensional photonic states (qudits) using Spatial Light Modulators (SLM). Hybrid entanglement and Orbital Angular Momentum (OAM) are explored.\n\n[PAGE_BREAK]\n\n## Introducción\n\nEl estudio de los sistemas cuánticos fotónicos abre la puerta a nuevas tecnologías de comunicación y cómputo. En esta tesis, se abordan las problemáticas de codificación espacial.\n\n[PAGE_BREAK]\n\n# Índice General\n[INDICE_GENERAL]\n\n[PAGE_BREAK]\n\n# Lista de Figuras\n[LISTA_FIGURAS]\n\n[PAGE_BREAK]`;
             
             state.content['cap1'] = `# Capítulo 1: Fundamentos Teóricos de la Información Cuántica\n\n## 1.1 Representación de Estados\nLa mecánica cuántica postula que el estado de un sistema se representa mediante un vector en un espacio de Hilbert complejo. Utilizamos la notación de Dirac:\n\n$$\n\\ket{\\psi} = \\alpha\\ket{0} + \\beta\\ket{1}\n$$\n\nDonde $|\\alpha|^2 + |\\beta|^2 = 1$.\n\n## 1.2 Qubits y Qudits Fotónicos\n### 1.2.1 Qubits de polarización\nLa polarización de un fotón individual es el ejemplo clásico de un sistema de dos niveles (qubit).\n\n### 1.2.3 Qudits con OAM\nEl Momento Angular Orbital permite codificar información en un alfabeto de dimensión teóricamente infinita.\n\n[FIG|https://images.unsplash.com/photo-1635070041078-e363dbe005cb|Haces de luz estructurada con OAM|fig:oam]`;
 
@@ -733,20 +789,52 @@
         function processMagics(text, isGlobal = false) {
             let p = text;
             
-            // Portada (si es la portada y renderizamos global o el cap front)
-            if(p.includes('## Resumen') || isGlobal) {
+            // Portada y Contraportada Académica Rigurosa (UBA)
+            if(currentChapId === 'front' || isGlobal) {
+                const conf = state.config;
+                const logoHtml = conf.logo ? `<img src="${conf.logo}" class="uba-logo" alt="Logo Universidad">` : '';
                 const portadaHtml = `
-                    <div class="cover-page" style="text-align:center; padding-top:4rem; padding-bottom:6rem;">
-                        <h1 style="font-size: 28pt; margin-bottom: 2rem; font-weight:bold; line-height:1.2;">${state.config.name}</h1>
-                        <h2 style="font-size: 16pt; margin-bottom: 4rem;">${state.config.author}</h2>
-                        <div style="font-size: 12pt; line-height: 2;">
-                            <p><strong>Director:</strong> ${state.config.director}</p>
-                            <p><strong>Institución:</strong> ${state.config.inst}</p>
+                    <div class="cover-page uba-cover">
+                        <div>
+                            ${logoHtml}
+                            <h3 style="font-size: 14pt; font-weight: bold; margin:0; text-transform: uppercase;">${conf.inst}</h3>
+                            <h4 style="font-size: 12pt; margin: 0.2rem 0;">${conf.fac}</h4>
+                            <h4 style="font-size: 12pt; margin: 0;">${conf.dep}</h4>
+                        </div>
+                        <div style="margin: 4rem 0;">
+                            <h1 style="font-size: 24pt; font-weight: bold; line-height: 1.3; margin-bottom: 2rem; text-transform: uppercase;">${conf.name}</h1>
+                            <h2 style="font-size: 16pt; font-weight: bold;">${conf.author}</h2>
+                        </div>
+                        <div style="margin-bottom: 2rem;">
+                            <p style="font-size: 12pt; margin:0;">${conf.inst}</p>
+                            <p style="font-size: 12pt; margin:0;">${conf.fac}</p>
+                            <p style="font-size: 12pt; margin:0;">${conf.dep}</p>
+                            <p style="font-size: 12pt; margin:0;">Buenos Aires, Argentina</p>
+                            <p style="font-size: 12pt; margin:0;">${conf.year}</p>
+                        </div>
+                    </div><div class="page-break-visual"></div>
+                    
+                    <div class="cover-page uba-cover">
+                        <div style="margin-top: 4rem;">
+                            <h1 style="font-size: 20pt; font-weight: bold; line-height: 1.3; margin-bottom: 2rem; text-transform: uppercase;">${conf.name}</h1>
+                            <h2 style="font-size: 14pt; font-weight: bold; margin-bottom: 4rem;">${conf.author}</h2>
+                            <p style="font-size: 12pt; font-style: italic;">Tesis presentada para optar al título de Doctor de la Universidad de Buenos Aires en el área Ciencias Físicas</p>
+                        </div>
+                        <div style="text-align: left; margin: 2rem auto; font-size: 12pt; line-height: 1.6; max-width: 500px;">
+                            <p><strong>Directora:</strong> ${conf.director}</p>
+                            <p><strong>Codirectora:</strong> ${conf.codirector}</p>
+                            <p><strong>Consejero:</strong> ${conf.consejero}</p>
+                            <br>
+                            <p><strong>Línea de Investigación:</strong> ${conf.line}</p>
+                            <p><strong>Grupo de Investigación:</strong> ${conf.group}</p>
                         </div>
                     </div><div class="page-break-visual"></div>
                 `;
-                if(currentChapId === 'front' && !isGlobal) p = portadaHtml + p;
-                if(isGlobal && p.startsWith(state.content['front'])) p = portadaHtml + p;
+                
+                // Asegurar inyección única al principio
+                if (!p.includes('class="cover-page uba-cover"')) {
+                    p = portadaHtml + p;
+                }
             }
 
             p = p.replace(/\[PAGE_BREAK\]/g, '<div class="page-break-visual"></div>');
@@ -900,6 +988,22 @@
             renderChapter();
         };
 
+        window.app.toggleFullscreenRender = () => {
+            const container = document.getElementById('render-container');
+            container.classList.toggle('render-fullscreen');
+            const icon = document.querySelector('#btn-fullscreen i');
+            if(container.classList.contains('render-fullscreen')) {
+                icon.setAttribute('data-lucide', 'minimize');
+                document.getElementById('btn-fullscreen').setAttribute('title', 'Contraer Vista');
+            } else {
+                icon.setAttribute('data-lucide', 'maximize');
+                document.getElementById('btn-fullscreen').setAttribute('title', 'Expandir Vista');
+            }
+            lucide.createIcons();
+            // Refrescar tamaño y visibilidad
+            setTimeout(renderChapter, 100);
+        };
+
         // === TOOLBAR EDIT COMMANDS ===
         window.app.insertFormat = (prefix, suffix) => {
             const ed = document.getElementById('editor-pane'); if(!ed) return;
@@ -983,10 +1087,18 @@
         };
 
         window.app.openSettings = () => {
-            document.getElementById('cfg-name').value = state.config.name;
-            document.getElementById('cfg-author').value = state.config.author;
-            document.getElementById('cfg-director').value = state.config.director;
-            document.getElementById('cfg-inst').value = state.config.inst;
+            document.getElementById('cfg-name').value = state.config.name || "";
+            document.getElementById('cfg-author').value = state.config.author || "";
+            document.getElementById('cfg-director').value = state.config.director || "";
+            document.getElementById('cfg-codirector').value = state.config.codirector || "";
+            document.getElementById('cfg-consejero').value = state.config.consejero || "";
+            document.getElementById('cfg-inst').value = state.config.inst || "";
+            document.getElementById('cfg-fac').value = state.config.fac || "";
+            document.getElementById('cfg-dep').value = state.config.dep || "";
+            document.getElementById('cfg-line').value = state.config.line || "";
+            document.getElementById('cfg-group').value = state.config.group || "";
+            document.getElementById('cfg-year').value = state.config.year || "";
+            document.getElementById('cfg-logo').value = state.config.logo || "";
             document.getElementById('cfg-gemini').value = state.config.geminiKey || "";
             document.getElementById('settings-modal').classList.remove('hidden');
         };
@@ -994,10 +1106,18 @@
             state.config.name = document.getElementById('cfg-name').value;
             state.config.author = document.getElementById('cfg-author').value;
             state.config.director = document.getElementById('cfg-director').value;
+            state.config.codirector = document.getElementById('cfg-codirector').value;
+            state.config.consejero = document.getElementById('cfg-consejero').value;
             state.config.inst = document.getElementById('cfg-inst').value;
+            state.config.fac = document.getElementById('cfg-fac').value;
+            state.config.dep = document.getElementById('cfg-dep').value;
+            state.config.line = document.getElementById('cfg-line').value;
+            state.config.group = document.getElementById('cfg-group').value;
+            state.config.year = document.getElementById('cfg-year').value;
+            state.config.logo = document.getElementById('cfg-logo').value;
             state.config.geminiKey = document.getElementById('cfg-gemini').value;
             document.getElementById('settings-modal').classList.add('hidden');
-            queueSave(); updateUI();
+            queueSave(); updateUI(); renderChapter();
         };
 
         window.app.openMediaModal = (type) => {
