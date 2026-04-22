@@ -792,48 +792,49 @@
             // Portada y Contraportada Académica Rigurosa (UBA)
             if(currentChapId === 'front' || isGlobal) {
                 const conf = state.config;
-                const logoHtml = conf.logo ? `<img src="${conf.logo}" class="uba-logo" alt="Logo Universidad">` : '';
-                const portadaHtml = `
-                    <div class="cover-page uba-cover">
-                        <div>
-                            ${logoHtml}
-                            <h3 style="font-size: 14pt; font-weight: bold; margin:0; text-transform: uppercase;">${conf.inst}</h3>
-                            <h4 style="font-size: 12pt; margin: 0.2rem 0;">${conf.fac}</h4>
-                            <h4 style="font-size: 12pt; margin: 0;">${conf.dep}</h4>
-                        </div>
-                        <div style="margin: 4rem 0;">
-                            <h1 style="font-size: 24pt; font-weight: bold; line-height: 1.3; margin-bottom: 2rem; text-transform: uppercase;">${conf.name}</h1>
-                            <h2 style="font-size: 16pt; font-weight: bold;">${conf.author}</h2>
-                        </div>
-                        <div style="margin-bottom: 2rem;">
-                            <p style="font-size: 12pt; margin:0;">${conf.inst}</p>
-                            <p style="font-size: 12pt; margin:0;">${conf.fac}</p>
-                            <p style="font-size: 12pt; margin:0;">${conf.dep}</p>
-                            <p style="font-size: 12pt; margin:0;">Buenos Aires, Argentina</p>
-                            <p style="font-size: 12pt; margin:0;">${conf.year}</p>
-                        </div>
-                    </div><div class="page-break-visual"></div>
-                    
-                    <div class="cover-page uba-cover">
-                        <div style="margin-top: 4rem;">
-                            <h1 style="font-size: 20pt; font-weight: bold; line-height: 1.3; margin-bottom: 2rem; text-transform: uppercase;">${conf.name}</h1>
-                            <h2 style="font-size: 14pt; font-weight: bold; margin-bottom: 4rem;">${conf.author}</h2>
-                            <p style="font-size: 12pt; font-style: italic;">Tesis presentada para optar al título de Doctor de la Universidad de Buenos Aires en el área Ciencias Físicas</p>
-                        </div>
-                        <div style="text-align: left; margin: 2rem auto; font-size: 12pt; line-height: 1.6; max-width: 500px;">
-                            <p><strong>Directora:</strong> ${conf.director}</p>
-                            <p><strong>Codirectora:</strong> ${conf.codirector}</p>
-                            <p><strong>Consejero:</strong> ${conf.consejero}</p>
-                            <br>
-                            <p><strong>Línea de Investigación:</strong> ${conf.line}</p>
-                            <p><strong>Grupo de Investigación:</strong> ${conf.group}</p>
-                        </div>
-                    </div><div class="page-break-visual"></div>
-                `;
+                const logoHtml = conf.logo ? `<img src="${conf.logo}" class="uba-logo" alt="Logo Universidad">\n` : '';
+                
+                // NOTA CRÍTICA: El código HTML no debe tener espacios a la izquierda. 
+                // Si se indenta, Markdown lo interpreta como un bloque de código texto.
+                const portadaHtml = 
+`<div class="cover-page uba-cover">
+<div>
+${logoHtml}<h3 style="font-size: 14pt; font-weight: bold; margin:0; text-transform: uppercase;">${conf.inst}</h3>
+<h4 style="font-size: 12pt; margin: 0.2rem 0;">${conf.fac}</h4>
+<h4 style="font-size: 12pt; margin: 0;">${conf.dep}</h4>
+</div>
+<div style="margin: 4rem 0;">
+<h1 style="font-size: 24pt; font-weight: bold; line-height: 1.3; margin-bottom: 2rem; text-transform: uppercase;">${conf.name}</h1>
+<h2 style="font-size: 16pt; font-weight: bold;">${conf.author}</h2>
+</div>
+<div style="margin-bottom: 2rem;">
+<p style="font-size: 12pt; margin:0;">${conf.inst}</p>
+<p style="font-size: 12pt; margin:0;">${conf.fac}</p>
+<p style="font-size: 12pt; margin:0;">${conf.dep}</p>
+<p style="font-size: 12pt; margin:0;">Buenos Aires, Argentina</p>
+<p style="font-size: 12pt; margin:0;">${conf.year}</p>
+</div>
+</div><div class="page-break-visual"></div>
+
+<div class="cover-page uba-cover">
+<div style="margin-top: 4rem;">
+<h1 style="font-size: 20pt; font-weight: bold; line-height: 1.3; margin-bottom: 2rem; text-transform: uppercase;">${conf.name}</h1>
+<h2 style="font-size: 14pt; font-weight: bold; margin-bottom: 4rem;">${conf.author}</h2>
+<p style="font-size: 12pt; font-style: italic;">Tesis presentada para optar al título de Doctor de la Universidad de Buenos Aires en el área Ciencias Físicas</p>
+</div>
+<div style="text-align: left; margin: 2rem auto; font-size: 12pt; line-height: 1.6; max-width: 500px;">
+<p><strong>Directora:</strong> ${conf.director}</p>
+<p><strong>Codirectora:</strong> ${conf.codirector}</p>
+<p><strong>Consejero:</strong> ${conf.consejero}</p>
+<br>
+<p><strong>Línea de Investigación:</strong> ${conf.line}</p>
+<p><strong>Grupo de Investigación:</strong> ${conf.group}</p>
+</div>
+</div><div class="page-break-visual"></div>`;
                 
                 // Asegurar inyección única al principio
                 if (!p.includes('class="cover-page uba-cover"')) {
-                    p = portadaHtml + p;
+                    p = portadaHtml + '\n\n' + p;
                 }
             }
 
@@ -931,8 +932,12 @@
             }
 
             const processed = processMagics(rawText, isGlobal);
-            // Habilitamos iframes nativos en DOMPurify
-            const html = DOMPurify.sanitize(marked.parse(processed), { ADD_TAGS: ['iframe', 'math', 'annotation', 'figure', 'figcaption'], ADD_ATTR: ['allowfullscreen', 'frameborder', 'src'] });
+            
+            // Habilitamos iframes nativos y PERMITIMOS ESTILOS Y CLASES PARA LA PORTADA
+            const html = DOMPurify.sanitize(marked.parse(processed), { 
+                ADD_TAGS: ['iframe', 'math', 'annotation', 'figure', 'figcaption'], 
+                ADD_ATTR: ['allowfullscreen', 'frameborder', 'src', 'style', 'class', 'alt', 'data-tooltip'] 
+            });
 
             container.innerHTML = '';
             
