@@ -264,23 +264,46 @@
 
         .sidebar-submenu { max-height: 0; overflow: hidden; transition: max-height 0.3s ease-out; }
         .sidebar-submenu.open { max-height: 500px; }
+
+        /* ================================================================= */
+        /* MEDIA PRINT (EXPORTACIÓN A PDF NATIVA, LIMPIA Y APA)              */
+        /* ================================================================= */
+        @media print {
+            body { background: white !important; color: black !important; margin: 0; padding: 0; }
+            body * { visibility: hidden; }
+            /* Mostrar únicamente el contenedor de la tesis */
+            #global-preview-modal, #global-preview-modal * { visibility: visible; }
+            #global-preview-modal { position: absolute; left: 0; top: 0; width: 100%; background: white !important; z-index: 9999; display: block !important; overflow: visible !important; }
+            #global-scroll-area { overflow: visible !important; height: auto !important; padding: 0 !important; background: white !important; display: block !important; }
+            #global-render-wrapper { width: 100% !important; max-width: none !important; display: block !important; }
+            #global-render-content { gap: 0 !important; padding: 0 !important; display: block !important; }
+            
+            /* Formatear las hojas A4 para la impresión */
+            .a4-page { 
+                box-shadow: none !important; 
+                border: none !important; 
+                margin: 0 !important; 
+                padding: 0 !important; 
+                width: 100% !important; 
+                max-width: none !important; 
+                min-height: 0 !important; 
+                break-after: page; 
+                page-break-after: always; 
+            }
+            
+            /* Ocultar elementos de UI interactivos durante la impresión */
+            header, .print\:hidden, #reading-progress-container, #web-book-sidebar, .page-break-visual::after, .page-break-visual { display: none !important; border: none !important; margin: 0 !important; height: 0 !important; }
+            
+            /* Configurar la página en el navegador */
+            @page { margin: 2.54cm; size: letter; }
+        }
     </style>
 </head>
 <body class="h-screen flex flex-col overflow-hidden select-none transition-colors duration-300">
 
     <!-- BARRA DE PROGRESO DE LECTURA (MODO WEB) -->
-    <div id="reading-progress-container" class="fixed top-0 left-0 w-full h-1.5 bg-slate-200/50 dark:bg-slate-800/50 z-[120] hidden backdrop-blur-sm">
+    <div id="reading-progress-container" class="fixed top-0 left-0 w-full h-1.5 bg-slate-200/50 dark:bg-slate-800/50 z-[120] hidden backdrop-blur-sm print:hidden">
         <div id="reading-progress-bar" class="h-full w-0 bg-gradient-to-r from-quantum-400 via-blue-500 to-purple-600 transition-all duration-150 shadow-[0_0_10px_rgba(20,184,166,0.8)]"></div>
-    </div>
-
-    <!-- MENÚ FLOTANTE ÍNDICE (MODO WEB) -->
-    <div id="floating-toc" class="hidden fixed left-8 top-1/2 -translate-y-1/2 w-72 max-h-[75vh] overflow-y-auto glass-panel p-6 rounded-3xl z-[110] opacity-0 transition-opacity duration-500 hover:opacity-100 hide-scrollbar shadow-2xl">
-        <div class="flex items-center gap-2 mb-5 text-quantum-600 dark:text-quantum-400">
-            <i data-lucide="list-tree" class="w-5 h-5"></i>
-            <h3 class="text-sm font-extrabold uppercase tracking-widest">Navegación</h3>
-        </div>
-        <div class="text-xs mb-4 opacity-60 font-medium font-mono text-slate-700 dark:text-slate-300"><span id="reading-time">0</span> min de lectura</div>
-        <ul id="floating-toc-list" class="space-y-4 text-sm text-slate-700 dark:text-slate-300 font-medium"></ul>
     </div>
 
     <!-- MODAL DE LOGIN -->
@@ -323,7 +346,7 @@
                         <i data-lucide="hard-drive" class="w-4 h-4 text-quantum-600"></i> Entrar en Modo Local Seguro (Offline)
                     </button>
                     
-                    <!-- NUEVO BOTÓN DE CARGA JSON EN LOGIN -->
+                    <!-- BOTÓN DE CARGA JSON EN LOGIN -->
                     <label class="w-full bg-blue-50/50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800 text-blue-700 dark:text-blue-300 font-bold py-3.5 px-4 rounded-xl transition-colors hover:bg-blue-100 dark:hover:bg-blue-900/40 shadow-sm flex justify-center items-center gap-2 cursor-pointer">
                         <i data-lucide="upload-cloud" class="w-4 h-4"></i> Recuperar Backup (Cargar JSON)
                         <input type="file" id="login-import-json" accept=".json" class="hidden" onchange="window.app.importJSON(event)">
@@ -479,21 +502,46 @@
 
     <!-- MODAL VISTA GLOBAL DE LIBRO -->
     <div id="global-preview-modal" class="fixed inset-0 z-[60] bg-slate-100/90 dark:bg-slate-950/90 backdrop-blur-md hidden flex flex-col fade-in">
-        <header class="h-16 glass-panel flex items-center justify-between px-6 shrink-0 shadow-sm z-[150] border-b border-slate-200 dark:border-slate-800 relative">
+        <header class="h-16 glass-panel flex items-center justify-between px-6 shrink-0 shadow-sm z-[150] border-b border-slate-200 dark:border-slate-800 relative print:hidden">
             <h2 class="font-bold flex items-center gap-2 text-slate-800 dark:text-white"><i data-lucide="book-open" class="text-quantum-500"></i> Lector Interactivo Integrado</h2>
             <div class="flex gap-3">
-                <button onclick="window.app.exportToWord()" class="btn-primary py-1.5 px-4 text-xs"><i data-lucide="file-output" class="w-4 h-4"></i> Exportar (.doc)</button>
-                <button onclick="window.app.closeGlobalPreview()" class="btn-icon bg-red-500/10 text-red-500 hover:bg-red-500/20 border-red-500/20"><i data-lucide="x" class="w-5 h-5"></i></button>
+                <!-- BOTONES DE EXPORTACIÓN (NUEVOS FORMATOS) -->
+                <button onclick="window.app.exportToWord()" class="btn-primary py-1.5 px-4 text-xs bg-blue-600 hover:bg-blue-700 shadow-md"><i data-lucide="file-text" class="w-4 h-4"></i> Exportar a Word</button>
+                <button onclick="window.app.exportToPDF()" class="btn-primary py-1.5 px-4 text-xs bg-red-600 hover:bg-red-700 shadow-md"><i data-lucide="file-output" class="w-4 h-4"></i> Exportar a PDF</button>
+                <div class="w-px h-8 bg-slate-300 dark:bg-slate-700 mx-1"></div>
+                <button onclick="window.app.closeGlobalPreview()" class="btn-icon bg-slate-200/50 dark:bg-slate-800/50 text-slate-700 dark:text-slate-300 hover:bg-slate-300 dark:hover:bg-slate-700 border-none shadow-sm"><i data-lucide="x" class="w-5 h-5"></i></button>
             </div>
         </header>
-        <div class="flex-1 overflow-y-auto p-4 md:p-8 relative bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-transparent to-black/5 dark:to-white/5 scroll-smooth" id="global-scroll-area">
-            <div class="fixed bottom-6 right-8 z-[150] glass-panel rounded-full p-1.5 flex gap-1 shadow-2xl border border-white/40">
+        
+        <div class="flex-1 overflow-y-auto relative bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-transparent to-black/5 dark:to-white/5 scroll-smooth" id="global-scroll-area">
+            
+            <!-- Selector de Modos flotante (Solo visible en pantalla) -->
+            <div class="fixed bottom-6 right-8 z-[150] glass-panel rounded-full p-1.5 flex gap-1 shadow-2xl border border-white/40 print:hidden">
                 <button onclick="window.app.setPreviewMode('global-render-content', 'a4-page')" class="px-5 py-2 text-[10px] font-bold uppercase rounded-full hover:bg-slate-200 dark:hover:bg-slate-800 transition-colors text-slate-800 dark:text-slate-200">Carta / APA</button>
                 <button onclick="window.app.setPreviewMode('global-render-content', 'web-page')" class="px-5 py-2 text-[10px] font-bold uppercase rounded-full bg-quantum-500 text-white shadow-md transition-colors flex items-center gap-1"><i data-lucide="sparkles" class="w-3 h-3"></i> Libro Web</button>
             </div>
+            
             <!-- Contenedor Wrapper para centrar y animar -->
-            <div id="global-render-wrapper" class="web-page-wrapper">
-                <div id="global-render-content" class="flex flex-col items-center gap-8 pb-10 w-full"></div>
+            <div id="global-render-wrapper" class="flex justify-center transition-all duration-500 w-full relative">
+                
+                <!-- MENU LATERAL DIDÁCTICO PARA LIBRO WEB (NUEVO) -->
+                <aside id="web-book-sidebar" class="hidden w-80 shrink-0 sticky top-0 h-screen overflow-y-auto p-8 border-r border-slate-200 dark:border-slate-800 glass-panel print:hidden hidden-in-a4">
+                    <div class="flex items-center gap-3 mb-8">
+                        <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-quantum-400 to-blue-600 flex items-center justify-center text-white shadow-md"><i data-lucide="book-open" class="w-5 h-5"></i></div>
+                        <div class="overflow-hidden">
+                            <h3 class="font-bold text-slate-800 dark:text-white leading-tight truncate" id="web-book-title">Libro Interactivo</h3>
+                            <p class="text-[10px] text-quantum-600 dark:text-quantum-400 uppercase tracking-widest font-bold mt-1 truncate" id="web-book-author">Autor</p>
+                        </div>
+                    </div>
+                    <div class="text-xs mb-6 px-4 py-3 bg-slate-100/80 dark:bg-slate-800/80 rounded-xl font-mono text-slate-600 dark:text-slate-400 flex justify-between shadow-inner border border-slate-200 dark:border-slate-700">
+                        <span>Tiempo est. lectura</span> <span id="reading-time-web" class="font-bold text-quantum-600 dark:text-quantum-400">0 min</span>
+                    </div>
+                    <nav>
+                        <ul id="web-book-toc-list" class="space-y-3 text-sm text-slate-600 dark:text-slate-400 font-medium"></ul>
+                    </nav>
+                </aside>
+
+                <div id="global-render-content" class="flex flex-col items-center gap-8 pb-20 w-full flex-1 pt-8 px-4"></div>
             </div>
         </div>
     </div>
@@ -784,7 +832,7 @@
     </div>
 
     <!-- FOOTER INSTITUCIONAL -->
-    <footer class="glass-panel border-t border-slate-200 dark:border-slate-800 py-3 px-8 flex justify-between items-center shrink-0 z-30 transition-colors duration-300">
+    <footer class="glass-panel border-t border-slate-200 dark:border-slate-800 py-3 px-8 flex justify-between items-center shrink-0 z-30 transition-colors duration-300 print:hidden">
         <div class="text-[10px] text-slate-600 dark:text-slate-400 font-mono flex items-center gap-3 font-semibold">
             <span>&copy; 2026 Dudbil. Todos los derechos reservados.</span>
             <span class="opacity-30 hidden sm:inline">|</span>
@@ -1254,28 +1302,34 @@
         window.app.setPreviewMode = (id, c) => { 
             const containerId = id === 'render-pane-container' ? 'render-pane-container' : 'global-render-content';
             const container = document.getElementById(containerId); if(!container) return;
+            const wrapper = document.getElementById('global-render-wrapper');
             
             if(id === 'render-pane-container') {
                 container.className = c.includes('a4-page') ? 'page-container w-full' : 'page-container w-full web-page';
                 window.app.handleInput(); 
             } else {
-                const wrapper = document.getElementById('global-render-wrapper');
                 if(c.includes('web-page')) {
-                    container.className = 'flex flex-col w-full';
-                    wrapper.className = 'web-page-mode-wrapper';
+                    // Diseño "Libro Web Didáctico"
+                    wrapper.classList.add('web-page-mode-wrapper', 'w-full', 'max-w-[1400px]', 'mx-auto', 'gap-8');
+                    wrapper.classList.remove('justify-center');
+                    container.className = 'flex flex-col pb-20 w-full flex-1 pt-8 px-4';
+                    
                     document.getElementById('reading-progress-container').classList.remove('hidden');
-                    document.getElementById('floating-toc').classList.remove('hidden');
+                    document.getElementById('web-book-sidebar').classList.remove('hidden');
                 } else {
-                    container.className = 'flex flex-col items-center gap-8 pb-10 w-full';
-                    wrapper.className = '';
+                    // Diseño "Documento APA / A4"
+                    wrapper.classList.remove('web-page-mode-wrapper', 'w-full', 'max-w-[1400px]', 'mx-auto', 'gap-8');
+                    wrapper.classList.add('justify-center');
+                    container.className = 'flex flex-col items-center gap-8 pb-10 w-full flex-1 pt-8 px-4';
+                    
                     document.getElementById('reading-progress-container').classList.add('hidden');
-                    document.getElementById('floating-toc').classList.add('hidden');
+                    document.getElementById('web-book-sidebar').classList.add('hidden');
                 }
-                window.app.openGlobalPreview();
+                window.app.openGlobalPreview(c);
             }
         };
 
-        window.app.openGlobalPreview = () => { 
+        window.app.openGlobalPreview = (forceModeClass = null) => { 
             const modal = document.getElementById('global-preview-modal'); const c = document.getElementById('global-render-content'); if(!modal || !c) return; 
             modal.classList.remove('hidden'); 
             buildGlobalRegistry(); 
@@ -1283,23 +1337,35 @@
             let fullText = ""; chaptersDef.forEach(chap => { fullText += (thesisContent[chap.id] || "") + "\n\n[PAGE_BREAK]\n\n"; }); 
             let processed = preprocessText(fullText, "global", true);
             
-            const isWebMode = document.getElementById('global-render-wrapper').classList.contains('web-page-mode-wrapper');
+            const isWebMode = document.getElementById('global-render-wrapper').classList.contains('web-page-mode-wrapper') || (forceModeClass && forceModeClass.includes('web-page'));
             
             if(isWebMode) {
-                // Populate Floating TOC
+                // Rellenar Sidebar Dedicado de Libro Web
                 extractHeadersForSidebar();
-                const ftoc = document.getElementById('floating-toc-list');
-                let ftocHtml = '';
+                const wtoc = document.getElementById('web-book-toc-list');
+                document.getElementById('web-book-title').textContent = projectConfig.name;
+                document.getElementById('web-book-author').textContent = projectConfig.author;
+                
+                let wtocHtml = '';
                 chaptersDef.forEach(chap => {
-                    if(chap.id === 'portada' || chap.id === 'contraportada' || chap.id === 'front' || chap.id === 'indices') return;
+                    if(chap.id === 'portada' || chap.id === 'contraportada') return;
                     const slug = chap.title.toLowerCase().replace(/[^\w]+/g, '-');
-                    ftocHtml += `<li><a href="#${slug}" class="hover:text-quantum-500 transition-colors block py-1">${chap.title.substring(0, 25)}...</a></li>`;
+                    wtocHtml += `<li class="pb-1"><a href="#${slug}" class="hover:text-quantum-500 transition-colors block py-1.5 border-b border-slate-200 dark:border-slate-800">${chap.title}</a>`;
+                    if(chap.sections && chap.sections.length > 0) {
+                        wtocHtml += `<ul class="pl-4 mt-1 border-l-2 border-quantum-500/20 space-y-1">`;
+                        chap.sections.forEach(s => {
+                            const subslug = s.text.toLowerCase().replace(/[^\w]+/g, '-');
+                            wtocHtml += `<li><a href="#${subslug}" class="text-[0.8rem] opacity-70 hover:opacity-100 hover:text-quantum-500 block py-1">${s.text}</a></li>`;
+                        });
+                        wtocHtml += `</ul>`;
+                    }
+                    wtocHtml += `</li>`;
                 });
-                ftoc.innerHTML = ftocHtml;
+                wtoc.innerHTML = wtocHtml;
 
                 // Set metrics
                 const totalWords = fullText.trim().split(/\s+/).length;
-                document.getElementById('reading-time').textContent = Math.ceil(totalWords / 250); // 250 words per min
+                document.getElementById('reading-time-web').textContent = Math.ceil(totalWords / 250) + " min";
 
                 renderToPages(processed, 'global-render-content', 'web-page');
             } else {
@@ -1309,7 +1375,6 @@
                 const pages = c.querySelectorAll('.a4-page');
                 const shortTitle = projectConfig.name.substring(0, 50).toUpperCase();
                 pages.forEach((p, idx) => {
-                    // Skip numbering on the title page itself according to some variants, but standard APA 7 numbers all pages.
                     const header = document.createElement('div'); header.className = 'page-header';
                     header.innerHTML = `<span>${shortTitle}</span><span>${idx + 1}</span>`;
                     p.appendChild(header);
@@ -1320,6 +1385,15 @@
         window.app.closeGlobalPreview = () => {
             document.getElementById('global-preview-modal').classList.add('hidden');
             document.getElementById('reading-progress-container').classList.add('hidden');
+        };
+
+        // --- EXPORTACIÓN PDF NATIVA ---
+        window.app.exportToPDF = () => {
+            // Forzar vista de impresión APA A4 antes de invocar la impresora del navegador
+            window.app.setPreviewMode('global-render-content', 'a4-page');
+            setTimeout(() => {
+                window.print();
+            }, 500); // Tiempo de renderizado
         };
 
         // --- MOTOR DE GRAFOS Y ANALÍTICA AVANZADA ---
